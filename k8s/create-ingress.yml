@@ -1,0 +1,18 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: photos-ingress
+  # Assumes a global static ip with the same name exists.
+  # You can acquire a static IP by running
+  # gcloud compute addresses create photo-album-ip --global
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "photo-album-ip"
+  labels:
+    name: photos-ingress
+  namespace: photo-album
+spec:
+  backend:
+    serviceName: photos-nginx-svc
+    servicePort: 80

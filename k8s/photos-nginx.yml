@@ -1,0 +1,45 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: photos-nginx
+  labels:
+    name: photos-nginx
+  namespace: photo-album
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        name: photos-nginx
+        version: v1
+    spec:
+      containers:
+      - name: photos-nginx
+        image: eu.gcr.io/moss-work/photos-nginx:${IMAGE_VERSION}
+        ports:
+        - containerPort: 80
+        workingDir: /application
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: photos-nginx-svc
+  namespace: photo-album
+  labels:
+    name: photos-nginx-svc
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30080
+  selector:
+    name: photos-nginx
+---

@@ -1,0 +1,31 @@
+version: "3.1"
+
+services:
+
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile.nginx
+    container_name: photos-nginx
+    working_dir: /application
+    ports:
+      - "30080:80"
+    volumes:
+      - ./application:/application
+    networks:
+      - app-network
+
+  photos-app-svc:
+    build:
+      context: ./
+      dockerfile: Dockerfile.php-app
+    container_name: photos-php
+    working_dir: /application
+    volumes:
+      - ./application:/application
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,42 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: photos-app
+  labels:
+    name: photos-app
+    version: v1
+  namespace: photo-album
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        name: photos-app
+    spec:
+      containers:
+      - name: photos-app
+        image: eu.gcr.io/moss-work/photos-app:${IMAGE_VERSION}
+        ports:
+        - containerPort: 9000
+        workingDir: /application
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: photos-app-svc
+  namespace: photo-album
+  labels:
+    name: photos-app-svc
+spec:
+  type: ClusterIP
+  ports:
+  - port: 9000
+  selector:
+    name: photos-app

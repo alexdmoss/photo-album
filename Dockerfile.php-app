@@ -1,0 +1,26 @@
+# Note: debian under the hood
+FROM php:7.1-fpm
+
+# Common tools needed later
+RUN apt-get update
+RUN apt-get install -y openssl git
+
+# Install image extensions
+RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng12-dev libgd-dev
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-install gd exif
+
+# Install compression extension
+RUN apt-get install -y libbz2-dev zlib1g-dev
+RUN docker-php-ext-install zip bz2
+
+COPY config/nginx/php.conf /usr/local/etc/php-fpm.d/zz-php.conf
+
+COPY application/ /application/
+
+RUN mkdir /secret
+COPY secrets/ /secret/
+
+EXPOSE 9000
+
+WORKDIR "/application"

@@ -60,9 +60,13 @@ Preparing an album locally is recommended. Due to the horrendous performance of 
 
 Your folder structure for a new album should be as follows:
 
-    `{GCS_BUCKET_NAME}/photos/{ALBUM-NAME}`  - your full-size images - available through the download button
-    `{GCS_BUCKET_NAME}/thumbs/{ALBUM-NAME}`  - small thumbnails - I used 100 pixel wide
-    `{GCS_BUCKET_NAME}/display/{ALBUM-NAME}` - medium sized images - what is displayed in the gallery
+    `{GCS_BUCKET_NAME}/photos/{ALBUM_NAME}`  - your full-size images - available through the download button
+    `{GCS_BUCKET_NAME}/thumbs/{ALBUM_NAME}`  - small thumbnails - I used 100 pixel wide
+    `{GCS_BUCKET_NAME}/display/{ALBUM_NAME}` - medium sized images - what is displayed in the gallery
+
+The value of ALBUM_NAME is up to you, but you should now that it will perform a couple of transformations when displayed on the website:
+- any '-' will be turned into spaces
+- if it starts with a single-digit integer N, this will be transformed to N.
 
 You should also place an image called cover.jpg inside the thumbs/{ALBUM-NAME}/ folder - this is the image used on the page that lists all the albums. It does not need a full-size/display-size image and is ignored when listing the folder contents.
 
@@ -85,3 +89,29 @@ This is a good option when you're using build.php to generate your thumbnails - 
 
 1. envsubst for e.g. namespace and version in k8s yaml
 2. Slicker way to perform data uploads
+
+---
+
+# GCS Fuse:
+
+Should you need to reintroduce GCS Fuse in the future (for local mounting of the GCS Bucket), the following changes to the Dockerfiles may be useful:
+
+## Setting up gcsfuse in nginx:alpine:
+
+  `
+  COPY config/gcsfuse.repo /etc/yum.repos.d/
+  RUN apk add --no-cache ca-certificates fuse && rm -rf /tmp/*
+  COPY config/gcsfuse /usr/local/bin
+  RUN chmod u+x /usr/local/bin/gcsfuse
+  `
+
+## Setting up gcsfuse in php:7.1-fpm (Debian-based):
+
+  `
+  RUN apt-get install -y lsb-release
+  RUN export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s` && \
+      echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | tee /etc/apt/sources.list.d/gcsfuse.list && \
+      curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+  RUN apt-get update
+  RUN apt-get install -y gcsfuse
+  `

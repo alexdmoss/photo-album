@@ -189,6 +189,7 @@ h3 {
 	font-weight: 700;
   letter-spacing: 2px;
 	padding: 0 0 10px 0;
+	margin: 10px;
   font-family: "AlexBrush", "Brush Script MT", "Freestyle Script", "Apple Chancery", "Lucida Calligraphy", cursive, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -316,7 +317,7 @@ p a:hover {
 }
 .box ul li > .box-content {
   position: relative;
-	width: 87.5%;
+	width: 95%;
   margin: 0 auto 32px;
   padding: 18px 15px;
   display: block;
@@ -492,7 +493,7 @@ p a:hover {
 	padding: 0;
 }
 .albumsCard img {
-	margin: 0; margin-bottom: 5px;
+	margin: 10px;
 	padding: 0;
 	border: 3px double #44273B;
 }
@@ -540,6 +541,43 @@ p a:hover {
 	margin-bottom: 15px;
 }
 
+/***************************** Forms ******************************/
+
+input[type="text"],
+input[type="password"] {
+  -webkit-appearance:none;
+  color: #6D6D6D;
+  font-size: 1em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  border: 3px solid #CCE0FF;
+  border-radius: 2px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	width: 200px;
+  resize: none;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="submit"]:focus {
+  outline: 0;
+  -webkit-appearance:none;
+}
+
+input[type="submit"] {
+  -webkit-appearance:none;
+	color: #6D6D6D;
+  letter-spacing: 1px;
+  border: 3px solid #CCE0FF;
+  border-radius: 2px;
+	width: 50px;
+  resize: none;
+	height: 29px;
+	font-weight: bold;
+	background-color: white;
+}
 
 /***************************** Fonts ******************************/
 

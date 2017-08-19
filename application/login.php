@@ -55,18 +55,18 @@
   					 <div class="login">
    						<form name="alLoginForm" method="post" action="/checkPW.php">
     					 <div id="container">
-     						<p>
-      					 Enter Password:
-      					 <input class="passField" name="alalbumpw" type="password" id="pw" />
-      					 <input class="passSubmit" type="submit" name="submitbt" value="Go" />
-     						</p>
+      					 <p>Enter Password:</span></p>
+								 <div align="center">
+      					  <input class="passField" name="alalbumpw" type="password" id="pw" />
+      					  <input class="passSubmit" type="submit" name="submitbt" value="Go" />
+								 </div>
     					 </div>
    						</form>
 
   					 </div>
  						</div>
 						<p><u>Note:</u> This site is designed to be viewed fullscreen.</p>
-						<p>Due to the photos involved, it may display poorly on mobile.</p>
+						<p>Due to the sheer number of photos involved, while it will work, it may not be super user-friendly on mobiles!</p>
 
 					 </div>
 				 	</div>

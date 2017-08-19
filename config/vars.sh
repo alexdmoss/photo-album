@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # at the moment we assume that nginx & php app version numbers are linked
-VERSION=1.0
+VERSION=1.1
 NGINX_IMAGE_NAME=photos-nginx
 PHP_IMAGE_NAME=photos-app
 

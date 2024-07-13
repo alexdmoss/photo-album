@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     APP_DIR: Path = APP_DIR
     STATIC_DIR: Path = APP_DIR / "static"
     TEMPLATE_DIR: Path = APP_DIR / "templates"
+    PHOTOS_DIR: Path = APP_DIR / "../photos"        # @TODO: make configurable
 
     FASTAPI_PROPERTIES: dict[str, Any] = {
         "title": "Photo Slideshow",
@@ -36,3 +37,5 @@ class Settings(BaseSettings):
                 }
             )
         return fastapi_kwargs
+
+settings = Settings()

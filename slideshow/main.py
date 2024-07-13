@@ -1,13 +1,14 @@
 import subprocess
+import httpx
+import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from slideshow.config import Settings
+from slideshow.config import settings
 from slideshow.routes import router
-
-settings = Settings()
+from slideshow.images import load_images
 
 # context manager runs on app startup to init tailwind
 @asynccontextmanager
@@ -29,8 +30,8 @@ async def lifespan(app: FastAPI):
 def get_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
     app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
+    app.mount("/photos", StaticFiles(directory=settings.PHOTOS_DIR), name="photos")
     app.include_router(router)
-
     return app
 
 

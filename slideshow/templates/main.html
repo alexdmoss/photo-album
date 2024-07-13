@@ -1,18 +1,107 @@
 {% extends "/shared/_base.html" %}
 
 {% block content %}
-    <section id="body" class="flex flex-col bg-slate-50 justify-center items-center max-w-screen-lg m-auto">
-        <div class="flex flex-col justify-center items-center py-10">
-            <h2 class="text-2xl leading-relaxed text-slate-800 uppercase">Welcome</h2>
-            <div id="main-info" class="flex flex-col px-24 py-6">
+<section id="body" class="flex flex-col bg-slate-50 justify-center items-center max-w-screen-lg m-auto">
+    <div class="flex flex-col justify-center items-center py-10">
+        <h2 class="text-2xl leading-relaxed text-slate-800 uppercase">Welcome</h2>
+        <div id="main-info" class="flex flex-col px-24 py-6">
 
-                <p class="py-2">Values passed in payload are:</p>
-                <ul>
-                    <li>site_name: {{ site_name }}</li>
-                    <li>page_title: {{ page_title }}</li>
-                    <li>page_description: {{ page_description }}</li>
-                </ul>
+            <p class="py-2">Values passed in payload are:</p>
+            <ul>
+                <li>site_name: {{ site_name }}</li>
+                <li>page_title: {{ page_title }}</li>
+                <li>page_description: {{ page_description }}</li>
+                <li>images: {{ images }}</li>
+            </ul>
+
+            <!-- Slideshow container -->
+            <div class="slideshow-container relative max-w-4xl mx-auto">
+
+                {% for image in images %}
+                <!-- Full-width images with number and caption text -->
+                <div class="slides fade hidden">
+                    <div class="numbertext">{{ loop.index }} / {{ images|length }}</div>
+                    <img src="/photos/{{ image }}" class="w-full" alt="Image {{ loop.index }}">
+                    <div class="text">Caption Text</div>
+                </div>
+
+                {% endfor %}
+
+                <!-- Next and previous buttons -->
+                <a class="prev absolute top-1/2 -translate-y-1/2 left-0 cursor-pointer" onclick="changeSlide(-1); stopAutoSlide();">&#10094;</a>
+                <a class="next absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer" onclick="changeSlide(1); stopAutoSlide();">&#10095;</a>
             </div>
+            <br>
+
+            <!-- The dots/circles -->
+            <div class="text-center">
+                {% for _ in images %}
+                <span class="dot cursor-pointer inline-block h-4 w-4 mx-1 bg-gray-500 rounded-full" onclick="currentSlide({{ loop.index }}); stopAutoSlide();"></span>
+                {% endfor %}
+            </div>
+
         </div>
-    </section>
+
+        <script>
+            let slideIndex = 0; // Start with the first slide
+            let slides = document.getElementsByClassName("slides");
+            let slideTimeout;
+
+            // Function to show a specific slide
+            function showSlide(n) {
+                // Hide all slides
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                // Show the specified slide
+                slides[n].style.display = "block";
+            }
+
+            // Function to show the next slide
+            function showNextSlide() {
+                slideIndex++;
+                if (slideIndex >= slides.length) { slideIndex = 0; } // Loop back to the first slide
+                showSlide(slideIndex);
+                // Reset the timer
+                clearTimeout(slideTimeout);
+                slideTimeout = setTimeout(showNextSlide, 5000); // Change slide every 5 seconds
+            }
+
+            // Function to change slide when prev/next buttons are clicked
+            function changeSlide(n) {
+                slideIndex += n;
+                if (slideIndex >= slides.length) { slideIndex = 0; }
+                if (slideIndex < 0) { slideIndex = slides.length - 1; }
+                showSlide(slideIndex);
+                // Reset the timer
+                clearTimeout(slideTimeout);
+                slideTimeout = setTimeout(showNextSlide, 5000);
+            }
+
+            // Function to stop the auto-rotation
+            function stopAutoSlide() {
+                clearTimeout(slideTimeout);
+            }
+
+            // Function to jump to a specific slide from dots
+            function currentSlide(n) {
+                slideIndex = n - 1;
+                showSlide(slideIndex);
+                stopAutoSlide();
+            }
+
+            // Initialize the slideshow
+            document.addEventListener("DOMContentLoaded", function () {
+                showNextSlide(); // Start the slideshow
+            });
+
+        </script>
+
+
+
+
+
+        </div>
+    </div>
+</section>
 {% endblock %}

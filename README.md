@@ -7,6 +7,6 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 ## Local Dev
 
 ```sh
-poetry install
+poetry install --no-root
 poetry run uvicorn slideshow.main:app
 ```

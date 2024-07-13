@@ -5,7 +5,6 @@ description = "Web-based Photo Album written in Python"
 authors = ["Alex M <alex@alexos.dev>"]
 license = "GNU GPLv3"
 readme = "README.md"
-package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"

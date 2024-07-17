@@ -1,8 +1,20 @@
-/* Slideshow container */
 .slideshow-container {
-    max-width: 1000px;
-    position: relative;
-    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: 90%;
+    max-height: 90vh; /* Do not exceed the height of the viewport */
+    overflow: hidden; /* Hide any overflow */
+    border: 1px solid red;
+}
+
+/* Ensure images do not exceed the container's dimensions */
+.slides img {
+    max-height: 100%; /* Adjust the height to fit the container */
+    max-width: 100%; /* Adjust the width to fit the container */
+    object-fit: contain; /* Keep the aspect ratio of the image */
+    border: 1px solid blue;
 }
 
 /* Next & previous buttons */

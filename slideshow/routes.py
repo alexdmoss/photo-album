@@ -16,13 +16,12 @@ router = APIRouter()
 @router.get("/")
 async def index(request: Request):
     images = await load_images()
-    print(images)
     return templates.TemplateResponse(
             "main.html",
             {
-                "site_name": "Photo Slideshow",
+                "site_name": "Daisy's 40th Birthday",
                 "page_title": "Home",
-                "page_description": "Photo Slideshow",
+                "page_description": "Photo Slideshow for Daisy's 40th Birthday",
                 "images": images,
                 "request": request,
             }

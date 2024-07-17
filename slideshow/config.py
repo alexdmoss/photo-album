@@ -13,8 +13,10 @@ class Settings(BaseSettings):
     APP_DIR: Path = APP_DIR
     STATIC_DIR: Path = APP_DIR / "static"
     TEMPLATE_DIR: Path = APP_DIR / "templates"
-    PHOTOS_DIR: Path = APP_DIR / "../photos"        # @TODO: make configurable
-    TMP_DIR: Path = APP_DIR / "../tmp"              # @TODO: make configurable
+    PHOTOS_DIR: Path = APP_DIR / "../photos"                # @TODO: make configurable
+    TMP_DIR: Path = APP_DIR / "../tmp"                      # @TODO: make configurable
+    GCS_BUCKET_NAME: str = "alexos-photo-albums"            # @TODO: make configurable
+    GCS_BUCKET_PATH: str = "daisy-40/processed"             # @TODO: make configurable
 
     FASTAPI_PROPERTIES: dict[str, Any] = {
         "title": "Photo Slideshow",

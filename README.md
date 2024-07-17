@@ -6,18 +6,20 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ## To Do
 
-- [ ] Resize images to fit browser window
-- [ ] Clean up look and feel
-- [ ] Load images from Google Storage
+- [x] Resize images to fit browser window
+- [x] Clean up look and feel
+- [x] Load images from Google Storage
 - [ ] OAuth sign-in
-- [ ] Make Captions optional
 - [ ] Download all photos option
 - [ ] Snazzy transitions
 - [ ] Option to configure speed of carousel
 - [ ] Option to stop/start carousel
+- [ ] Handling video
+- [ ] The post-processing is annoying - maybe we can get rid of the resizing completely?
 
 ## Futures
 
+- [ ] Captions that aren't the filename
 - [ ] Multiple Album Support
 - [ ] Default album based on who you are when sign-in
 

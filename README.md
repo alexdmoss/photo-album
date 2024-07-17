@@ -10,10 +10,10 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [x] Clean up look and feel
 - [x] Load images from Google Storage
 - [ ] OAuth sign-in
-- [ ] Download all photos option
-- [ ] Snazzy transitions
-- [ ] Option to configure speed of carousel
-- [ ] Option to stop/start carousel
+- [x] Download all photos option
+- [-] _this was annoying_ Snazzy transitions
+- [x] Option to configure speed of carousel
+- [x] Option to stop/start carousel
 - [ ] Handling video
 - [ ] The post-processing is annoying - maybe we can get rid of the resizing completely?
 

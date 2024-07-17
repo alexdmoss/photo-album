@@ -1,12 +1,35 @@
+@font-face {
+    font-family: 'Edu-Hand';
+    src: url('/static/fonts/EduAUVICWANTHand-VariableFont_wght.ttf') format('woff2');
+    font-weight: 600;
+}
+
+.text-drop-shadow {
+    text-shadow: 0 6px 12px rgba(200, 200, 200, 0.5);
+}
+
+.image-drop-shadow {
+    border: 3px solid #555;
+    box-shadow: 5px 5px 5px rgba(200, 200, 200, 0.5);
+}
+
 .slideshow-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 90%;
-    height: 90%;
+    align-items: center; /* Add this line to center content horizontally */
+    width: 95%;
+    height: 0%;
     max-height: 90vh; /* Do not exceed the height of the viewport */
     overflow: hidden; /* Hide any overflow */
-    border: 1px solid red;
+    margin: auto; /* Center the container in the middle of its parent */
+}
+
+.slides {
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally, effective if flex-direction is row */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Fill the height of the parent */
 }
 
 /* Ensure images do not exceed the container's dimensions */
@@ -14,7 +37,8 @@
     max-height: 100%; /* Adjust the height to fit the container */
     max-width: 100%; /* Adjust the width to fit the container */
     object-fit: contain; /* Keep the aspect ratio of the image */
-    border: 1px solid blue;
+    display: block; /* Ensure img is treated as a block-level element */
+    margin: auto; /* Center the image within its container */
 }
 
 /* Next & previous buttons */
@@ -25,10 +49,8 @@
     top: 50%;
     width: auto;
     margin-top: -22px;
-    padding: 16px;
     color: white;
     font-weight: bold;
-    font-size: 18px;
     transition: 0.6s ease;
     border-radius: 0 3px 3px 0;
     user-select: none;
@@ -43,24 +65,19 @@
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover,
 .next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(200, 200, 200, 0.4);
 }
 
 /* Caption text */
-.text {
+.caption {
     color: #f2f2f2;
-    font-size: 15px;
     padding: 8px 12px;
-    position: absolute;
-    bottom: 8px;
     width: 100%;
-    text-align: center;
 }
 
 /* Number text (1/3 etc) */
 .numbertext {
     color: #f2f2f2;
-    font-size: 12px;
     padding: 8px 12px;
     position: absolute;
     top: 0;

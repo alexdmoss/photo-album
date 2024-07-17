@@ -32,3 +32,5 @@ poetry run python run.py --resize=true
 # run with the resized images in TMP_DIR:
 poetry run python run.py
 ```
+
+> **NB:** Tailwind CSS is a post-processor - if a style is not used, you need to restart the app for it to pick it up!

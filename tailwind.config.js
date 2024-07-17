@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./slideshow/templates/**/*.{html, jinja}"],
   theme: {
-    extend: {},
+    fontFamily: {
+      'heading': ['Edu-Hand', 'serif']
+    },
+    extend: {
+    },
   },
   plugins: [],
 }

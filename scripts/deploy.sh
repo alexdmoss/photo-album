@@ -12,14 +12,18 @@ if [[ ${CI_SERVER:-} == "yes" ]]; then
         -var image_tag="${IMAGE_TAG}" \
         -var region="${REGION}" \
         -var domain="${DOMAIN}" \
-        -var port="${PORT}"
+        -var port="${PORT}" \
+        -var photos_bucket="${PHOTOS_BUCKET}" \
+        -var photos_project_id="${PHOTOS_PROJECT_ID}"
 else
     terraform plan -var gcp_project_id="${GCP_PROJECT_ID}" \
         -var app_name="${APP_NAME}" \
         -var image_tag="${IMAGE_TAG}" \
         -var region="${REGION}" \
         -var domain="${DOMAIN}" \
-        -var port="${PORT}"
+        -var port="${PORT}" \
+        -var photos_bucket="${PHOTOS_BUCKET}" \
+        -var photos_project_id="${PHOTOS_PROJECT_ID}"
 fi
 
 popd >/dev/null

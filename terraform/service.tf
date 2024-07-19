@@ -46,7 +46,7 @@ resource "google_cloud_run_v2_service" "app" {
       max_instance_count = 1
     }
 
-    service_account = data.google_service_account.runtime.email
+    service_account = google_service_account.runtime.email
 
   }
 

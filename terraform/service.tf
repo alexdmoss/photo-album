@@ -1,6 +1,6 @@
-resource "google_service_account" "runtime" {
+data "google_service_account" "runtime" {
   project    = var.gcp_project_id
-  account_id = "photo-album"
+  account_id = "run-${var.app_name}"
 }
 
 resource "google_cloud_run_v2_service" "app" {
@@ -46,7 +46,7 @@ resource "google_cloud_run_v2_service" "app" {
       max_instance_count = 1
     }
 
-    service_account = google_service_account.runtime.email
+    service_account = data.google_service_account.runtime.email
 
   }
 

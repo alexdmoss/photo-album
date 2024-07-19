@@ -1,0 +1,13 @@
+node_modules
+ui/node_modules
+build
+dist
+.gitignore
+.idea
+.git
+k8s
+.vscode
+
+photos/
+tmp/
+terraform/

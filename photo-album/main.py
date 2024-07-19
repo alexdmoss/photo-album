@@ -1,4 +1,6 @@
 import subprocess
+import logging
+import logging.config
 
 from os import getenv
 from os.path import join
@@ -12,10 +14,14 @@ from slideshow.routes import router
 from slideshow.images import resize_images, list_images_in_dir
 from slideshow.clients.storage import create_storage_client
 
+logging.config.fileConfig(f"{settings.APP_DIR}/../logging.conf", disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
+
 # context manager runs on app startup to init tailwind
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
+        logging.info("Generating Tailwind classes")
         subprocess.run([
             "tailwindcss",
             "-i",
@@ -26,7 +32,8 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print(f"Error running tailwindcss: {e}")
 
-    if getenv("resize", "false").lower() == "true":
+    if getenv("RESIZE", "false").lower() == "true":
+        logging.info("Resizing images as requested via environment variable")
         await resize_images()
 
     processed_images = list_images_in_dir(settings.TMP_DIR, ".jpg")
@@ -56,6 +63,8 @@ def get_app() -> FastAPI:
 
 
 app = get_app()
+
+logging.info('Uvicorn is starting up ...')
 
 
 if __name__ == "__main__":

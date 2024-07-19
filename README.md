@@ -30,9 +30,10 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 ```sh
 poetry install --no-root
 # resize images and put them in TMP_DIR during startup:
-poetry run python run.py --resize=true
-# run with the resized images in TMP_DIR:
+export RESIZE=true
 poetry run python run.py
 ```
 
 > **NB:** Tailwind CSS is a post-processor - if a style is not used, you need to restart the app for it to pick it up!
+
+Note that `./run-local.sh --docker` can also be used, which handles testing the docker container locally whilst loading the required local Google creds.

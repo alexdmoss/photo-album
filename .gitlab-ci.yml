@@ -12,7 +12,7 @@ variables:
   PORT: 8000
   IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
   DOCKERFILE: Dockerfile
-  PHOTOS_BUCKET: alexos-photo-album
+  PHOTOS_BUCKET: alexos-photo-albums
   PHOTOS_PROJECT_ID: $MW_PROJECT_ID
 
 # ------------- Templates ------------- #

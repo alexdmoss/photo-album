@@ -20,15 +20,20 @@ router = APIRouter()
 async def index(request: Request):
     images = await load_images()
     return templates.TemplateResponse(
-            "main.html",
-            {
-                "site_name": "Daisy's 40th Birthday",
-                "page_title": "Home",
-                "page_description": "Photo Slideshow for Daisy's 40th Birthday",
-                "images": images,
-                "request": request,
-            }
-        )
+        "main.html",
+        {
+            "site_name": "Daisy's 40th Birthday",
+            "page_title": "Home",
+            "page_description": "Photo Slideshow for Daisy's 40th Birthday",
+            "images": images,
+            "request": request,
+        }
+    )
+
+
+@router.get("/health")
+async def healthz(request: Request):
+    return "OK"
 
 
 @router.get("/download")
@@ -47,7 +52,11 @@ async def download(request: Request):
                     zipf.write(file_path, os.path.relpath(file_path, settings.PHOTOS_DIR))
 
         # Serve the zip file, ensuring to delete it after serving
-        return FileResponse(path=zip_path, filename="photos.zip", media_type='application/zip', background=BackgroundTask(os.unlink, zip_path))
+        return FileResponse(
+            path=zip_path,
+            filename="photos.zip",
+            media_type='application/zip',
+            background=BackgroundTask(os.unlink, zip_path))
     except Exception as e:
         # If something goes wrong, ensure the temporary file is deleted
         os.unlink(zip_path)

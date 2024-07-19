@@ -17,6 +17,7 @@ from slideshow.clients.storage import create_storage_client
 logging.config.fileConfig(f"{settings.APP_DIR}/../logging.conf", disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
+
 # context manager runs on app startup to init tailwind
 @asynccontextmanager
 async def lifespan(app: FastAPI):

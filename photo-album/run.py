@@ -8,6 +8,6 @@ if __name__ == "__main__":
 
     reload = False
     if os.getenv("RELOAD"):
-        reload=True
+        reload = True
 
     sys.exit(run("main:app", host="0.0.0.0", port=8000, reload=reload, access_log=True))

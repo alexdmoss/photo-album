@@ -1,0 +1,48 @@
+{% extends "/shared/_base.html" %}
+
+{% block content %}
+<style>
+    /* Custom CSS for precise 90% viewport width and height */
+    .custom-viewport-size {
+        width: 90vw;
+        height: 90vh;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+
+<section id="body" class="flex justify-center items-center h-screen">
+    <div id="main" class="flex justify-center items-center w-full h-full relative">
+
+        <div class="flex flex-col items-center w-full h-full">
+
+            <div id="controls" class="flex justify-center items-center w-full relative mb-4 mt-8">
+
+                <button onclick="toggleSlideshow()" class="text-white mr-4">
+                    <i class="fas fa-play" id="playIcon"></i>
+                    <i class="fas fa-pause hidden" id="pauseIcon"></i>
+                </button>
+
+                <input type="range" id="slideshowSpeed" min="1" max="10" value="5" class="ml-4 mx-4" title="Slideshow speed (1s to 10s)">
+                <label for="slideshowSpeed" class="text-white"> <span id="speedValue">5</span>s</label>
+            
+                <a href="/download" class="text-white ml-4 px-4 py-2 bg-blue-500 hover:bg-blue-700 rounded" title="Download Images">
+                    <i class="fas fa-download"></i>
+                </a>
+
+
+            </div>
+
+            <div hx-get="/daisy-photos" hx-trigger="load" class="flex flex-col justify-center items-center text-white">
+                <img class="htmx-indicator mb-8" alt="Please wait ... this should only take a moment ..." width="150" src="/static/img/bars.svg"/>
+                <p>Please wait - this should only take a few moments ...</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

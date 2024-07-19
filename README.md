@@ -20,6 +20,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [ ] Handling video
 - [ ] Not sure image sizing is quite right - padding and move things around?
 - [ ] Download final set of images and make sure rotation/sizing is correct
+- [ ] Home Page content
 
 ## Futures
 

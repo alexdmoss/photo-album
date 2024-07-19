@@ -21,17 +21,21 @@ logger = logging.getLogger(__name__)
 # context manager runs on app startup to init tailwind
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    try:
-        logging.info("Generating Tailwind classes")
-        subprocess.run([
-            "tailwindcss",
-            "-i",
-            str(settings.STATIC_DIR / "src" / "tw.css"),
-            "-o",
-            str(settings.STATIC_DIR / "css" / "main.css"),
-        ])
-    except Exception as e:
-        print(f"Error running tailwindcss: {e}")
+
+    # only generate TailwindCSS if requested by env var - we assume main.css has been pushed
+    # to cut down container startup time.
+    if getenv("GENERATE_TAILWIND", "false").lower() == "true":
+        try:
+            logging.info("Generating Tailwind classes")
+            subprocess.run([
+                "tailwindcss",
+                "-i",
+                str(settings.STATIC_DIR / "src" / "tw.css"),
+                "-o",
+                str(settings.STATIC_DIR / "css" / "main.css"),
+            ])
+        except Exception as e:
+            print(f"Error running tailwindcss: {e}")
 
     if getenv("RESIZE", "false").lower() == "true":
         logging.info("Resizing images as requested via environment variable")
@@ -40,7 +44,7 @@ async def lifespan(app: FastAPI):
     processed_images = list_images_in_dir(settings.TMP_DIR, ".jpg")
     if len(processed_images) == 0:
         # nothing saved locally - grab the processed images from GCS bucket instead
-        print(f"-> [INFO] Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
+        logging.info(f"-> [INFO] Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
         client = create_storage_client()
         bucket = client.get_bucket(settings.GCS_BUCKET_NAME)
 

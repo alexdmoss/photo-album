@@ -23,6 +23,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ## Futures
 
+- [ ] This app might be better getting the python to do pre-processing then loading the images into nginx and serving static assets instead
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
 - [ ] Captions that aren't the filename
 - [ ] Multiple Album Support

@@ -15,7 +15,6 @@ FROM al3xos/python-distroless:3.12-debian12
 
 COPY photo-album/ /app/
 COPY .keep /photos/.keep
-COPY .keep /tmp/.keep
 COPY --from=builder /home/monty/venv /home/monty/venv
 
 WORKDIR /app

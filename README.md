@@ -16,13 +16,14 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [x] Option to stop/start carousel
 - [ ] Get running in Cloud Run
 - [ ] Need to test behaviour when slow internet
-- [ ] The post-processing is annoying - maybe we can get rid of the resizing completely?
+- [x] The post-processing is annoying - maybe we can get rid of the resizing completely?
 - [ ] Handling video
 - [ ] Not sure image sizing is quite right - padding and move things around?
 - [ ] Download final set of images and make sure rotation/sizing is correct
 
 ## Futures
 
+- [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
 - [ ] Captions that aren't the filename
 - [ ] Multiple Album Support
 - [ ] Default album based on who you are when sign-in
@@ -33,8 +34,6 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ```sh
 poetry install --no-root
-# resize images and put them in TMP_DIR during startup:
-export RESIZE=true
 poetry run python run.py
 ```
 

@@ -35,7 +35,7 @@ async def lifespan(app: FastAPI):
                 str(settings.STATIC_DIR / "css" / "main.css"),
             ])
         except Exception as e:
-            print(f"Error running tailwindcss: {e}")
+            logging.error(f"Error running tailwindcss: {e}")
 
     if getenv("RESIZE", "false").lower() == "true":
         logging.info("Resizing images as requested via environment variable")
@@ -44,7 +44,7 @@ async def lifespan(app: FastAPI):
     processed_images = list_images_in_dir(settings.TMP_DIR, ".jpg")
     if len(processed_images) == 0:
         # nothing saved locally - grab the processed images from GCS bucket instead
-        logging.info(f"-> [INFO] Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
+        logging.info(f"Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
         client = create_storage_client()
         bucket = client.get_bucket(settings.GCS_BUCKET_NAME)
 
@@ -53,7 +53,7 @@ async def lifespan(app: FastAPI):
             if blob.name.endswith('.jpg'):
                 destination_file_name = join(settings.TMP_DIR, blob.name.split('/')[-1])
                 blob.download_to_filename(destination_file_name)
-                print(f"Downloaded {blob.name} to {destination_file_name}")
+                logging.debug(f"Downloaded {blob.name} to {destination_file_name}")
 
     yield
 

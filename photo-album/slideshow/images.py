@@ -1,3 +1,6 @@
+import logging
+import logging.config
+
 from os import listdir
 from os.path import join
 
@@ -7,23 +10,25 @@ from slideshow.clients.storage import create_storage_client
 from slideshow.config import settings
 
 
+logging.config.fileConfig(f"{settings.APP_DIR}/../logging.conf", disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
+
+
 async def load_images():
     # we've already been to get the images from GCS, don't re-download them
     jpg_files = list_images_in_dir(settings.TMP_DIR, ".jpg")
     if len(jpg_files) == 0:
         # nothing saved locally - grab the processed images from GCS bucket instead
-        print(f"-> [INFO] Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
+        logging.info(f"Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
         client = create_storage_client()
         bucket = client.get_bucket(settings.GCS_BUCKET_NAME)
 
         # List all objects in the bucket and download images
         blobs = bucket.list_blobs(prefix=settings.GCS_BUCKET_PATH, delimiter='/')
         for blob in blobs:
-            print(blob)
             if blob.name.endswith('.jpg'):
                 destination_file_name = join(settings.TMP_DIR, blob.name.split('/')[-1])
                 blob.download_to_filename(destination_file_name)
-                print(f"Downloaded {blob.name} to {destination_file_name}")
 
         jpg_files = list_images_in_dir(settings.TMP_DIR, ".jpg")
 
@@ -36,7 +41,7 @@ def list_images_in_dir(directory, extension):
 
 async def resize_images():
 
-    print("-> [INFO] Resizing images")
+    logging.info("Resizing images")
     jpg_files = [f for f in listdir(settings.PHOTOS_DIR) if f.endswith('.jpg')]
 
     images_info = []
@@ -47,8 +52,7 @@ async def resize_images():
             original_width, original_height = img.size
 
             if original_height < 1024:
-                print(
-                    f"-> [WARN] Image {image_filename} has a lower height resolution than 1024 - padding with black background")
+                logging.warn(f"Image {image_filename} has a lower height resolution than 1024 - padding with black background")
 
                 # Calculate padding to add to top and bottom to reach 1024 height
                 padding_top_bottom = (1024 - img.size[1]) // 2

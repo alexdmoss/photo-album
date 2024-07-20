@@ -28,6 +28,11 @@ resource "google_cloud_run_v2_service" "app" {
         value = "true"
       }
 
+      env {
+        name = "FRONTEND_URL"
+        value = "https://${var.domain}"
+      }
+
       volume_mounts {
         name = "photos-bucket"
         mount_path = "/photos"

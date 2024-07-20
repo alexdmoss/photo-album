@@ -2,18 +2,21 @@ import tempfile
 import zipfile
 import os
 
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, Depends
 from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
 
 from slideshow.config import Settings
 from slideshow.images import load_images
+from slideshow.auth import get_current_user_email
 
 settings = Settings()
 templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
 
 router = APIRouter()
+
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 
 
 @router.get("/")
@@ -24,6 +27,7 @@ async def index(request: Request):
             "site_name": "Alex's Photo Albums",
             "page_title": "Home",
             "page_description": "Alex's Photo Slideshows",
+            "auth_url": f"https://exercise-tracker-auth.alexos.dev/auth/login?uri={FRONTEND_URL}",
             "request": request,
         }
     )
@@ -86,3 +90,8 @@ async def download(request: Request):
         # If something goes wrong, ensure the temporary file is deleted
         os.unlink(zip_path)
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/protected")
+async def protected(request: Request, current_email: str = Depends(get_current_user_email)):
+    return "You made it in, congrats"

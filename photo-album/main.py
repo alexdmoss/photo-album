@@ -2,6 +2,7 @@ import subprocess
 import logging
 import logging.config
 
+from os import getenv
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -18,17 +19,19 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
 
-    try:
-        logging.info("Generating Tailwind classes")
-        subprocess.run([
-            "tailwindcss",
-            "-i",
-            str(settings.STATIC_DIR / "src" / "tw.css"),
-            "-o",
-            str(settings.STATIC_DIR / "css" / "main.css"),
-        ])
-    except Exception as e:
-        logging.error(f"Error running tailwindcss: {e}")
+    # makes skippable to speed up container start. Assumes main.css is in git
+    if getenv("SKIP_TAILWIND_GENERATION", "false") != "true":       
+        try:
+            logging.info("Generating Tailwind classes")
+            subprocess.run([
+                "tailwindcss",
+                "-i",
+                str(settings.STATIC_DIR / "src" / "tw.css"),
+                "-o",
+                str(settings.STATIC_DIR / "css" / "main.css"),
+            ])
+        except Exception as e:
+            logging.error(f"Error running tailwindcss: {e}")
 
     yield
 

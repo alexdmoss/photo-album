@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Any
+from os import getenv
 
 from fastapi.responses import HTMLResponse
 from pydantic_settings import BaseSettings
@@ -13,6 +14,10 @@ class Settings(BaseSettings):
     STATIC_DIR: Path = APP_DIR / "static"
     TEMPLATE_DIR: Path = APP_DIR / "templates"
     PHOTOS_DIR: Path = APP_DIR / "../../photos"
+
+    AUTH_PROJECT_ID: str = getenv("AUTH_PROJECT_ID", "auth-project-not-set")
+    AUTH_SECRET_ID: str = "auth-api"
+
     GCS_BUCKET_NAME: str = "alexos-photo-albums"            # @TODO: make configurable
     GCS_BUCKET_PATH: str = "daisy-40/processed"             # @TODO: make configurable
 

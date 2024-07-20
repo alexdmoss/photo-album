@@ -34,8 +34,8 @@ resource "google_cloud_run_v2_service" "app" {
       }
 
       env {
-        name = "GCP_PROJECT_ID"
-        value = var.gcp_project_id
+        name = "AUTH_PROJECT_ID"
+        value = var.auth_project_id
       }
 
       volume_mounts {

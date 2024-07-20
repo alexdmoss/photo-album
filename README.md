@@ -36,7 +36,8 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ```sh
 poetry install --no-root
-poetry run python run.py
+export AUTH_PROJECT_ID=<project-with-auth-secret>
+./run-local.sh
 ```
 
 > **NB:** Tailwind CSS is a post-processor - if a style is not used, you need to restart the app for it to pick it up!

@@ -14,7 +14,8 @@ if [[ ${CI_SERVER:-} == "yes" ]]; then
         -var domain="${DOMAIN}" \
         -var port="${PORT}" \
         -var photos_bucket="${PHOTOS_BUCKET}" \
-        -var photos_project_id="${PHOTOS_PROJECT_ID}"
+        -var photos_project_id="${PHOTOS_PROJECT_ID}" \
+        -var auth_project_id="${AUTH_PROJECT_ID}"
 else
     terraform plan -var gcp_project_id="${GCP_PROJECT_ID}" \
         -var app_name="${APP_NAME}" \
@@ -23,7 +24,8 @@ else
         -var domain="${DOMAIN}" \
         -var port="${PORT}" \
         -var photos_bucket="${PHOTOS_BUCKET}" \
-        -var photos_project_id="${PHOTOS_PROJECT_ID}"
+        -var photos_project_id="${PHOTOS_PROJECT_ID}" \
+        -var auth_project_id="${AUTH_PROJECT_ID}"
 fi
 
 popd >/dev/null

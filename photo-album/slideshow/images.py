@@ -16,6 +16,9 @@ async def load_images():
 
     local_dir = join(settings.PHOTOS_DIR, settings.GCS_BUCKET_PATH)
 
+    # we are preserving path so can interoperate with bucket mount
+    makedirs(local_dir, exist_ok=True)
+
     print(listdir(settings.PHOTOS_DIR))
     print(listdir(local_dir))
     # we've already been to get the images from GCS, don't re-download them
@@ -29,8 +32,6 @@ async def load_images():
 
         # List all objects in the bucket and download images
         blobs = bucket.list_blobs(prefix=settings.GCS_BUCKET_PATH)
-        # we are preserving path so can interoperate with bucket mount
-        makedirs(local_dir, exist_ok=True)
 
         for blob in blobs:
             if blob.name.endswith('.jpg'):

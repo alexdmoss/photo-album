@@ -14,6 +14,7 @@ variables:
   DOCKERFILE: Dockerfile
   PHOTOS_BUCKET: alexos-photo-albums
   PHOTOS_PROJECT_ID: $MW_PROJECT_ID
+  AUTH_PROJECT_ID: $MW_PROJECT_ID
 
 # ------------- Templates ------------- #
 

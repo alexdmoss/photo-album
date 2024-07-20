@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 async def load_images():
+    print(listdir(settings.PHOTOS_DIR))
     # we've already been to get the images from GCS, don't re-download them
     jpg_files = list_images_in_dir(settings.PHOTOS_DIR, ".jpg")
     if len(jpg_files) == 0:

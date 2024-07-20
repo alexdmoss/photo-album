@@ -33,6 +33,11 @@ resource "google_cloud_run_v2_service" "app" {
         value = "https://${var.domain}"
       }
 
+      env {
+        name = "GCP_PROJECT_ID"
+        value = var.gcp_project_id
+      }
+
       volume_mounts {
         name = "photos-bucket"
         mount_path = "/photos"

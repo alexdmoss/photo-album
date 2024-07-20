@@ -9,6 +9,7 @@ resource "google_cloud_run_v2_service" "app" {
   project  = var.gcp_project_id
   location = var.region
   ingress  = "INGRESS_TRAFFIC_ALL"
+  launch_stage = "BETA"
 
   template {
 
@@ -62,7 +63,7 @@ resource "google_cloud_run_v2_service" "app" {
     }
     scaling {
       min_instance_count = 0
-      max_instance_count = 1
+      max_instance_count = 2
     }
 
     service_account = data.google_service_account.runtime.email

@@ -14,13 +14,20 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [-] _this was annoying_ Snazzy transitions
 - [x] Option to configure speed of carousel
 - [x] Option to stop/start carousel
-- [ ] Get running in Cloud Run
+- [x] Get running in Cloud Run
 - [ ] Need to test behaviour when slow internet
 - [x] The post-processing is annoying - maybe we can get rid of the resizing completely?
 - [ ] Handling video
-- [ ] Not sure image sizing is quite right - padding and move things around?
 - [ ] Download final set of images and make sure rotation/sizing is correct
-- [ ] Home Page content
+- [x] Home Page content
+
+## Bugs
+
+- [ ] Slow startup. Why?
+- [ ] prev/next is not always stopping the slideshow
+- [ ] left/right/space keybinds
+- [ ] download option times out - needs progress spinner perhaps
+- [ ] Not sure image sizing is quite right - padding and move things around?
 
 ## Futures
 

@@ -94,14 +94,12 @@
             document.getElementById('speedValue').textContent = this.value;
         });
 
-        // Initialize the slideshow
-        
-            console.log("loaded")
-            showSlide(slideIndex);
-            if (isPlaying) {
-                resumeSlideshow();
-            }
-            updateIcons();
+        // Initialize the slideshow        
+        showSlide(slideIndex);
+        if (isPlaying) {
+            resumeSlideshow();
+        }
+        updateIcons();
 
     </script>
 

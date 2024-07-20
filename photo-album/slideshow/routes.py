@@ -16,7 +16,6 @@ templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
 router = APIRouter()
 
 
-
 @router.get("/")
 async def index(request: Request):
     return templates.TemplateResponse(
@@ -29,13 +28,14 @@ async def index(request: Request):
         }
     )
 
+
 @router.get("/health")
 async def healthz(request: Request):
     return "OK"
 
 
 @router.get("/daisy")
-async def index(request: Request):
+async def daisy(request: Request):
     return templates.TemplateResponse(
         "daisy.html",
         {
@@ -46,9 +46,10 @@ async def index(request: Request):
         }
     )
 
+
 # lazy-loads the photos via htmx
 @router.get("/daisy-photos")
-async def daisy(request: Request):
+async def daisy_photos(request: Request):
     images = await load_images()
     return templates.TemplateResponse(
         "daisy-photos.html",
@@ -58,9 +59,6 @@ async def daisy(request: Request):
             "request": request,
         }
     )
-
-
-
 
 
 @router.get("/download")

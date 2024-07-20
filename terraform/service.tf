@@ -12,12 +12,24 @@ resource "google_cloud_run_v2_service" "app" {
 
   template {
 
+    execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
+
     containers {
 
       image = var.image_tag
 
       ports {
         container_port = var.port
+      }
+
+      env {
+        name = "SKIP_TAILWIND_GENERATION"
+        value = "true"
+      }
+
+      volume_mounts {
+        name = "photos-bucket"
+        mount_path = "/photos"
       }
 
       startup_probe {
@@ -39,8 +51,15 @@ resource "google_cloud_run_v2_service" "app" {
 
     }
 
-    timeout = "5s"
+    timeout = "60s"
 
+    volumes {
+      name = "photos-bucket"
+      gcs {
+        bucket = data.google_storage_bucket.photo-album.name
+        read_only = true
+      }
+    }
     scaling {
       min_instance_count = 0
       max_instance_count = 1

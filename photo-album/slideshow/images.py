@@ -1,7 +1,7 @@
 import logging
 import logging.config
 
-from os import listdir, makedirs
+from os import listdir
 from os.path import join
 
 from slideshow.clients.storage import create_storage_client

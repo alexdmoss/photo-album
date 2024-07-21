@@ -24,7 +24,7 @@ SECRET_KEY = get_value_from_secret(read_auth_api_secret(), "secret-key")
 async def lifespan(app: FastAPI):
 
     # makes skippable to speed up container start. Assumes main.css is in git
-    if getenv("SKIP_TAILWIND_GENERATION", "false") != "true":       
+    if getenv("SKIP_TAILWIND_GENERATION", "false") != "true":
         try:
             logging.info("Generating Tailwind classes")
             subprocess.run([

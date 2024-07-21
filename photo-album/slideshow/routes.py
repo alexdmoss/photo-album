@@ -2,6 +2,7 @@ import tempfile
 import zipfile
 import os
 
+import requests
 from fastapi import APIRouter, Request, HTTPException, Depends
 from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
@@ -21,6 +22,20 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 
 @router.get("/")
 async def index(request: Request):
+    logged_in = False
+    if "state" in request.query_params:
+        print(request.query_params)
+        response = requests.get("https://exercise-tracker-auth.alexos.dev/auth/token", params=request.query_params)
+
+        if response.status_code == 200:
+            token_data = response.json()
+            access_token = token_data.get("access_token")
+            print(f"Access token: {access_token}")
+            logged_in = True
+        else:
+            print(f"Error: {response.status_code}")
+            print(response.text)
+
     return templates.TemplateResponse(
         "main.html",
         {
@@ -29,6 +44,7 @@ async def index(request: Request):
             "page_description": "Alex's Photo Slideshows",
             "auth_url": f"https://exercise-tracker-auth.alexos.dev/auth/login?uri={FRONTEND_URL}",
             "request": request,
+            "logged_in": logged_in,
         }
     )
 

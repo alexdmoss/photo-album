@@ -17,13 +17,23 @@
     <div id="main" class="flex justify-center items-center w-full h-full relative">
 
         <div class="flex flex-col items-center w-full h-full text-white mt-16">
+
             <p>Hmm, photos you're after eh?</p>
+
             <div class="flex mt-8">
                 <a class="underline" href="/daisy">Daisy's 40th</a>
             </div>
+
+            {% if logged_in %}
+                <p>Welcome back!</p>
+            {% else %}
+                <p>Please log in to view your photos.</p>
+            {% endif %}
+
             <div class="flex mt-8">
                 <a class="underline" href="{{ auth_url }}">Log In</a>
             </div>
+
         </div>
 
     </div>

@@ -23,14 +23,14 @@ resource "google_cloud_run_v2_service" "app" {
         container_port = var.port
       }
 
-      env {
-        name = "SKIP_TAILWIND_GENERATION"
-        value = "true"
+      resources {
+        startup_cpu_boost = true
+        cpu_idle = true
       }
 
       env {
-        name = "FRONTEND_URL"
-        value = "https://${var.domain}"
+        name = "SKIP_TAILWIND_GENERATION"
+        value = "true"
       }
 
       env {

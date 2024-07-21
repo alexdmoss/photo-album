@@ -7,12 +7,16 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
 
 from slideshow.config import settings
 from slideshow.routes import router
+from slideshow.secret import read_auth_api_secret, get_value_from_secret
 
 logging.config.fileConfig(f"{settings.APP_DIR}/../logging.conf", disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
+
+SECRET_KEY = get_value_from_secret(read_auth_api_secret(), "secret-key")
 
 
 # context manager runs on app startup to init tailwind
@@ -38,6 +42,7 @@ async def lifespan(app: FastAPI):
 
 def get_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
+    app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
     app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
     app.mount("/photos", StaticFiles(directory=settings.PHOTOS_DIR), name="photos")
     app.include_router(router)

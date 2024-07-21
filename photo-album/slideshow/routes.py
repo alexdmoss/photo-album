@@ -1,40 +1,36 @@
 import tempfile
 import zipfile
 import os
+import logging
+import logging.config
 
-import requests
+from typing import Optional
+
 from fastapi import APIRouter, Request, HTTPException, Depends
 from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
+from starlette.responses import RedirectResponse
 
 from slideshow.config import Settings
 from slideshow.images import load_images
-from slideshow.auth import get_current_user_email
+from slideshow.auth import oauth, get_user
 
 settings = Settings()
 templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
 
-router = APIRouter()
+logging.config.fileConfig(f"{settings.APP_DIR}/../logging.conf", disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
+router = APIRouter()
 
 
 @router.get("/")
 async def index(request: Request):
-    logged_in = False
-    if "state" in request.query_params:
-        print(request.query_params)
-        response = requests.get("https://exercise-tracker-auth.alexos.dev/auth/token", params=request.query_params)
-
-        if response.status_code == 200:
-            token_data = response.json()
-            access_token = token_data.get("access_token")
-            print(f"Access token: {access_token}")
-            logged_in = True
-        else:
-            print(f"Error: {response.status_code}")
-            print(response.text)
+    email = None
+    user = request.session.get('user')
+    if user is not None:
+        email = user['email']
 
     return templates.TemplateResponse(
         "main.html",
@@ -42,9 +38,8 @@ async def index(request: Request):
             "site_name": "Alex's Photo Albums",
             "page_title": "Home",
             "page_description": "Alex's Photo Slideshows",
-            "auth_url": f"https://exercise-tracker-auth.alexos.dev/auth/login?uri={FRONTEND_URL}",
             "request": request,
-            "logged_in": logged_in,
+            "email": email,
         }
     )
 
@@ -55,7 +50,7 @@ async def healthz(request: Request):
 
 
 @router.get("/daisy")
-async def daisy(request: Request):
+async def daisy(request: Request, user: Optional[dict] = Depends(get_user)):
     return templates.TemplateResponse(
         "daisy.html",
         {
@@ -87,7 +82,7 @@ async def download(request: Request):
         # Create a temporary file for the zip, ensuring it's not automatically deleted
         temp_zip = tempfile.NamedTemporaryFile(delete=False, suffix=".zip")
         zip_path = temp_zip.name
-        temp_zip.close()  # Close the file so zipfile can open it
+        temp_zip.close()  # close the file so zipfile can open it
 
         # Create a zip file and add all files from PHOTOS_DIR
         with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
@@ -96,7 +91,6 @@ async def download(request: Request):
                     file_path = os.path.join(root, file)
                     zipf.write(file_path, os.path.relpath(file_path, settings.PHOTOS_DIR))
 
-        # Serve the zip file, ensuring to delete it after serving
         return FileResponse(
             path=zip_path,
             filename="photos.zip",
@@ -108,6 +102,21 @@ async def download(request: Request):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/protected")
-async def protected(request: Request, current_email: str = Depends(get_current_user_email)):
-    return "You made it in, congrats"
+@router.get('/login')
+async def login(request: Request):
+    redirect_uri = request.url_for('auth')
+    logging.info(f"Login request for [{redirect_uri}]")
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+
+@router.route('/auth/google')
+async def auth(request: Request):
+    token = await oauth.google.authorize_access_token(request)
+    request.session['user'] = token['userinfo']     # save the user
+    return RedirectResponse(url='/')
+
+
+@router.get('/logout')
+async def logout(request: Request):
+    request.session.pop('user', None)
+    return RedirectResponse(url='/')

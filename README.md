@@ -9,7 +9,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [x] Resize images to fit browser window
 - [x] Clean up look and feel
 - [x] Load images from Google Storage
-- [ ] OAuth sign-in
+- [x] OAuth sign-in
 - [x] Download all photos option
 - [-] _this was annoying_ Snazzy transitions
 - [x] Option to configure speed of carousel
@@ -20,6 +20,9 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [ ] Handling video
 - [ ] Download final set of images and make sure rotation/sizing is correct
 - [x] Home Page content
+- [ ] Clean up logging implementation - lot of duplication
+- [ ] Home link styling
+- [ ] Move controls to top-right
 
 ## Bugs
 
@@ -28,10 +31,11 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [ ] left/right/space keybinds
 - [ ] download option times out - needs progress spinner perhaps
 - [ ] Not sure image sizing is quite right - padding and move things around?
+- [ ] Direct user to log in instead of just showing error message when times out / going direct to photos?
+- [ ] FontAwesome sourced locally
 
 ## Futures
 
-- [ ] This app might be better getting the python to do pre-processing then loading the images into nginx and serving static assets instead
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
 - [ ] Captions that aren't the filename
 - [ ] Multiple Album Support

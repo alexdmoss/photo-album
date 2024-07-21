@@ -1,53 +1,28 @@
-from os import getenv
-import jwt
-import logging
+from typing import Optional
+from fastapi import HTTPException
+from starlette.requests import Request
+from authlib.integrations.starlette_client import OAuth
 
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from slideshow.secret import read_auth_api_secret, get_value_from_secret
 
-from slideshow.secret import AUTH_CREDS, get_value_from_secret
 
-logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
+oauth = OAuth()
 
-# @TODO: Create a fake db:
-FAKE_DB = {'alex@alexos.dev': {'name': 'Alex M'}}
+oauth.register(
+    name = "google",
+    server_metadata_url = "https://accounts.google.com/.well-known/openid-configuration",
+    client_id = get_value_from_secret(read_auth_api_secret(), "client-id"),
+    client_secret = get_value_from_secret(read_auth_api_secret(), "client-secret"),
 
-API_SECRET_KEY = get_value_from_secret(AUTH_CREDS, "api-secret-key") or None
-if API_SECRET_KEY is None:
-    raise ValueError("Missing API_SECRET_KEY")
-API_ALGORITHM = getenv('API_ALGORITHM') or 'HS256'
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/token')
-
-CREDENTIALS_EXCEPTION = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED,
-    detail='Could not validate credentials',
-    headers={'WWW-Authenticate': 'Bearer'},
+    client_kwargs={
+        "scope": "openid email profile"
+    }
 )
 
 
-def decode_token(token):
-    return jwt.decode(token, API_SECRET_KEY, algorithms=[API_ALGORITHM])
-
-
-def valid_email_from_db(email):
-    return email in FAKE_DB
-
-
-async def get_current_user_email(token: str = Depends(oauth2_scheme)):
-
-    try:
-        payload = decode_token(token)
-        email: str = payload.get('sub')
-        if email is None:
-            logger.error(f"Token email is empty [{CREDENTIALS_EXCEPTION}]")
-            raise CREDENTIALS_EXCEPTION
-    except jwt.PyJWTError as e:
-        logger.error(f"Token JWT Error [{e}]")
-        raise CREDENTIALS_EXCEPTION from e
-
-    if valid_email_from_db(email):
-        return email
-
-    raise CREDENTIALS_EXCEPTION
+async def get_user(request: Request) -> Optional[dict]:
+    user = request.session.get("user")
+    if user is not None:
+        return user
+    else:
+        raise HTTPException(status_code=403, detail="Could not validate credentials")

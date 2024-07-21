@@ -1,6 +1,5 @@
 import json
 import logging
-from os import getenv
 
 from google.cloud import secretmanager
 import google_crc32c
@@ -23,6 +22,7 @@ def read_auth_api_secret():
 
     response = client.access_secret_version(request={"name": name})
 
+    # check secret not tampered with
     crc32c = google_crc32c.Checksum()
     crc32c.update(response.payload.data)
     if response.payload.data_crc32c != int(crc32c.hexdigest(), 16):

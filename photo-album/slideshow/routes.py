@@ -2,6 +2,7 @@ import tempfile
 import zipfile
 import os
 
+from datetime import datetime
 from typing import Optional
 
 from fastapi import APIRouter, Request, HTTPException, Depends
@@ -19,6 +20,10 @@ settings = Settings()
 templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
 
 router = APIRouter()
+
+
+templates.env.filters['strftime'] = lambda value, format='%d/%m/%Y': datetime.strptime(value, '%Y-%m-%d').strftime(format)
+
 
 
 @router.get("/")
@@ -53,6 +58,7 @@ async def daisy(request: Request, user: Optional[dict] = Depends(get_user)):
             "site_name": "Daisy's 40th Birthday",
             "page_title": "Daisy",
             "page_description": "Photo Slideshow for Daisy's 40th Birthday",
+            "show_controls": True,
             "request": request,
         }
     )

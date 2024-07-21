@@ -10,6 +10,8 @@
 
     <div id="controls" class="mr-8 w-1/4 flex justify-end items-center">
 
+    {% if show_controls %}
+
         <button onclick="toggleSlideshow()" class="text-white mr-4">
             <i class="fas fa-play" id="playIcon"></i>
             <i class="fas fa-pause hidden" id="pauseIcon"></i>
@@ -22,6 +24,8 @@
             <i class="fas fa-download"></i>
         </a>
 
-    </div>
+    {% endif %}
+
+</div>
 
 </header>

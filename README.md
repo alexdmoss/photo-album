@@ -19,9 +19,9 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [x] Home Page content
 - [x] Clean up logging implementation - lot of duplication
 - [ ] Handling video
-- [ ] Download final set of images and make sure rotation/sizing is correct
-- [ ] Home link styling
-- [ ] Move controls to top-right
+- [x] Download final set of images and make sure rotation/sizing is correct
+- [x] Home link styling
+- [x] Move controls to top-right
 
 ## Bugs
 

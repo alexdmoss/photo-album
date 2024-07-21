@@ -1,8 +1,6 @@
 import tempfile
 import zipfile
 import os
-import logging
-import logging.config
 
 from typing import Optional
 
@@ -12,15 +10,13 @@ from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
 from starlette.responses import RedirectResponse
 
+from slideshow.logger import log
 from slideshow.config import Settings
 from slideshow.images import load_images
 from slideshow.auth import oauth, get_user
 
 settings = Settings()
 templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
-
-logging.config.fileConfig(f"{settings.APP_DIR}/../logging.conf", disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -105,7 +101,7 @@ async def download(request: Request):
 @router.get('/login')
 async def login(request: Request):
     redirect_uri = request.url_for('auth')
-    logging.info(f"Login request for [{redirect_uri}]")
+    log.info(f"Login request for [{redirect_uri}]")
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 

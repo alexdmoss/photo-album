@@ -1,15 +1,9 @@
-import logging
-import logging.config
-
 from os import listdir
 from os.path import join
 
+from slideshow.logger import log
 from slideshow.clients.storage import create_storage_client
 from slideshow.config import settings
-
-
-logging.config.fileConfig(f"{settings.APP_DIR}/../logging.conf", disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
 
 
 async def load_images():
@@ -21,7 +15,7 @@ async def load_images():
     if len(jpg_files) == 0:
 
         # nothing saved locally - grab the processed images from GCS bucket instead
-        logging.info(f"Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
+        log.info(f"Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
         client = create_storage_client()
         bucket = client.get_bucket(settings.GCS_BUCKET_NAME)
 
@@ -31,7 +25,7 @@ async def load_images():
         for blob in blobs:
             if blob.name.endswith('.jpg'):
                 destination_file_name = join(settings.PHOTOS_DIR, blob.name)
-                logging.debug(f"Downloading {blob.name} to {destination_file_name}")
+                log.debug(f"Downloading {blob.name} to {destination_file_name}")
                 blob.download_to_filename(destination_file_name)
 
         jpg_files = list_images_in_dir(local_dir, ".jpg")

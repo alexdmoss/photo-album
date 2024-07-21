@@ -1,14 +1,10 @@
 import json
-import logging
 
 from google.cloud import secretmanager
 import google_crc32c
 
+from slideshow.logger import log
 from slideshow.config import settings
-
-
-logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
 
 
 def secret_manager_client():
@@ -26,7 +22,7 @@ def read_auth_api_secret():
     crc32c = google_crc32c.Checksum()
     crc32c.update(response.payload.data)
     if response.payload.data_crc32c != int(crc32c.hexdigest(), 16):
-        logger.error(f"Data corruption detected in secret [{settings.AUTH_SECRET_ID}]")
+        log.error(f"Data corruption detected in secret [{settings.AUTH_SECRET_ID}]")
         return response
 
     payload = response.payload.data.decode("UTF-8")

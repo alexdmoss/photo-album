@@ -1,20 +1,16 @@
-import logging
-import logging.config
-
 from os import listdir
 
 from PIL import Image
 
+from slideshow.logger import log
+
 PHOTOS_DIR = "../../photos/"
 ORIGINALS_DIR = "../../originals/"
-
-logging.config.fileConfig("../logging.conf", disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
 
 
 def resize_images():
 
-    logging.info("Resizing images")
+    log.info("Resizing images")
     jpg_files = [f for f in listdir(ORIGINALS_DIR) if f.endswith('.jpg')]
 
     images_info = []
@@ -25,7 +21,7 @@ def resize_images():
             original_width, original_height = img.size
 
             if original_height < 1024:
-                logging.warn(f"Image {image_filename} has a lower height resolution than 1024 - padding with black background")
+                log.warn(f"Image {image_filename} has a lower height resolution than 1024 - padding with black background")
 
                 # Calculate padding to add to top and bottom to reach 1024 height
                 padding_top_bottom = (1024 - img.size[1]) // 2

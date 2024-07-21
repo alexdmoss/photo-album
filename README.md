@@ -15,12 +15,11 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [x] Option to configure speed of carousel
 - [x] Option to stop/start carousel
 - [x] Get running in Cloud Run
-- [ ] Need to test behaviour when slow internet
 - [x] The post-processing is annoying - maybe we can get rid of the resizing completely?
+- [x] Home Page content
+- [x] Clean up logging implementation - lot of duplication
 - [ ] Handling video
 - [ ] Download final set of images and make sure rotation/sizing is correct
-- [x] Home Page content
-- [ ] Clean up logging implementation - lot of duplication
 - [ ] Home link styling
 - [ ] Move controls to top-right
 
@@ -33,6 +32,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [ ] Not sure image sizing is quite right - padding and move things around?
 - [ ] Direct user to log in instead of just showing error message when times out / going direct to photos?
 - [ ] FontAwesome sourced locally
+- [ ] Need to test behaviour when slow internet
 
 ## Futures
 

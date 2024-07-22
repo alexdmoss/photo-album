@@ -20,7 +20,7 @@
     align-items: center; /* Add this line to center content horizontally */
     width: 95%;
     height: 0%;
-    max-height: 90vh; /* Do not exceed the height of the viewport */
+    max-height: 89vh; /* Do not exceed the height of the viewport */
     overflow: hidden; /* Hide any overflow */
     margin: auto; /* Center the container in the middle of its parent */
 }

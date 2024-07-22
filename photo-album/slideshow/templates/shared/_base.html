@@ -28,12 +28,12 @@
   <script src="/static/js/htmx.min.js"></script>
 </head>
 
-<body>
+<body class="bg-black">
     {% block header %}
     {% include "/shared/_header.html" %}
     {% endblock %}
 
-    <div id="content" class="bg-black">
+    <div id="content">
     {% block content %}
     {% endblock %}
     </div>

@@ -1,6 +1,6 @@
 {% block content %}
 
-            <div id="slideshow-container" class="slideshow-container custom-viewport-size mx-auto relative bg-black">
+            <div id="slideshow-container" class="slideshow-container custom-viewport-size mx-auto relative">
                 {% for image in images %}
                 <div id="slides" class="slides fade flex justify-center items-center w-full h-full">
                     <div class="numbertext font-heading text-xl absolute top-0 left-0">{{ loop.index }} / {{ images|length }}</div>

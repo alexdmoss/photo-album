@@ -1,8 +1,8 @@
 from typing import Optional
-from fastapi import HTTPException
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuth
 
+from slideshow.logger import log
 from slideshow.secret import read_auth_api_secret, get_value_from_secret
 
 
@@ -24,4 +24,4 @@ async def get_user(request: Request) -> Optional[dict]:
     if user is not None:
         return user
     else:
-        raise HTTPException(status_code=403, detail="Could not validate credentials")
+        log.warn(f"Could not validate credentials - directing towards login")

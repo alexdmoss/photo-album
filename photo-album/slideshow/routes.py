@@ -52,16 +52,26 @@ async def healthz(request: Request):
 
 @router.get("/daisy")
 async def daisy(request: Request, user: Optional[dict] = Depends(get_user)):
-    return templates.TemplateResponse(
-        "daisy.html",
-        {
-            "site_name": "Daisy's 40th Birthday",
-            "page_title": "Daisy",
-            "page_description": "Photo Slideshow for Daisy's 40th Birthday",
-            "show_controls": True,
-            "request": request,
-        }
-    )
+    if user is None:
+        # User is not authenticated, redirect to login
+        return templates.TemplateResponse(
+            "login.html",
+            {
+                "site_name": "Login",
+                "request": request,
+            }
+        )
+    else:
+        return templates.TemplateResponse(
+            "daisy.html",
+            {
+                "site_name": "Daisy's 40th Birthday",
+                "page_title": "Daisy",
+                "page_description": "Photo Slideshow for Daisy's 40th Birthday",
+                "show_controls": True,
+                "request": request,
+            }
+        )
 
 
 # lazy-loads the photos via htmx

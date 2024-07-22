@@ -1,0 +1,37 @@
+{% extends "/shared/_base.html" %}
+
+{% block content %}
+
+<section id="body" class="flex justify-center items-center h-screen">
+    <div id="main" class="flex justify-center items-center w-full h-full relative">
+
+        <div class="flex flex-col items-center w-full h-full text-white mt-16">
+
+            <div class="flex mt-8">
+                <p>You must be logged in to view these photos. You are being redirected ...</p>
+            </div>
+
+            <div class="flex mt-8">
+                <p>If you are not redirected automatically, <a class="underline" href="/login">click here to log in</a></p>
+            </div>
+
+            <script>
+                let countdown = document.getElementById('countdown');
+                let redirectDelay = 2;
+        
+                let interval = setInterval(function() {
+                    redirectDelay--;
+                    if (redirectDelay <= 0) {
+                        clearInterval(interval);
+                        window.location.href = '/login';
+                    }
+                }, 1000);
+            </script>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -25,8 +25,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ## Bugs
 
-- [ ] Slow startup. Why?
-- [ ] prev/next is not always stopping the slideshow
+- [x] prev/next is not always stopping the slideshow
 - [ ] left/right/space keybinds
 - [ ] download option times out - needs progress spinner perhaps
 - [x] Not sure image sizing is quite right - padding and move things around?
@@ -36,6 +35,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ## Futures
 
+- [ ] _deferred - set minInstances for now_ Slow startup. Why?
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
 - [ ] Captions that aren't the filename
 - [ ] Multiple Album Support

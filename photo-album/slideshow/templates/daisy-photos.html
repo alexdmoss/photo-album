@@ -1,20 +1,19 @@
 {% block content %}
 
             <div id="slideshow-container" class="slideshow-container custom-viewport-size mx-auto relative">
+
                 {% for image in images %}
                 <div id="slides" class="slides fade flex justify-center items-center w-full h-full">
                     <div class="numbertext font-heading text-xl absolute top-0 left-0">{{ loop.index }} / {{ images|length }}</div>
-                    <img src="/photos/{{ image }}" alt="Image {{ loop.index }}"
-                        class="max-w-full max-h-full object-contain">
+                    <img src="/photos/{{ image }}" alt="Image {{ loop.index }}" class="max-w-full max-h-full object-contain">
                     <div class="caption text-right absolute top-0 right-0 font-heading text-xl">{{ image.split('/')[-1].split('.')[0] | strftime('%d/%m/%Y') }}</div>
                 </div>
                 {% endfor %}
 
                 <!-- Next and previous buttons -->
-                <a class="prev absolute top-1/2 -translate-y-1/2 left-0 cursor-pointer text-4xl p-4"
-                    onclick="changingSlide(-1);">&#10094;</a>
-                <a class="next absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer text-4xl p-4"
-                    onclick="changingSlide(1);">&#10095;</a>
+                <a class="prev absolute top-1/2 -translate-y-1/2 left-0 cursor-pointer text-4xl p-4" onclick="changingSlide(-1);">&#10094;</a>
+                <a class="next absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer text-4xl p-4" onclick="changingSlide(1);">&#10095;</a>
+
             </div>
             
     <script>
@@ -94,6 +93,15 @@
             startSlideshow();
         }
         updateIcons();
+
+        // Add event listener for arrow keys
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changingSlide(-1);
+            } else if ((event.key === 'ArrowRight') || (event.key === ' ')) {
+                changingSlide(1);
+            }
+        });
 
     </script>
 

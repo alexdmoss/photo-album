@@ -12,14 +12,14 @@
 
                 <!-- Next and previous buttons -->
                 <a class="prev absolute top-1/2 -translate-y-1/2 left-0 cursor-pointer text-4xl p-4"
-                    onclick="changeSlide(-1); stopAutoSlide();">&#10094;</a>
+                    onclick="changingSlide(-1);">&#10094;</a>
                 <a class="next absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer text-4xl p-4"
-                    onclick="changeSlide(1); stopAutoSlide();">&#10095;</a>
+                    onclick="changingSlide(1);">&#10095;</a>
             </div>
             
     <script>
 
-        let slideIndex = 0; // Start with the first slide
+        let slideIndex = 0;
         let slides = document.getElementsByClassName("slides");
         let slideTimeout;
         let isPlaying = true;
@@ -32,7 +32,6 @@
                 slide.classList.add("hidden");
             }
             slides[slideIndex].classList.remove("hidden");
-            updateIcons();
         }
 
         function toggleSlideshow() {
@@ -58,7 +57,6 @@
         }
 
         function showNextSlide() {
-            // Logic to show the next slide and reset the timeout
             showSlide(slideIndex += 1);
             if (isPlaying) {
                 const speed = document.getElementById('slideshowSpeed').value;
@@ -67,23 +65,19 @@
             }
         }
 
-        // When prev/next buttons are clicked
-        function changeSlide(n) {
+        // When prev/next buttons are clicked, move forward or back by one
+        function changingSlide(n) {
             slideIndex += n;
             if (slideIndex >= slides.length) { slideIndex = 0; }
             if (slideIndex < 0) { slideIndex = slides.length - 1; }
             showSlide(slideIndex);
-            // Reset the timer
+            // disable autoplay
+            isPlaying = false;
             clearTimeout(slideTimeout);
-            const speed = document.getElementById('slideshowSpeed').value;
-            slideTimeout = setTimeout(showNextSlide, speed * 1000);
+            updateIcons();
         }
 
-        function stopAutoSlide() {
-            toggleSlideshow();
-        }
-
-        function resumeSlideshow() {
+        function startSlideshow() {
             clearTimeout(slideTimeout); // Clear any existing timeout to avoid multiple instances
             const speed = document.getElementById('slideshowSpeed').value;
             slideTimeout = setTimeout(showNextSlide, speed * 1000); // Restart the slideshow
@@ -97,7 +91,7 @@
         // Initialize the slideshow        
         showSlide(slideIndex);
         if (isPlaying) {
-            resumeSlideshow();
+            startSlideshow();
         }
         updateIcons();
 

@@ -4,6 +4,17 @@
     font-weight: 600;
 }
 
+#heading {
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
+#heading h1 {
+    @media (max-width: 920px) {
+        font-size: 1.1rem !important;
+    }
+}
+
 .text-drop-shadow {
     text-shadow: 0 6px 12px rgba(200, 200, 200, 0.5);
 }

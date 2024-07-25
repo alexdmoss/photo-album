@@ -32,7 +32,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [x] Direct user to log in instead of just showing error message when times out / going direct to photos?
 - [x] FontAwesome sourced locally
 - [x] Send user back to original page after login, not index
-- [ ] Need to test behaviour when slow internet - probably need lazy-load of images
+- [x] Need to test behaviour when slow internet - probably need lazy-load of images
 
 ## Futures
 

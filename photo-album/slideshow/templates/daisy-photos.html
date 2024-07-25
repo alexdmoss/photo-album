@@ -5,7 +5,7 @@
                 {% for image in images %}
                 <div id="slides" class="slides fade flex justify-center items-center w-full h-full">
                     <div class="numbertext font-heading text-xl absolute top-0 left-0">{{ loop.index }} / {{ images|length }}</div>
-                    <img src="/photos/{{ image }}" alt="Image {{ loop.index }}" class="max-w-full max-h-full object-contain">
+                    <img src="/static/img/bars.svg" alt="Image {{ loop.index }}" class="max-w-full max-h-full object-contain lazyload" data-src="/photos/{{ image }}" />
                     <div class="caption text-right absolute top-0 right-0 font-heading text-xl">{{ image.split('/')[-1].split('.')[0] | strftime('%d/%m/%Y') }}</div>
                 </div>
                 {% endfor %}
@@ -103,6 +103,22 @@
             }
         });
 
+        // Lazy loading implementation
+        const lazyloadImages = document.querySelectorAll(".lazyload");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.remove("lazyload");
+                    observer.unobserve(lazyImage);
+                }
+            });
+        });
+
+        lazyloadImages.forEach((image) => {
+            observer.observe(image);
+        });
     </script>
 
 {% endblock %}

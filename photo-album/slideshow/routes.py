@@ -36,9 +36,9 @@ async def index(request: Request):
     return templates.TemplateResponse(
         "main.html",
         {
-            "site_name": "Alex's Photo Albums",
+            "site_name": "Photo Albums",
             "page_title": "Home",
-            "page_description": "Alex's Photo Slideshows",
+            "page_description": "Alex's Photo & Video Albums",
             "request": request,
             "email": email,
         }

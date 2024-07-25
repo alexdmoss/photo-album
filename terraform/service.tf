@@ -34,6 +34,11 @@ resource "google_cloud_run_v2_service" "app" {
       }
 
       env {
+        name = "ALLOWED_USERS"
+        value = var.allowed_users
+      }
+
+      env {
         name = "AUTH_PROJECT_ID"
         value = var.auth_project_id
       }

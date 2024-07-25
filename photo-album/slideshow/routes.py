@@ -14,7 +14,8 @@ from starlette.responses import RedirectResponse
 from slideshow.logger import log
 from slideshow.config import Settings
 from slideshow.images import load_images
-from slideshow.auth import oauth, get_user
+from slideshow.auth import oauth, get_user, is_user_authorised
+
 
 settings = Settings()
 templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
@@ -23,7 +24,6 @@ router = APIRouter()
 
 
 templates.env.filters['strftime'] = lambda value, format='%d/%m/%Y': datetime.strptime(value, '%Y-%m-%d').strftime(format)
-
 
 
 @router.get("/")
@@ -128,7 +128,7 @@ async def download(request: Request):
 
 @router.get('/login')
 async def login(request: Request):
-    redirect_uri = request.url_for('auth') 
+    redirect_uri = request.url_for('auth')
     log.info(f"Login request for [{redirect_uri}]")
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
@@ -136,12 +136,16 @@ async def login(request: Request):
 @router.route('/auth/google')
 async def auth(request: Request):
     token = await oauth.google.authorize_access_token(request)
-    request.session['user'] = token['userinfo']
 
-    if request.session["origin"]:
-        return RedirectResponse(url=request.session["origin"])
+    if is_user_authorised(token['userinfo']['email']):
+        request.session['user'] = token['userinfo']
+        if "origin" in request.session:
+            return RedirectResponse(url=request.session["origin"])
+        else:
+            return RedirectResponse(url='/')
     else:
-        return RedirectResponse(url='/')
+        log.warn(f"User not permitted [{token['userinfo']['email']}]")
+        raise HTTPException(403, "User not permitted - sorry!")
 
 
 @router.get('/logout')

@@ -8,3 +8,4 @@ variable "port" {}
 variable "photos_bucket" {}
 variable "photos_project_id" {}
 variable "auth_project_id" {}
+variable "allowed_users" {}

@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     AUTH_SECRET_ID: str = "auth-api"
 
     # @TODO: make configurable
-    GCS_BUCKET_NAME: str = "alexos-photo-albums"            
+    GCS_BUCKET_NAME: str = "alexos-photo-albums"
     GCS_BUCKET_PHOTOS_PATH: str = "daisy/processed"
 
     FASTAPI_PROPERTIES: dict[str, Any] = {

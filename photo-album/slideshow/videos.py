@@ -104,5 +104,3 @@ async def load_videos(album: str):
 
 def list_videos_in_dir(directory, sub_path, extensions):
     return sorted([join(sub_path, f) for f in listdir(directory) if any(f.endswith(ext) for ext in extensions)])
-
-

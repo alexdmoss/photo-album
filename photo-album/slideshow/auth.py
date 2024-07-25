@@ -1,4 +1,7 @@
+from os import getenv
 from typing import Optional
+
+from fastapi import HTTPException
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuth
 
@@ -24,4 +27,18 @@ async def get_user(request: Request) -> Optional[dict]:
     if user is not None:
         return user
     else:
-        log.warn(f"Could not validate credentials - directing towards login")
+        log.warn("Could not validate credentials - directing towards login")
+
+
+def is_user_authorised(user):
+    # if there were more users, it'd be worth putting in a DB
+    allowed_users = getenv("ALLOWED_USERS")
+    if allowed_users:
+        allowed_users = allowed_users.split(",")
+        if user in allowed_users:
+            return True
+    else:
+        log.error("No allowed users specified - set ALLOWED_USERS")
+        raise HTTPException(403, "Unable to log you in")
+
+    return False

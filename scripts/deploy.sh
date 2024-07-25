@@ -15,7 +15,8 @@ if [[ ${CI_SERVER:-} == "yes" ]]; then
         -var port="${PORT}" \
         -var photos_bucket="${PHOTOS_BUCKET}" \
         -var photos_project_id="${PHOTOS_PROJECT_ID}" \
-        -var auth_project_id="${AUTH_PROJECT_ID}"
+        -var auth_project_id="${AUTH_PROJECT_ID}" \
+        -var allowed_users="${ALLOWED_PHOTO_USERS}"
 else
     terraform plan -var gcp_project_id="${GCP_PROJECT_ID}" \
         -var app_name="${APP_NAME}" \
@@ -25,7 +26,8 @@ else
         -var port="${PORT}" \
         -var photos_bucket="${PHOTOS_BUCKET}" \
         -var photos_project_id="${PHOTOS_PROJECT_ID}" \
-        -var auth_project_id="${AUTH_PROJECT_ID}"
+        -var auth_project_id="${AUTH_PROJECT_ID}" \
+        -var allowed_users="${ALLOWED_PHOTO_USERS}"
 fi
 
 popd >/dev/null

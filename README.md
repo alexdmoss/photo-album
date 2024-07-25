@@ -26,12 +26,13 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 ## Bugs
 
 - [x] prev/next is not always stopping the slideshow
-- [ ] left/right/space keybinds
+- [x] left/right/space keybinds
 - [ ] download option times out - needs progress spinner perhaps
 - [x] Not sure image sizing is quite right - padding and move things around?
 - [x] Direct user to log in instead of just showing error message when times out / going direct to photos?
 - [x] FontAwesome sourced locally
-- [ ] Need to test behaviour when slow internet
+- [x] Send user back to original page after login, not index
+- [ ] Need to test behaviour when slow internet - probably need lazy-load of images
 
 ## Futures
 

@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 from typing import Optional
 
-from fastapi import APIRouter, Request, HTTPException, Depends
+from fastapi import APIRouter, Request, HTTPException, Depends, Query
 from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
@@ -54,6 +54,7 @@ async def healthz(request: Request):
 async def daisy(request: Request, user: Optional[dict] = Depends(get_user)):
     if user is None:
         # User is not authenticated, redirect to login
+        request.session['origin'] = "/daisy"
         return templates.TemplateResponse(
             "login.html",
             {
@@ -116,7 +117,7 @@ async def download(request: Request):
 
 @router.get('/login')
 async def login(request: Request):
-    redirect_uri = request.url_for('auth')
+    redirect_uri = request.url_for('auth') 
     log.info(f"Login request for [{redirect_uri}]")
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
@@ -124,8 +125,12 @@ async def login(request: Request):
 @router.route('/auth/google')
 async def auth(request: Request):
     token = await oauth.google.authorize_access_token(request)
-    request.session['user'] = token['userinfo']     # save the user
-    return RedirectResponse(url='/')
+    request.session['user'] = token['userinfo']
+
+    if request.session["origin"]:
+        return RedirectResponse(url=request.session["origin"])
+    else:
+        return RedirectResponse(url='/')
 
 
 @router.get('/logout')

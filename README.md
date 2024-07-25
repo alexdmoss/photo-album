@@ -18,7 +18,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 - [x] The post-processing is annoying - maybe we can get rid of the resizing completely?
 - [x] Home Page content
 - [x] Clean up logging implementation - lot of duplication
-- [ ] Handling video
+- [x] Handling video
 - [x] Download final set of images and make sure rotation/sizing is correct
 - [x] Home link styling
 - [x] Move controls to top-right

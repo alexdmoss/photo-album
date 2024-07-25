@@ -18,8 +18,9 @@ class Settings(BaseSettings):
     AUTH_PROJECT_ID: str = getenv("AUTH_PROJECT_ID", "auth-project-not-set")
     AUTH_SECRET_ID: str = "auth-api"
 
-    GCS_BUCKET_NAME: str = "alexos-photo-albums"            # @TODO: make configurable
-    GCS_BUCKET_PATH: str = "daisy-40/processed"             # @TODO: make configurable
+    # @TODO: make configurable
+    GCS_BUCKET_NAME: str = "alexos-photo-albums"            
+    GCS_BUCKET_PHOTOS_PATH: str = "daisy/processed"
 
     FASTAPI_PROPERTIES: dict[str, Any] = {
         "title": "Photo Slideshow",

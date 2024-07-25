@@ -8,19 +8,17 @@ from slideshow.config import settings
 
 async def load_images():
 
-    local_dir = join(settings.PHOTOS_DIR, settings.GCS_BUCKET_PATH)
+    local_dir = join(settings.PHOTOS_DIR, settings.GCS_BUCKET_PHOTOS_PATH)
 
-    # we've already been to get the images from GCS, don't re-download them
     jpg_files = list_images_in_dir(local_dir, ".jpg")
     if len(jpg_files) == 0:
 
         # nothing saved locally - grab the processed images from GCS bucket instead
-        log.info(f"Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PATH}]")
+        log.info(f"Downloading images from GCS [{settings.GCS_BUCKET_NAME}/{settings.GCS_BUCKET_PHOTOS_PATH}]")
         client = create_storage_client()
         bucket = client.get_bucket(settings.GCS_BUCKET_NAME)
 
-        # List all objects in the bucket and download images
-        blobs = bucket.list_blobs(prefix=settings.GCS_BUCKET_PATH)
+        blobs = bucket.list_blobs(prefix=settings.GCS_BUCKET_PHOTOS_PATH)
 
         for blob in blobs:
             if blob.name.endswith('.jpg'):
@@ -34,4 +32,4 @@ async def load_images():
 
 
 def list_images_in_dir(directory, extension):
-    return sorted([join(settings.GCS_BUCKET_PATH, f) for f in listdir(directory) if f.endswith(extension)])
+    return sorted([join(settings.GCS_BUCKET_PHOTOS_PATH, f) for f in listdir(directory) if f.endswith(extension)])

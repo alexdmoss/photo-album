@@ -70,5 +70,6 @@ $RECYCLE.BIN/
 photos/
 tmp/
 originals/
+videos/
 
 .terraform/

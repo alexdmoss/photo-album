@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 from typing import Optional
 
-from fastapi import APIRouter, Request, HTTPException, Depends, Query
+from fastapi import APIRouter, Request, HTTPException, Depends
 from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
@@ -77,16 +77,27 @@ async def daisy(request: Request, user: Optional[dict] = Depends(get_user)):
 
 # lazy-loads the photos via htmx
 @router.get("/daisy-photos")
-async def daisy_photos(request: Request):
-    images = await load_images()
-    return templates.TemplateResponse(
-        "daisy-photos.html",
-        {
-            "site_name": "Daisy's 40th Birthday",
-            "images": images,
-            "request": request,
-        }
-    )
+async def daisy_photos(request: Request, user: Optional[dict] = Depends(get_user)):
+    if user is None:
+        # User is not authenticated, redirect to login
+        request.session['origin'] = "/daisy-photos"
+        return templates.TemplateResponse(
+            "login.html",
+            {
+                "site_name": "Login",
+                "request": request,
+            }
+        )
+    else:
+        images = await load_images()
+        return templates.TemplateResponse(
+            "daisy-photos.html",
+            {
+                "site_name": "Daisy's 40th Birthday",
+                "images": images,
+                "request": request,
+            }
+        )
 
 
 @router.get("/download")

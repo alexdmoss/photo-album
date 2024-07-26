@@ -31,6 +31,7 @@
                 slide.classList.add("hidden");
             }
             slides[slideIndex].classList.remove("hidden");
+            preloadNextImages(5);
         }
 
         function toggleSlideshow() {
@@ -74,6 +75,7 @@
             isPlaying = false;
             clearTimeout(slideTimeout);
             updateIcons();
+            
         }
 
         function startSlideshow() {
@@ -86,6 +88,18 @@
         document.getElementById('slideshowSpeed').addEventListener('input', function() {
             document.getElementById('speedValue').textContent = this.value;
         });
+
+        // Preload the next few images
+        function preloadNextImages(count) {
+            const currentSlideIndex = slideIndex;
+            for (let i = 1; i <= count; i++) {
+                const nextIndex = (currentSlideIndex + i) % slides.length;
+                const nextImage = slides[nextIndex].querySelector('img');
+                const imageSrc = nextImage.dataset.src;
+                const preloadImage = new Image();
+                preloadImage.src = imageSrc;
+            }
+        }
 
         // Initialize the slideshow        
         showSlide(slideIndex);

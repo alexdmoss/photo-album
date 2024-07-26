@@ -14,7 +14,7 @@ RUN poetry config virtualenvs.create false && \
 FROM al3xos/python-distroless:3.11-debian12-debug
 
 COPY photo-album/ /app/
-COPY --chown=monty:monty .keep /photos/.keep
+COPY --chown=monty:monty .keep /assets/.keep
 COPY --from=builder /home/monty/venv /home/monty/venv
 
 WORKDIR /app

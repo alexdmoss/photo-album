@@ -36,7 +36,10 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ## Futures
 
-- [ ] _deferred - set minInstances for now_ Slow startup. Why?
+- [ ] _deferred - set minInstances for now_ Slow startup. Why? ~30s
+- [ ] Hard-coding of page titles etc
+- [x] Hard-coding of bucket paths
+- [ ] More htmx less raw JS
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
 - [ ] Captions that aren't the filename
 - [ ] Multiple Album Support
@@ -49,6 +52,7 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 ```sh
 poetry install --no-root
 export AUTH_PROJECT_ID=<project-with-auth-secret>
+export ALLOWED_USERS=<csv-of-google-emails>
 ./run-local.sh
 ```
 

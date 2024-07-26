@@ -3,27 +3,22 @@ import zipfile
 import os
 
 from datetime import datetime
-from typing import Optional
 
-from fastapi import APIRouter, Request, HTTPException, Depends
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
 from starlette.responses import RedirectResponse
 
 from slideshow.logger import log
-from slideshow.config import Settings
-from slideshow.images import load_images
-from slideshow.auth import oauth, get_user, is_user_authorised
+from slideshow.config import settings
+from slideshow.auth import oauth, is_user_authorised
 
 
-settings = Settings()
 templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
+templates.env.filters['strftime'] = lambda value, format='%d/%m/%Y': datetime.strptime(value, '%Y-%m-%d').strftime(format)
 
 router = APIRouter()
-
-
-templates.env.filters['strftime'] = lambda value, format='%d/%m/%Y': datetime.strptime(value, '%Y-%m-%d').strftime(format)
 
 
 @router.get("/")
@@ -48,56 +43,6 @@ async def index(request: Request):
 @router.get("/health")
 async def healthz(request: Request):
     return "OK"
-
-
-@router.get("/daisy")
-async def daisy(request: Request, user: Optional[dict] = Depends(get_user)):
-    if user is None:
-        # User is not authenticated, redirect to login
-        request.session['origin'] = "/daisy"
-        return templates.TemplateResponse(
-            "login.html",
-            {
-                "site_name": "Login",
-                "request": request,
-            }
-        )
-    else:
-        return templates.TemplateResponse(
-            "daisy.html",
-            {
-                "site_name": "Daisy's 40th Birthday",
-                "page_title": "Daisy",
-                "page_description": "Photo Slideshow for Daisy's 40th Birthday",
-                "show_controls": True,
-                "request": request,
-            }
-        )
-
-
-# lazy-loads the photos via htmx
-@router.get("/daisy-photos")
-async def daisy_photos(request: Request, user: Optional[dict] = Depends(get_user)):
-    if user is None:
-        # User is not authenticated, redirect to login
-        request.session['origin'] = "/daisy-photos"
-        return templates.TemplateResponse(
-            "login.html",
-            {
-                "site_name": "Login",
-                "request": request,
-            }
-        )
-    else:
-        images = await load_images()
-        return templates.TemplateResponse(
-            "daisy-photos.html",
-            {
-                "site_name": "Daisy's 40th Birthday",
-                "images": images,
-                "request": request,
-            }
-        )
 
 
 @router.get("/download")

@@ -20,9 +20,9 @@
 
         <div class="flex flex-col items-center w-full">
 
-            <div hx-get="/daisy-photos" hx-trigger="load" class="flex flex-col justify-center items-center text-white">
-                <img class="htmx-indicator mb-8" alt="Please wait - downloading images. This may take a minute ..." width="150" src="/static/img/bars.svg"/>
-                <p>Please wait - downloading images. This may take a minute ...</p>
+            <div hx-get="/photo-albums/{{album}}" hx-trigger="load" class="flex flex-col justify-center items-center text-white">
+                <img class="htmx-indicator mb-8" alt="Please wait - downloading photos. This may take a minute ..." width="150" src="/static/img/bars.svg"/>
+                <p>Please wait - downloading photos for album "{{ album }}". This may take a minute ...</p>
             </div>
 
         </div>

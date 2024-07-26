@@ -4,7 +4,7 @@ from PIL import Image
 
 from slideshow.logger import log
 
-PHOTOS_DIR = "../../photos/"
+PHOTOS_DIR = "../../assets/"
 ORIGINALS_DIR = "../../originals/"
 
 

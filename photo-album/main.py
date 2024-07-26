@@ -10,6 +10,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from slideshow.logger import log
 from slideshow.config import settings
 from slideshow.routes import router as main_router
+from slideshow.photos import router as photos_router
 from slideshow.videos import router as videos_router
 from slideshow.secret import read_auth_api_secret, get_value_from_secret
 
@@ -41,8 +42,9 @@ def get_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
     app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
     app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
-    app.mount("/photos", StaticFiles(directory=settings.PHOTOS_DIR), name="photos")
+    app.mount("/assets", StaticFiles(directory=settings.PHOTOS_DIR), name="assets")
     app.include_router(main_router)
+    app.include_router(photos_router)
     app.include_router(videos_router)
     return app
 

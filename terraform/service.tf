@@ -45,7 +45,7 @@ resource "google_cloud_run_v2_service" "app" {
 
       volume_mounts {
         name = "photos-bucket"
-        mount_path = "/photos"
+        mount_path = "/assets"
       }
 
       startup_probe {

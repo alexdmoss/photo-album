@@ -50,7 +50,6 @@ async def videos(request: Request, album: Optional[str], user: Optional[dict] = 
 
 @router.get("/video-albums/{album}")
 async def video_albums(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
-    videos = await load_videos(album)
     if user is None:
         # User is not authenticated, redirect to login
         request.session['origin'] = f"/videos/{album}"
@@ -62,6 +61,7 @@ async def video_albums(request: Request, album: Optional[str], user: Optional[di
             }
         )
     else:
+        videos = await load_videos(album)
         return templates.TemplateResponse(
             f"{album}/videos.html",
             {

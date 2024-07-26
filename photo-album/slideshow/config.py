@@ -13,14 +13,14 @@ class Settings(BaseSettings):
     APP_DIR: Path = APP_DIR
     STATIC_DIR: Path = APP_DIR / "static"
     TEMPLATE_DIR: Path = APP_DIR / "templates"
-    PHOTOS_DIR: Path = APP_DIR / "../../photos"
+    PHOTOS_DIR: Path = APP_DIR / "../../assets"
 
     AUTH_PROJECT_ID: str = getenv("AUTH_PROJECT_ID", "auth-project-not-set")
     AUTH_SECRET_ID: str = "auth-api"
 
-    # @TODO: make configurable
+    
     GCS_BUCKET_NAME: str = "alexos-photo-albums"
-    GCS_BUCKET_PHOTOS_PATH: str = "daisy/processed"
+
 
     FASTAPI_PROPERTIES: dict[str, Any] = {
         "title": "Photo Slideshow",

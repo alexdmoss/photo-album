@@ -13,6 +13,7 @@ spec:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        gke-gcsfuse/volumes: "true"
     spec:
       serviceAccountName: photo-album
       containers:
@@ -65,4 +66,10 @@ spec:
         - name: tmp-volume
           emptyDir: {}
         - name: assets-volume
-          emptyDir: {}
+          csi:
+            driver: gcsfuse.csi.storage.gke.io
+            readOnly: true
+            volumeAttributes:
+              bucketName: $BUCKET_NAME
+              mountOptions: "implicit-dirs"
+              gcsfuseLoggingSeverity: warning

@@ -9,9 +9,10 @@ variables:
   APP_NAME: photo-album
   IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
   DOCKERFILE: Dockerfile
-  PHOTOS_BUCKET: alexos-photo-albums
+  BUCKET_NAME: alexos-photo-albums
   PHOTOS_PROJECT_ID: $MW_PROJECT_ID
   AUTH_PROJECT_ID: $MW_PROJECT_ID
+  ALLOWED_USERS: $ALLOWED_PHOTO_USERS
 
 # ------------- Templates ------------- #
 

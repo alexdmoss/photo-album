@@ -1,0 +1,38 @@
+---
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: photo-album
+spec:
+  parentRefs:
+  - kind: Gateway
+    name: shared-gateway
+    namespace: ingress
+  hostnames:
+  - photos.alexos.dev
+  rules:
+  - backendRefs:
+    - name: photo-album
+      port: 8000
+---
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: photo-album
+spec:
+  default:
+    checkIntervalSec: 15
+    timeoutSec: 15
+    healthyThreshold: 1
+    unhealthyThreshold: 2
+    logConfig:
+      enabled: true
+    config:
+      type: HTTP
+      httpHealthCheck:
+        port: 8000
+        requestPath: /health
+  targetRef:
+    group: ""
+    kind: Service
+    name: photo-album

@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: photo-album
+
+commonLabels:
+  app: photo-album
+
+resources:
+  - deployment.yaml
+  - ingress.yaml
+  - service.yaml
+  - service-account.yaml

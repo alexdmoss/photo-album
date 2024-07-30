@@ -1,0 +1,68 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photo-album
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    spec:
+      serviceAccountName: photo-album
+      containers:
+      - name: photo-album
+        image: photo-album:SET_BY_CI
+        env:
+          - name: SKIP_TAILWIND_GENERATION
+            value: "True"
+          - name: ALLOWED_USERS
+            value: $ALLOWED_USERS
+          - name: AUTH_PROJECT_ID
+            value: $AUTH_PROJECT_ID
+        ports:
+        - name: app
+          containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: app
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 1
+        workingDir: /app
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            cpu: 50m
+            memory: 100Mi
+        securityContext:
+          runAsUser: 1000
+          allowPrivilegeEscalation: false
+          privileged: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+          - mountPath: /tmp
+            name: tmp-volume
+          - mountPath: /assets
+            name: assets-volume
+      restartPolicy: Always
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+      terminationGracePeriodSeconds: 25
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
+        - name: assets-volume
+          emptyDir: {}

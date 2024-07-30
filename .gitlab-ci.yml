@@ -6,10 +6,7 @@ stages:
 
 variables:
   GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
-  REGION: europe-west1
-  DOMAIN: photos.alexos.dev
   APP_NAME: photo-album
-  PORT: 8000
   IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
   DOCKERFILE: Dockerfile
   PHOTOS_BUCKET: alexos-photo-albums
@@ -32,14 +29,16 @@ variables:
   script:
   - ./scripts/build.sh
 
-
-.deploy:
-  stage: deploy
+.deploy: 
+  image: al3xos/ci-tools:latest
   only:
   - main
-  image: al3xos/ci-tools:latest
+  before_script:
+  - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - region=$(gcloud container clusters list --project=${GCP_PROJECT_ID} --filter "NAME=${CLUSTER_NAME}" --format "value(zone)")
+  - gcloud container clusters get-credentials ${CLUSTER_NAME} --project=${GCP_PROJECT_ID} --region=${region}
   script:
-    - ./scripts/deploy.sh
+  - ./scripts/deploy.sh
   
 # --------------- Stages -------------- #
 

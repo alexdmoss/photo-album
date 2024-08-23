@@ -6,7 +6,7 @@ stages:
 
 variables:
   GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
-  BUCKET_NAME: alexos-photo-albums
+  BUCKET_NAME: alexos-photos
   AUTH_PROJECT_ID: $MW_PROJECT_ID
   ALLOWED_USERS: $ALLOWED_PHOTO_USERS
 

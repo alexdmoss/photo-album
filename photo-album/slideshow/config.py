@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     AUTH_SECRET_ID: str = "auth-api"
 
     
-    GCS_BUCKET_NAME: str = "alexos-photo-albums"
+    GCS_BUCKET_NAME: str = "alexos-photos"
 
 
     FASTAPI_PROPERTIES: dict[str, Any] = {

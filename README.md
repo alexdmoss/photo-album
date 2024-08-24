@@ -13,6 +13,9 @@ Currently this isn't very slick!
    1. It is up to you to resize the images first
    2. Use `/videos` if it is a video album instead
    3. Full-size images go into `/originals`
+3. Create a copy of the template in `photo-album/slideshow/templates/$album`
+   1. This creates a lot of duplicate code which is why this stuff needs sorting out!
+   2. Watch for for the formatting of the photo name as a caption
 
 ---
 
@@ -48,6 +51,7 @@ Currently this isn't very slick!
 
 ## Futures
 
+- [ ] Make the list of albums look better - preview, image count, etc
 - [ ] Hard-coding of page titles etc
 - [x] Hard-coding of bucket paths
 - [ ] More htmx less raw JS

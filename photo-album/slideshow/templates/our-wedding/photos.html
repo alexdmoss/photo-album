@@ -6,7 +6,7 @@
                 <div id="slides" class="slides fade flex justify-center items-center w-full h-full">
                     <div class="numbertext font-heading text-xl absolute top-0 left-0">{{ loop.index }} / {{ photos|length }}</div>
                     <img src="/static/img/bars.svg" alt="Photo {{ loop.index }}" class="max-w-full max-h-full object-contain lazyload" data-src="/assets/{{ photo }}" />
-                    <div class="caption text-right absolute top-0 right-0 font-heading text-xl">{{ photo }}</div>
+                    <div class="caption text-right absolute top-0 right-0 font-heading text-xl">{{ photo.split('/')[-1] }}</div>
                 </div>
                 {% endfor %}
 

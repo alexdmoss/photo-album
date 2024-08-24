@@ -4,6 +4,18 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ---
 
+## Adding Albums
+
+Currently this isn't very slick!
+
+1. Add a link and name the album in `photo-album/slideshow/templates/main.html`
+2. Copy the images to `gs://alexos-photos/$album/processed/`
+   1. It is up to you to resize the images first
+   2. Use `/videos` if it is a video album instead
+   3. Full-size images go into `/originals`
+
+---
+
 ## To Do
 
 - [x] Resize images to fit browser window
@@ -36,7 +48,6 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 ## Futures
 
-- [ ] _deferred - set minInstances for now_ Slow startup. Why? ~30s
 - [ ] Hard-coding of page titles etc
 - [x] Hard-coding of bucket paths
 - [ ] More htmx less raw JS

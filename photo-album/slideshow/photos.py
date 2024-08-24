@@ -19,9 +19,9 @@ async def daisy(request: Request, album: Optional[str], user: Optional[dict] = D
         page_title = "Daisy's 40th"
         page_description = "Photos for Daisy's 40th Birthday"
     else:
-        site_name = "Photos Albums"
-        page_title = "Photos Albums"
-        page_description = "Photos Albums"
+        site_name = "Photo Albums"
+        page_title = "Photo Albums"
+        page_description = "Photo Albums"
 
     if user is None:
         # User is not authenticated, redirect to login

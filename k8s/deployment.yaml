@@ -21,7 +21,7 @@ spec:
         image: photo-album:SET_BY_CI
         env:
           - name: SKIP_TAILWIND_GENERATION
-            value: "True"
+            value: "true"
           - name: ALLOWED_USERS
             value: $ALLOWED_USERS
           - name: AUTH_PROJECT_ID

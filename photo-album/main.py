@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from slideshow.logger import log
 from slideshow.config import settings
@@ -40,6 +41,7 @@ async def lifespan(app: FastAPI):
 
 def get_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
+    Instrumentator().instrument(app).expose(app)
     app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
     app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
     app.mount("/assets", StaticFiles(directory=settings.PHOTOS_DIR), name="assets")

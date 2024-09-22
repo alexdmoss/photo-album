@@ -1,6 +1,7 @@
 import tempfile
 import zipfile
 import os
+import httpx
 
 from datetime import datetime
 
@@ -8,7 +9,8 @@ from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
-from starlette.responses import RedirectResponse
+from starlette.responses import RedirectResponse, Response
+from starlette.requests import Request
 
 from slideshow.logger import log
 from slideshow.config import settings
@@ -43,6 +45,15 @@ async def index(request: Request):
 @router.get("/health")
 async def healthz(request: Request):
     return "OK"
+
+
+@router.post("/api/event")
+async def plausible(response: Response):
+    async with httpx.AsyncClient() as client:
+        proxy = await client.post("https://plausible.alexos.dev/api/event")
+    response.body = proxy.content
+    response.status_code = proxy.status_code
+    return response
 
 
 @router.get("/download")

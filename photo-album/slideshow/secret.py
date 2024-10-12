@@ -14,7 +14,7 @@ def secret_manager_client():
 def read_auth_api_secret():
 
     client = secret_manager_client()
-    name = f"projects/{settings.AUTH_PROJECT_ID}/secrets/{settings.AUTH_SECRET_ID}/versions/latest"
+    name = f"projects/{settings.GCP_PROJECT_ID}/secrets/{settings.AUTH_SECRET_ID}/versions/latest"
 
     response = client.access_secret_version(request={"name": name})
 

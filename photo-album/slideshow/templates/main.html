@@ -11,22 +11,20 @@
             <div class="flex mt-8">
                 <p>Welcome back {{ email }}. <a class="underline" href="/logout">Logout</a></p>
             </div>
+            <div class="flex mt-8">
+                <ul>
+                    {% for album in albums %}
+                    <li class="mb-4"><a class="underline" href="/{{ album.Type }}/{{ album.Name }}">{{ album.Title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
             {% else %}
             <div class="flex mt-8">
                 <p>Please log in to view photos. <a class="underline" href="/login">Log In</a></p>
             </div>
             {% endif %}
 
-            <div class="flex mt-8">
-                <ul>
-                    <li class="mb-4"><a class="underline" href="/photos/daisy">Daisy's 40th - Photos</a></li>
-                    <li class="mb-4"><a class="underline" href="/videos/daisy">Daisy's 40th - Videos</a></li>
-                    <li class="mb-4"><a class="underline" href="/photos/our-wedding">Our Wedding</a></li>
-                    <li class="mb-4"><a class="underline" href="/photos/our-honeymoon">Our Honeymoon</a></li>
-                    <li class="mb-4"><a class="underline" href="/photos/wedding-photo-booth">Wedding Photo Booth</a></li>
-                    <li class="mb-4"><a class="underline" href="/photos/richmond-park-2016">Richmond Park, 2016</a></li>
-                </ul>                
-            </div>
 
 
         </div>

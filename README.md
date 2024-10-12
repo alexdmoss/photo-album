@@ -66,7 +66,7 @@ Currently this isn't very slick!
 
 ```sh
 poetry install --no-root
-export AUTH_PROJECT_ID=<project-with-auth-secret>
+export GCP_PROJECT_ID=<project-with-auth-secret+firestore>
 export ALLOWED_USERS=<csv-of-google-emails>
 ./run-local.sh
 ```

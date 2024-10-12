@@ -7,7 +7,7 @@ stages:
 variables:
   GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
   BUCKET_NAME: alexos-photos
-  AUTH_PROJECT_ID: $MW_PROJECT_ID
+  GCP_PROJECT_ID: $MW_PROJECT_ID
   ALLOWED_USERS: $ALLOWED_PHOTO_USERS
 
 # ------------- Templates ------------- #
@@ -26,4 +26,4 @@ include:
       namespace: photo-album
       image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
       manifest-dir: k8s
-      env-sub: '"\$GCP_PROJECT_ID \$AUTH_PROJECT_ID \$ALLOWED_USERS \$BUCKET_NAME"'
+      env-sub: '"\$GCP_PROJECT_ID \$GCP_PROJECT_ID \$ALLOWED_USERS \$BUCKET_NAME"'

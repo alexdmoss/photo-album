@@ -15,7 +15,7 @@ from starlette.requests import Request
 from slideshow.logger import log
 from slideshow.config import settings
 from slideshow.auth import oauth, is_user_authorised
-
+from slideshow.albums import get_albums
 
 templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
 templates.env.filters['strftime'] = lambda value, format='%d/%m/%Y': datetime.strptime(value, '%Y-%m-%d').strftime(format)
@@ -26,9 +26,11 @@ router = APIRouter()
 @router.get("/")
 async def index(request: Request):
     email = None
+    albums = None
     user = request.session.get('user')
     if user is not None:
         email = user['email']
+        albums = get_albums()
 
     return templates.TemplateResponse(
         "main.html",
@@ -38,6 +40,7 @@ async def index(request: Request):
             "page_description": "Alex's Photo & Video Albums",
             "request": request,
             "email": email,
+            "albums": albums,
         }
     )
 

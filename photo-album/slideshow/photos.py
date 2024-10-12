@@ -78,7 +78,7 @@ async def load_photos(album: str):
     sub_path = f"{album}/processed"
     local_dir = join(settings.PHOTOS_DIR, sub_path)
 
-    photo_files = list_photos_in_dir(local_dir, sub_path, ".jpg")
+    photo_files = list_photos_in_dir(local_dir, sub_path)
     if len(photo_files) == 0:
 
         # nothing saved locally - grab the processed photos from GCS bucket instead
@@ -89,15 +89,19 @@ async def load_photos(album: str):
         blobs = bucket.list_blobs(prefix=sub_path)
 
         for blob in blobs:
-            if blob.name.endswith('.jpg'):
+            if valid_photo(blob.name):
                 destination_file_name = join(settings.PHOTOS_DIR, blob.name)
                 log.debug(f"Downloading {blob.name} to {destination_file_name}")
                 blob.download_to_filename(destination_file_name)
 
-        photo_files = list_photos_in_dir(local_dir, sub_path, ".jpg")
-
     return photo_files
 
 
-def list_photos_in_dir(directory, sub_path, extension):
-    return sorted([join(sub_path, f) for f in listdir(directory) if f.endswith(extension)])
+def list_photos_in_dir(directory, sub_path):
+    return sorted([join(sub_path, f) for f in listdir(directory) if valid_photo(f)])
+
+
+def valid_photo(filename):
+    if filename.endswith(".jpg") or filename.endswith(".JPG"):
+        return True
+    return False

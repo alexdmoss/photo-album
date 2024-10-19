@@ -24,8 +24,8 @@ spec:
             value: "true"
           - name: ALLOWED_USERS
             value: $ALLOWED_USERS
-          - name: GCP_PROJECT_ID
-            value: $GCP_PROJECT_ID
+          - name: DATA_PROJECT_ID
+            value: $DATA_PROJECT_ID
         ports:
         - name: app
           containerPort: 8000

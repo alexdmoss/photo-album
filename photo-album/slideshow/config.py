@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     PHOTOS_DIR: Path = APP_DIR / "../../assets"
 
     # assumes the secret for auth-api + the firestore collections are in the same project
-    GCP_PROJECT_ID: str = getenv("GCP_PROJECT_ID", "gcp-project-not-set")
+    DATA_PROJECT_ID: str = getenv("DATA_PROJECT_ID", "gcp-project-not-set")
     AUTH_SECRET_ID: str = "auth-api"
 
     

@@ -16,6 +16,11 @@ Currently this isn't very slick!
 3. Create a copy of the template in `photo-album/slideshow/templates/$album`
    1. This creates a lot of duplicate code which is why this stuff needs sorting out!
    2. Watch for for the formatting of the photo name as a caption
+4. Create the album document in the `albums` collection - copying an existing one's fields is easiest here
+
+## Adding Users
+
+They go in the `users` collection, with `photo-album` added to the array of apps they are allowed access to. Don't forget they need granting access to the relevant `albums`.
 
 ---
 

@@ -4,8 +4,8 @@ ALBUM_COLLECTION = "albums"
 ORDER_BY = "AlbumDate"
 
 
-def get_albums():
-    dataset = db_client.collection(ALBUM_COLLECTION)
-    query = dataset.order_by(ORDER_BY, direction=Query.DESCENDING)
-    results = query.stream()
-    return [result.to_dict() for result in results]
+def get_albums(user: str):
+    dataset = db_client.collection(ALBUM_COLLECTION).order_by(ORDER_BY, direction=Query.DESCENDING)
+    results = dataset.stream()
+    # filtering client-side rather than with where clause to avoid need for index management
+    return [result.to_dict() for result in results if user in result.to_dict().get("Users", [])]

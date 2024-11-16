@@ -30,7 +30,7 @@ async def index(request: Request):
     user = request.session.get('user')
     if user is not None:
         email = user['email']
-        albums = get_albums()
+        albums = get_albums(email)
 
     return templates.TemplateResponse(
         "main.html",

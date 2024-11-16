@@ -19,41 +19,14 @@ Currently this isn't very slick!
 
 ---
 
-## To Do
-
-- [x] Resize images to fit browser window
-- [x] Clean up look and feel
-- [x] Load images from Google Storage
-- [x] OAuth sign-in
-- [x] Download all photos option
-- [-] _this was annoying_ Snazzy transitions
-- [x] Option to configure speed of carousel
-- [x] Option to stop/start carousel
-- [x] Get running in Cloud Run
-- [x] The post-processing is annoying - maybe we can get rid of the resizing completely?
-- [x] Home Page content
-- [x] Clean up logging implementation - lot of duplication
-- [x] Handling video
-- [x] Download final set of images and make sure rotation/sizing is correct
-- [x] Home link styling
-- [x] Move controls to top-right
-
 ## Bugs
 
-- [x] prev/next is not always stopping the slideshow
-- [x] left/right/space keybinds
 - [ ] download option times out - needs progress spinner perhaps
-- [x] Not sure image sizing is quite right - padding and move things around?
-- [x] Direct user to log in instead of just showing error message when times out / going direct to photos?
-- [x] FontAwesome sourced locally
-- [x] Send user back to original page after login, not index
-- [x] Need to test behaviour when slow internet - probably need lazy-load of images
 
-## Futures
+## To Do
 
 - [ ] Make the list of albums look better - preview, image count, etc
 - [ ] Hard-coding of page titles etc
-- [x] Hard-coding of bucket paths
 - [ ] More htmx less raw JS
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
 - [ ] Captions that aren't the filename
@@ -65,9 +38,8 @@ Currently this isn't very slick!
 ## Local Dev
 
 ```sh
-poetry install --no-root
+poetry install --no-root   # one-off
 export DATA_PROJECT_ID=<project-with-auth-secret+firestore>
-export ALLOWED_USERS=<csv-of-google-emails>
 ./run-local.sh
 ```
 

@@ -6,7 +6,7 @@ import httpx
 from datetime import datetime
 
 from fastapi import APIRouter, Request, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
 from starlette.responses import RedirectResponse, Response
@@ -85,17 +85,30 @@ async def login(request: Request):
 
 @router.route('/auth/google')
 async def auth(request: Request):
-    token = await oauth.google.authorize_access_token(request)
 
-    if is_user_authorised(token['userinfo']['email']):
-        request.session['user'] = token['userinfo']
-        if "origin" in request.session:
-            return RedirectResponse(url=request.session["origin"])
-        else:
-            return RedirectResponse(url='/')
-    else:
-        log.warn(f"User not permitted [{token['userinfo']['email']}]")
-        raise HTTPException(403, "User not permitted - sorry!")
+    try:
+        token = await oauth.google.authorize_access_token(request)
+
+        if is_user_authorised(token['userinfo']['email']):
+            request.session['user'] = token['userinfo']
+            if "origin" in request.session:
+                return RedirectResponse(url=request.session["origin"])
+            else:
+                return RedirectResponse(url='/')
+
+    except HTTPException as e:
+        log.error(f"A HTTP Exception occurred [{e.detail}]")
+        return templates.TemplateResponse(
+            status_code=e.status_code,
+            name="error.html",
+            context={
+                "site_name": "Photo Albums",
+                "page_title": "Error",
+                "page_description": "Alex's Photo & Video Albums",
+                "error_msg": e.detail,
+                "request": request,
+            }
+        )
 
 
 @router.get('/logout')

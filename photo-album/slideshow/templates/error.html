@@ -1,0 +1,23 @@
+{% extends "/shared/_base.html" %}
+
+{% block content %}
+
+<section id="body" class="flex justify-center items-center h-screen">
+    <div id="main" class="flex justify-center items-center w-full h-full relative">
+
+        <div class="flex flex-col items-center w-full h-full text-white mt-16">
+
+            <div class="flex mt-8">
+                <p>An error occurred! {{ error_msg }}</p>
+            </div>
+            <div class="flex mt-8">
+                <p><a class="underline" href="/">Home</a></p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

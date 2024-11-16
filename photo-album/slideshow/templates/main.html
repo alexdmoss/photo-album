@@ -14,14 +14,14 @@
 
             <div class="flex mt-8 flex-wrap">
                 {% for album in albums %}
-                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 mb-4 p-4 flex flex-col items-center">
-                    <div class="w-full h-full mb-4 p-4 border-gray-400 border-2 rounded-md flex flex-col items-center">
+                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 p-4 flex flex-col items-center">
+                    <div class="w-full h-full p-4 border-gray-400 border-2 rounded-md flex flex-col items-center">
                         <a class="block text-center mb-2" href="/{{ album.Type }}/{{ album.Name }}">
                             <p class="mb-2">{{ album.Title }}</p>
                             {% if album.Type == "photos" %}
-                            <img src="/assets/{{ album.Name }}/processed/{{ album.Cover }}" />
+                            <img class="h-48 w-auto object-cover" src="/assets/{{ album.Name }}/processed/{{ album.Cover }}" />
                             {% else %}
-                            <img src="/assets/{{ album.Name }}/videos/{{ album.Cover }}" />
+                            <img class="h-48 w-auto object-cover" src="/assets/{{ album.Name }}/videos/{{ album.Cover }}" />
                             {% endif %}
                         </a>
                     </div>

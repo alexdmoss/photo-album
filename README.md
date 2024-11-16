@@ -30,13 +30,12 @@ They go in the `users` collection, with `photo-album` added to the array of apps
 
 ## To Do
 
-- [ ] Make the list of albums look better - preview, image count, etc
+- [ ] Image count for albums
 - [ ] Hard-coding of page titles etc
 - [ ] More htmx less raw JS
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
 - [ ] Captions that aren't the filename
-- [ ] Multiple Album Support
-- [ ] Default album based on who you are when sign-in
+- [ ] Adding albums is a pain - fix this the next time you create one
 
 ---
 

@@ -72,5 +72,6 @@ tmp/
 originals/
 videos/
 assets/
+assets-local/
 
 .terraform/

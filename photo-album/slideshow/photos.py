@@ -9,19 +9,18 @@ from slideshow.logger import log
 from slideshow.config import settings
 from slideshow.auth import get_user
 from slideshow.routes import router, templates
+from slideshow.albums import get_album_title
 
 
 @router.get("/photos/{album}")
 async def daisy(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
-    # @TODO: this should not be hard-coded here
-    if album == "daisy":
-        site_name = "Daisy's 40th"
-        page_title = "Daisy's 40th"
-        page_description = "Photos for Daisy's 40th Birthday"
-    else:
-        site_name = "Photo Albums"
+
+    page_title = get_album_title(album)
+    if page_title is None:
         page_title = "Photo Albums"
-        page_description = "Photo Albums"
+    # @TODO: do something more useful with these fields
+    site_name = page_title
+    page_description = page_title
 
     if user is None:
         # User is not authenticated, redirect to login

@@ -8,15 +8,15 @@ Photo Slideshow application using FastAPI + TailwindCSS + HTMX. Initial implemen
 
 Currently this isn't very slick!
 
-1. Add a link and name the album in `photo-album/slideshow/templates/main.html`
+1. Create the album document in the `albums` collection - copying an existing one's fields is easiest here
 2. Copy the images to `gs://alexos-photos/$album/processed/`
    1. It is up to you to resize the images first
-   2. Use `/videos` if it is a video album instead
-   3. Full-size images go into `/originals`
+   2. Ensure you set a `cover.jpg` or specify a different image when configuring the album
+   3. Use `/videos` if it is a video album instead
+   4. Full-size images go into `/originals`
 3. Create a copy of the template in `photo-album/slideshow/templates/$album`
    1. This creates a lot of duplicate code which is why this stuff needs sorting out!
    2. Watch for for the formatting of the photo name as a caption
-4. Create the album document in the `albums` collection - copying an existing one's fields is easiest here
 
 ## Adding Users
 

@@ -79,7 +79,7 @@ async def load_videos(album: str):
     sub_path = f"{album}/videos"
 
     local_dir = join(settings.PHOTOS_DIR, sub_path)
-    allowed_extensions = [".mp4", ".mkv", ".m4v"]
+    allowed_extensions = [".mp4", ".mkv", ".m4v", ".mov"]
 
     video_files = list_videos_in_dir(local_dir, sub_path, allowed_extensions)
     if len(video_files) == 0:

@@ -1,14 +1,14 @@
 import os
 
-STARTING_DIR = "/mnt/d/Tech/Lou Christmas"
+STARTING_DIR = "/mnt/c/Lou Videos"
 
-print("Renaming images")
+print("Renaming movies")
 
 for root, _, files in os.walk(STARTING_DIR):
 
     for file in files:
 
-        if file.endswith(".jpg") or file.endswith(".JPG"):
+        if file.endswith(".mp4"):
 
             full_path = os.path.join(root, file)
 
@@ -19,7 +19,7 @@ for root, _, files in os.walk(STARTING_DIR):
                 day = file[6:8]
                 new_filename = year + "." + month + "." + day + file[8:]
             # does filename match IMG-YYYYMMDD-*
-            elif file.startswith("IMG-"):
+            elif file.startswith("VID-"):
                 year = file[4:8]
                 month = file[8:10]
                 day = file[10:12]
@@ -31,4 +31,3 @@ for root, _, files in os.walk(STARTING_DIR):
             new_path = os.path.join(root, new_filename)
             print(f"-> [INFO] Renaming [{full_path}] to [{new_path}]")
             os.rename(full_path, new_path)
-

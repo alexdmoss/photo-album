@@ -15,7 +15,7 @@ Currently this isn't very slick!
    3. Use `/videos` if it is a video album instead
    4. Full-size images go into `/originals`
 3. Create a copy of the template in `photo-album/slideshow/templates/$album`
-   1. This creates a lot of duplicate code which is why this stuff needs sorting out!
+   1. Most are now the same as each other - think only Daisy is different. Likely can massively simplify this, but the HTMX lazyload is adding a bit of complexity here
    2. Watch for for the formatting of the photo name as a caption
 
 ## Adding Users
@@ -31,6 +31,7 @@ They go in the `users` collection, with `photo-album` added to the array of apps
 ## To Do
 
 - [ ] Image count for albums
+- [ ] "Likes" to help see which are popular for e.g. printing/physical album
 - [ ] Hard-coding of page titles etc
 - [ ] More htmx less raw JS
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing

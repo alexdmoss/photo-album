@@ -30,9 +30,10 @@ They go in the `users` collection, with `photo-album` added to the array of apps
 
 ## To Do
 
-- [ ] Image count for albums
+- [x] Image count for albums
+- [x] Show whether an album is photo or video
 - [ ] "Likes" to help see which are popular for e.g. printing/physical album
-- [ ] Hard-coding of page titles etc
+- [x] Hard-coding of page titles etc
 - [ ] More htmx less raw JS
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
 - [ ] Captions that aren't the filename

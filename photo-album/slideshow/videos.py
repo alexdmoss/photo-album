@@ -9,20 +9,18 @@ from slideshow.clients.storage import create_storage_client
 from slideshow.config import settings
 from slideshow.routes import router, templates
 from slideshow.auth import get_user
+from slideshow.albums import get_album_title
 
 
 @router.get("/videos/{album}")
 async def videos(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
 
-    # @TODO: this should not be hard-coded here
-    if album == "daisy":
-        site_name = "Videos - Daisy's 40th"
-        page_title = "Videos - Daisy's 40th"
-        page_description = "Videos for Daisy's 40th Birthday"
-    else:
-        site_name = "Video Albums"
+    page_title = get_album_title(album)
+    if page_title is None:
         page_title = "Video Albums"
-        page_description = "Video Albums"
+    # @TODO: do something more useful with these fields
+    site_name = page_title
+    page_description = page_title
 
     if user is None:
         # User is not authenticated, redirect to login
@@ -36,7 +34,7 @@ async def videos(request: Request, album: Optional[str], user: Optional[dict] = 
         )
     else:
         return templates.TemplateResponse(
-            "videos.html",
+            "video-album.html",
             {
                 "site_name": site_name,
                 "page_title": page_title,
@@ -63,11 +61,8 @@ async def video_albums(request: Request, album: Optional[str], user: Optional[di
     else:
         videos = await load_videos(album)
         return templates.TemplateResponse(
-            f"{album}/videos.html",
+            "videos.html",
             {
-                "site_name": "Daisy's 40th Birthday - Videos",
-                "page_title": "Daisy's 40th Birthday - Videos",
-                "page_description": "Videos for Daisy's 40th Birthday",
                 "videos": videos,
                 "request": request,
             }
@@ -103,4 +98,7 @@ async def load_videos(album: str):
 
 
 def list_videos_in_dir(directory, sub_path, extensions):
-    return sorted([join(sub_path, f) for f in listdir(directory) if any(f.endswith(ext) for ext in extensions)])
+    try:
+        return sorted([join(sub_path, f) for f in listdir(directory) if any(f.endswith(ext) for ext in extensions)])
+    except FileNotFoundError:
+        return []

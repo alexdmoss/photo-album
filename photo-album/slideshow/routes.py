@@ -1,6 +1,7 @@
 import tempfile
 import zipfile
 import os
+import re
 
 from datetime import datetime
 
@@ -15,8 +16,26 @@ from slideshow.config import settings
 from slideshow.auth import oauth, is_user_authorised
 from slideshow.albums import get_albums
 
+
+def format_caption(value):
+    filename = value.split('/')[-1]
+    # many bothans died to provide us with this regular expression
+    match = re.match(r'^(?P<date>\d{4}[-.]\d{2}[-.]\d{2})[_. ](?P<rest>.*)\.(?P<ext>[^.]+)$', filename)
+    if match:
+        date_string = match.group('date').replace('-', '.')
+        try:
+            formatted_date = datetime.strptime(date_string, '%Y.%m.%d').strftime('%d/%m/%Y')
+            rest_of_name = match.group('rest')
+            return f"{formatted_date}: {rest_of_name}"
+        except ValueError:
+            return filename.rsplit('.', 1)[0]
+    else:
+        return filename.rsplit('.', 1)[0]  # remove extension
+
+
 templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
-templates.env.filters['strftime'] = lambda value, format='%d/%m/%Y': datetime.strptime(value, '%Y-%m-%d').strftime(format)
+templates.env.filters['format_caption'] = format_caption
+
 
 router = APIRouter()
 

@@ -13,7 +13,7 @@ from slideshow.albums import get_album_title
 
 
 @router.get("/photos/{album}")
-async def daisy(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
+async def photos(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
 
     page_title = get_album_title(album)
     if page_title is None:
@@ -34,7 +34,7 @@ async def daisy(request: Request, album: Optional[str], user: Optional[dict] = D
         )
     else:
         return templates.TemplateResponse(
-            "photos.html",
+            "photo-album.html",
             {
                 "site_name": site_name,
                 "page_title": page_title,
@@ -62,11 +62,8 @@ async def photo_albums(request: Request, album: Optional[str], user: Optional[di
     else:
         photos = await load_photos(album)
         return templates.TemplateResponse(
-            f"{album}/photos.html",
+            f"photos.html",
             {
-                "site_name": "Daisy's 40th Birthday - Photos",
-                "page_title": "Daisy's 40th Birthday - Photos",
-                "page_description": "Photos for Daisy's 40th Birthday",
                 "photos": photos,
                 "request": request,
             }
@@ -98,7 +95,10 @@ async def load_photos(album: str):
 
 
 def list_photos_in_dir(directory, sub_path):
-    return sorted([join(sub_path, f) for f in listdir(directory) if valid_photo(f)])
+    try:
+        return sorted([join(sub_path, f) for f in listdir(directory) if valid_photo(f)])
+    except FileNotFoundError:
+        return []
 
 
 def valid_photo(filename):

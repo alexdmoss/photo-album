@@ -2,7 +2,7 @@ import os
 
 from dataclasses import dataclass
 
-from slideshow.clients.firestore import db_client, Query
+from slideshow.clients.firestore import db_client, FIRESTORE_QUERY
 from slideshow.config import settings
 from slideshow.logger import log
 
@@ -22,7 +22,7 @@ class Album:
 def get_albums(user: str):
 
     albums = []
-    dataset = db_client.collection(ALBUM_COLLECTION).order_by(ORDER_BY, direction=Query.DESCENDING)
+    dataset = db_client.collection(ALBUM_COLLECTION).order_by(ORDER_BY, direction=FIRESTORE_QUERY.DESCENDING)
     results = dataset.stream()
 
     for result in results:

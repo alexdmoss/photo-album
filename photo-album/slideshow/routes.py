@@ -1,16 +1,14 @@
 import tempfile
 import zipfile
 import os
-import httpx
 
 from datetime import datetime
 
 from fastapi import APIRouter, Request, HTTPException
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
-from starlette.responses import RedirectResponse, Response
-from starlette.requests import Request
+from starlette.responses import RedirectResponse
 
 from slideshow.logger import log
 from slideshow.config import settings

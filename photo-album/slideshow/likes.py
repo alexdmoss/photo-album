@@ -1,6 +1,4 @@
-from typing import Optional, List
-from dataclasses import dataclass, field
-
+from typing import Optional
 
 from fastapi import Request, Depends
 from fastapi.responses import HTMLResponse
@@ -24,7 +22,7 @@ async def likes(request: Request, album: str, asset: str, user: Optional[dict] =
                 "request": request,
             }
         )
-    
+
     document_id = f"{album}-{asset}"
     likes_collection = db_client.collection("likes")
     asset_doc_ref = likes_collection.document(document_id)
@@ -41,7 +39,7 @@ async def likes(request: Request, album: str, asset: str, user: Optional[dict] =
             like_data["Users"].append(user["email"])
 
         asset_doc_ref.set(like_data, merge=True)  # merge avoids field overwrite
-        
+
         return HTMLResponse("<i class=\"fa-solid fa-heart\"></i>")
 
     except Exception as e:

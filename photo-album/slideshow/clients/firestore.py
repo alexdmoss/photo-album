@@ -1,5 +1,4 @@
 from google.cloud import firestore
-from google.cloud.firestore import Query
 
 from slideshow.config import settings
 from slideshow.logger import log

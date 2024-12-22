@@ -72,6 +72,7 @@ async def photo_albums(request: Request, album: Optional[str], user: Optional[di
             }
         )
 
+
 async def load_photos(album: str):
 
     sub_path = f"{album}/processed"

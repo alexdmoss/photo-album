@@ -30,11 +30,11 @@ def get_albums(user: str):
         if user in result.to_dict().get("Users", []):
             album_data = result.to_dict()
             album = Album(
-                Name = album_data["Name"],
-                Title = album_data["Title"],
-                Type = album_data["Type"],
-                Cover = album_data["Cover"],
-                ImageCount = get_number_of_images(album_data["Name"])
+                Name=album_data["Name"],
+                Title=album_data["Title"],
+                Type=album_data["Type"],
+                Cover=album_data["Cover"],
+                ImageCount=get_number_of_images(album_data["Name"])
             )
             albums.append(album)
 
@@ -48,14 +48,6 @@ def get_album_title(album: str):
     for doc in docs:
         return doc.to_dict().get("Title")
     return None
-
-
-# def get_number_of_images(album: str):
-#     client = create_storage_client()
-#     bucket = client.get_bucket(settings.GCS_BUCKET_NAME)
-#     prefix = f"{album}/processed/"
-#     blobs = bucket.list_blobs(prefix=prefix)
-#     return sum(1 for _ in blobs)
 
 
 def get_number_of_images(album: str):

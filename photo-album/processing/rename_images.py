@@ -25,10 +25,9 @@ for root, _, files in os.walk(STARTING_DIR):
                 day = file[10:12]
                 new_filename = year + "." + month + "." + day + file[12:]
             else:
-                print (f"-> [WARN] Failed to match filename to date [{full_path}]")
+                print(f"-> [WARN] Failed to match filename to date [{full_path}]")
                 continue
 
             new_path = os.path.join(root, new_filename)
             print(f"-> [INFO] Renaming [{full_path}] to [{new_path}]")
             os.rename(full_path, new_path)
-

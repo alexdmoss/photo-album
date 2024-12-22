@@ -19,9 +19,7 @@ class Settings(BaseSettings):
     DATA_PROJECT_ID: str = getenv("DATA_PROJECT_ID", "gcp-project-not-set")
     AUTH_SECRET_ID: str = "auth-api"
 
-    
     GCS_BUCKET_NAME: str = "alexos-photos"
-
 
     FASTAPI_PROPERTIES: dict[str, Any] = {
         "title": "Photo Slideshow",

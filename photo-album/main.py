@@ -13,6 +13,7 @@ from slideshow.config import settings
 from slideshow.routes import router as main_router
 from slideshow.photos import router as photos_router
 from slideshow.videos import router as videos_router
+from slideshow.likes import router as likes_router
 from slideshow.secret import read_auth_api_secret, get_value_from_secret
 
 SECRET_KEY = get_value_from_secret(read_auth_api_secret(), "secret-key")
@@ -48,6 +49,7 @@ def get_app() -> FastAPI:
     app.include_router(main_router)
     app.include_router(photos_router)
     app.include_router(videos_router)
+    app.include_router(likes_router)
     return app
 
 

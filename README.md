@@ -11,12 +11,10 @@ Currently this isn't very slick!
 1. Create the album document in the `albums` collection - copying an existing one's fields is easiest here
 2. Copy the images to `gs://alexos-photos/$album/processed/`
    1. It is up to you to resize the images first
-   2. Ensure you set a `cover.jpg` or specify a different image when configuring the album
-   3. Use `/videos` if it is a video album instead
-   4. Full-size images go into `/originals`
-3. Create a copy of the template in `photo-album/slideshow/templates/$album`
-   1. Most are now the same as each other - think only Daisy is different. Likely can massively simplify this, but the HTMX lazyload is adding a bit of complexity here
-   2. Watch for for the formatting of the photo name as a caption
+   2. Calling the files `YYYY-MM-DD.rest` or `YYYY.MM.DD (rest)` will format the date
+   3. Ensure you set a `cover.jpg` or specify a different image when configuring the album
+   4. Use `/videos` if it is a video album instead
+   5. Full-size images can be kept in `/originals`, but are not used currently
 
 ## Adding Users
 
@@ -36,12 +34,12 @@ They go in the `users` collection, with `photo-album` added to the array of apps
 - [x] Hard-coding of page titles etc
 - [ ] More htmx less raw JS
 - [ ] Fix the image processing stuff - currently just extracted it but not tested/fixed as out-of-band thing
-- [ ] Captions that aren't the filename
 - [ ] Adding albums is a pain - fix this the next time you create one
 
 ### Nice To Have
 
 - [ ] Likes could persist beyond the visit. Currently is storing user but not handling via session storage / unlike
+- [ ] Captions that aren't the filename. This requires storing info about the images I think - we handle dates already
 
 ---
 

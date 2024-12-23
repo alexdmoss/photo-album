@@ -34,7 +34,7 @@ def get_albums(user: str):
                 Title=album_data["Title"],
                 Type=album_data["Type"],
                 Cover=album_data["Cover"],
-                ImageCount=get_number_of_images(album_data["Name"])
+                ImageCount=get_number_of_assets(album_name=album_data["Name"], album_type=album_data["Type"])
             )
             albums.append(album)
 
@@ -50,8 +50,12 @@ def get_album_title(album: str):
     return None
 
 
-def get_number_of_images(album: str):
-    album_path = os.path.join(settings.PHOTOS_DIR, album, "processed")
+def get_number_of_assets(album_name: str, album_type: str):
+    if album_type == "photos":
+        sub_path = "processed"
+    else:
+        sub_path = "videos"
+    album_path = os.path.join(settings.PHOTOS_DIR, album_name, sub_path)
     image_count = 0
 
     try:

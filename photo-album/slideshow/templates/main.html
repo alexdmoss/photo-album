@@ -12,9 +12,9 @@
                 <p>Welcome back {{ email }}. <a class="underline" href="/logout">Logout</a></p>
             </div>
 
-            <div class="flex mt-8 flex-wrap">
+            <div class="flex flex-wrap justify-center">  <!-- Added flex-wrap and justify-center -->
                 {% for album in albums %}
-                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 p-4 flex flex-col items-center">
+                <div class="w-full sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] p-4 flex flex-col items-center"> <!-- Added max-w-* classes -->
                     <div class="w-full h-full p-4 border-gray-400 border-2 rounded-md flex flex-col items-center">
                         <a class="block text-center mb-2" href="/{{ album.Type }}/{{ album.Name }}">
                             {% if album.Type == "photos" %}

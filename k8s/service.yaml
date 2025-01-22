@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: photo-album
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: photo-album
   ports:

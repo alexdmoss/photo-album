@@ -1,4 +1,4 @@
-FROM al3xos/python-builder:3.11-debian12 AS builder
+FROM al3xos/python-builder:3.12-debian12 AS builder
 
 COPY photo-album/poetry.lock .
 COPY photo-album/pyproject.toml .
@@ -11,7 +11,7 @@ RUN poetry config virtualenvs.create false && \
 
 # ---------------------------------------------------------------------
 
-FROM al3xos/python-distroless:3.11-debian12
+FROM al3xos/python-distroless:3.12-debian12
 
 COPY photo-album/ /app/
 COPY --chown=monty:monty .keep /assets/.keep

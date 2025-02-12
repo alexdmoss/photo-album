@@ -27,6 +27,7 @@ grpcio = "1.70.0"
 prometheus-fastapi-instrumentator = "^7.0.0"
 google-cloud-firestore = "^2.19.0"
 uvicorn = "*"
+httpx = "^0.28.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"

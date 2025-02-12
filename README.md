@@ -46,7 +46,7 @@ They go in the `users` collection, with `photo-album` added to the array of apps
 ## Local Dev
 
 ```sh
-poetry install --no-root   # one-off
+cd photo-album && poetry install --no-root   # one-off
 export DATA_PROJECT_ID=<project-with-auth-secret+firestore>
 ./run-local.sh
 ```

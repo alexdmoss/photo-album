@@ -786,21 +786,22 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "jinja2-fragments"
-version = "1.8.0"
+version = "1.9.0"
 description = "Render Jinja2 template block as HTML page fragments on Python web frameworks."
 optional = false
-python-versions = "*"
+python-versions = ">=3.9"
 files = [
-    {file = "jinja2_fragments-1.8.0-py3-none-any.whl", hash = "sha256:7b8b1439506f1163dba289869b1cedbf0bea3d9c079d27d6a036ccbf1f04fcec"},
-    {file = "jinja2_fragments-1.8.0.tar.gz", hash = "sha256:d1533348f793c8538163162b59531e07076fd389e65374fc3c050cba6a02324b"},
+    {file = "jinja2_fragments-1.9.0-py3-none-any.whl", hash = "sha256:69b91e7e2f325ea7e391e36a9abcc572db967e2bf3afd35f74fcb78fc9f8c6c5"},
+    {file = "jinja2_fragments-1.9.0.tar.gz", hash = "sha256:d903fe5781da1c1867f5fa6a53c5b58fabe7bd2a2721618db48ecba2974d2429"},
 ]
 
 [package.dependencies]
-jinja2 = ">=3.1.0"
+jinja2 = ">=3.1.0,<4.0.0"
 
 [package.extras]
 dev = ["pre-commit"]
-tests = ["fastapi", "flask (>=2.1.0)", "litestar[standard]", "pytest", "pytest_asyncio", "quart (>=0.18.0)", "sanic", "sanic_ext", "sanic_testing", "starlette[full]"]
+docs = ["sphinx (>=7.0.0)", "sphinx-autodoc-typehints (>=1.25.0)", "sphinx-rtd-theme (>=2.0.0)"]
+tests = ["fastapi (>=0.108.0)", "flask (>=2.1.0)", "litestar[standard]", "pytest", "pytest_asyncio", "quart (>=0.18.0)", "sanic", "sanic_ext", "sanic_testing", "starlette[full] (>=0.29.0)"]
 
 [[package]]
 name = "markupsafe"
@@ -1414,13 +1415,13 @@ full = ["httpx (>=0.27.0,<0.29.0)", "itsdangerous", "jinja2", "python-multipart 
 
 [[package]]
 name = "structlog"
-version = "25.2.0"
+version = "25.3.0"
 description = "Structured Logging for Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "structlog-25.2.0-py3-none-any.whl", hash = "sha256:0fecea2e345d5d491b72f3db2e5fcd6393abfc8cd06a4851f21fcd4d1a99f437"},
-    {file = "structlog-25.2.0.tar.gz", hash = "sha256:d9f9776944207d1035b8b26072b9b140c63702fd7aa57c2f85d28ab701bd8e92"},
+    {file = "structlog-25.3.0-py3-none-any.whl", hash = "sha256:a341f5524004c158498c3127eecded091eb67d3a611e7a3093deca30db06e172"},
+    {file = "structlog-25.3.0.tar.gz", hash = "sha256:8dab497e6f6ca962abad0c283c46744185e0c9ba900db52a423cb6db99f7abeb"},
 ]
 
 [package.extras]
@@ -1473,13 +1474,13 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "uvicorn"
-version = "0.34.1"
+version = "0.34.2"
 description = "The lightning-fast ASGI server."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "uvicorn-0.34.1-py3-none-any.whl", hash = "sha256:984c3a8c7ca18ebaad15995ee7401179212c59521e67bfc390c07fa2b8d2e065"},
-    {file = "uvicorn-0.34.1.tar.gz", hash = "sha256:af981725fc4b7ffc5cb3b0e9eda6258a90c4b52cb2a83ce567ae0a7ae1757afc"},
+    {file = "uvicorn-0.34.2-py3-none-any.whl", hash = "sha256:deb49af569084536d269fe0a6d67e3754f104cf03aba7c11c40f01aadf33c403"},
+    {file = "uvicorn-0.34.2.tar.gz", hash = "sha256:0e929828f6186353a80b58ea719861d2629d766293b6d19baf086ba31d4f3328"},
 ]
 
 [package.dependencies]

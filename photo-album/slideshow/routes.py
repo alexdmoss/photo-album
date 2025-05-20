@@ -95,7 +95,11 @@ async def download(request: Request):
 
 @router.get('/login')
 async def login(request: Request):
-    redirect_uri = request.url_for('auth')
+    redirect_uri = str(request.url_for('auth'))
+    # this workaround is because x-forwarded-proto is not being respected even when the ProxyHeadersMiddleware is enabled
+    host = request.headers.get("host", "")
+    if not (host.startswith("localhost") or host.startswith("127.0.0.1")):
+        redirect_uri = redirect_uri.replace("http://", "https://", 1)
     log.info(f"Login request for [{redirect_uri}]")
     return await oauth.google.authorize_redirect(request, redirect_uri)
 

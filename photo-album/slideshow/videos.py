@@ -63,6 +63,19 @@ async def videos(request: Request, album: Optional[str], user: Optional[dict] = 
 
 @router.get("/video-albums/{album}")
 async def video_albums(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
+
+    if validate_album(album) is False:
+        log.error(f"Invalid album name: {album}")
+        return templates.TemplateResponse(
+            "error.html",
+            {
+                "site_name": "Error",
+                "page_title": "Invalid Album",
+                "page_description": "The requested album is invalid.",
+                "request": request,
+            }
+        )
+
     if user is None:
         # User is not authenticated, redirect to login
         request.session['origin'] = f"/videos/{album}"

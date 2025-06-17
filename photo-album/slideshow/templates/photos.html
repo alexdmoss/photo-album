@@ -11,7 +11,7 @@
                     </button>
 
                     <div class="numbertext font-heading text-xl absolute top-0 left-0">{{ loop.index }} / {{ photos|length }}</div>
-                    <img src="/static/img/bars.svg" alt="Photo {{ loop.index }}" class="max-w-full max-h-full object-contain lazyload" data-src="/assets/{{ photo }}" />
+                    <img src="/static/img/bars.svg" alt="Album Entry {{ loop.index }}" class="max-w-full max-h-full object-contain lazyload" data-src="/assets/{{ photo }}" />
 
                     <div class="caption text-right absolute top-0 right-0 font-heading text-xl">
                         {{ photo | format_caption }}
@@ -21,8 +21,8 @@
                 {% endfor %}
 
                 <!-- Next and previous buttons -->
-                <a class="prev absolute top-1/2 -translate-y-1/2 left-0 cursor-pointer text-4xl p-4" onclick="changingSlide(-1);">&#10094;</a>
-                <a class="next absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer text-4xl p-4" onclick="changingSlide(1);">&#10095;</a>
+                <button class="prev absolute top-1/2 -translate-y-1/2 left-0 cursor-pointer text-4xl p-4" onclick="changingSlide(-1);">&#10094;</button>
+                <button class="next absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer text-4xl p-4" onclick="changingSlide(1);">&#10095;</button>
 
             </div>
             
@@ -78,7 +78,8 @@
             }
 
             function showNextSlide() {
-                showSlide(slideIndex += 1);
+                slideIndex += 1;
+                showSlide(slideIndex);
                 if (isPlaying) {
                     const speed = document.getElementById('slideshowSpeed').value;
                     clearTimeout(slideTimeout);

@@ -12,11 +12,11 @@ ORDER_BY = "AlbumDate"
 
 @dataclass
 class Album:
-    Name: str
-    Title: str
-    Type: str
-    Cover: str
-    ImageCount: int
+    name: str
+    title: str
+    type: str
+    cover: str
+    image_count: int
 
 
 def get_albums(user: str):
@@ -30,11 +30,11 @@ def get_albums(user: str):
         if user in result.to_dict().get("Users", []):
             album_data = result.to_dict()
             album = Album(
-                Name=album_data["Name"],
-                Title=album_data["Title"],
-                Type=album_data["Type"],
-                Cover=album_data["Cover"],
-                ImageCount=get_number_of_assets(album_name=album_data["Name"], album_type=album_data["Type"])
+                name=album_data["Name"],
+                title=album_data["Title"],
+                type=album_data["Type"],
+                cover=album_data["Cover"],
+                image_count=get_number_of_assets(album_name=album_data["name"], album_type=album_data["type"])
             )
             albums.append(album)
 

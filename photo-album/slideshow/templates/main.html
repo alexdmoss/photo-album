@@ -16,16 +16,16 @@
                 {% for album in albums %}
                 <div class="w-full sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] p-4 flex flex-col items-center"> <!-- Added max-w-* classes -->
                     <div class="w-full h-full p-4 border-gray-400 border-2 rounded-md flex flex-col items-center">
-                        <a class="block text-center mb-2" href="/{{ album.Type }}/{{ album.Name }}">
-                            {% if album.Type == "photos" %}
-                            <p class="mb-2"><i class="fas fa-image"></i>&nbsp;&nbsp;{{ album.Title }} ({{ album.ImageCount }})</p>
+                        <a class="block text-center mb-2" href="/{{ album.type }}/{{ album.name }}">
+                            {% if album.type == "photos" %}
+                            <p class="mb-2"><i class="fas fa-image"></i>&nbsp;&nbsp;{{ album.title }} ({{ album.image_count }})</p>
                             {% else %}
-                            <p class="mb-2"><i class="fas fa-video"></i>&nbsp;&nbsp;{{ album.Title }} ({{ album.ImageCount }})</p>
+                            <p class="mb-2"><i class="fas fa-video"></i>&nbsp;&nbsp;{{ album.title }} ({{ album.image_count }})</p>
                             {% endif %}
-                            {% if album.Type == "photos" %}
-                            <img class="h-48 w-auto object-cover" src="/assets/{{ album.Name }}/processed/{{ album.Cover }}" />
+                            {% if album.type == "photos" %}
+                            <img class="h-48 w-auto object-cover" alt="Album Cover" src="/assets/{{ album.name }}/processed/{{ album.cover }}" />
                             {% else %}
-                            <img class="h-48 w-auto object-cover" src="/assets/{{ album.Name }}/videos/{{ album.Cover }}" />
+                            <img class="h-48 w-auto object-cover" alt="Album Cover" src="/assets/{{ album.name }}/videos/{{ album.cover }}" />
                             {% endif %}
                         </a>
                     </div>

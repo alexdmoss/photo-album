@@ -22,8 +22,8 @@
                 {% endfor %}
 
                 <!-- Next and previous buttons -->
-                <a class="prev absolute top-1/2 -translate-y-1/2 left-0 cursor-pointer text-4xl p-4" onclick="changingSlide(-1);">&#10094;</a>
-                <a class="next absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer text-4xl p-4" onclick="changingSlide(1);">&#10095;</a>
+                <button class="prev absolute top-1/2 -translate-y-1/2 left-0 cursor-pointer text-4xl p-4" onclick="changingSlide(-1);">&#10094;</button>
+                <button class="next absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer text-4xl p-4" onclick="changingSlide(1);">&#10095;</button>
 
             </div>
             
@@ -54,7 +54,8 @@
         }
 
         function showNextSlide() {
-            showSlide(slideIndex += 1);
+            slideIndex += 1;
+            showSlide(slideIndex);
         }
 
         // When prev/next buttons are clicked, move forward or back by one

@@ -16,6 +16,7 @@ spec:
         gke-gcsfuse/volumes: "true"
     spec:
       serviceAccountName: photo-album
+      automountServiceAccountToken: false
       containers:
       - name: photo-album
         image: photo-album:SET_BY_CI
@@ -47,8 +48,10 @@ spec:
           requests:
             cpu: 10m
             memory: 100Mi
+            ephemeral-storage: 100Mi
           limits:
             memory: 100Mi
+            ephemeral-storage: 100Mi
         securityContext:
           runAsUser: 1000
           allowPrivilegeEscalation: false

@@ -15,7 +15,7 @@ from slideshow.albums import get_album_title
 @router.get("/photos/{album}")
 async def photos(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
 
-    page_title = get_album_title(album)
+    page_title = get_album_title(album) if album is not None else None
     if page_title is None:
         page_title = "Photo Albums"
     # @TODO: do something more useful with these fields
@@ -60,9 +60,12 @@ async def photo_albums(request: Request, album: Optional[str], user: Optional[di
             }
         )
     else:
-        photos = await load_photos(album)
+        if album is None:
+            photos = []
+        else:
+            photos = load_photos(album)
         return templates.TemplateResponse(
-            f"photos.html",
+            "photos.html",
             {
                 "photos": photos,
                 "request": request,
@@ -70,7 +73,7 @@ async def photo_albums(request: Request, album: Optional[str], user: Optional[di
         )
 
 
-async def load_photos(album: str):
+def load_photos(album: str):
 
     sub_path = f"{album}/processed"
     local_dir = join(settings.PHOTOS_DIR, sub_path)

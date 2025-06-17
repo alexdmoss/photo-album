@@ -13,7 +13,7 @@ variables:
 # ------------- Templates ------------- #
 
 include:
-  - component: gitlab.com/alexos-dev/gitlab-ci-components/kaniko@~latest
+  - component: gitlab.com/alexos-dev/gitlab-ci-components/buildkit@~latest
     inputs:
       job-stage: build
       image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
@@ -21,7 +21,7 @@ include:
   - component: gitlab.com/alexos-dev/gitlab-ci-components/security-scan@~latest
     inputs:
       job-stage: scan
-      job-needs: ["kaniko-build-app"]
+      job-needs: ["buildkit-build-app"]
       image-names: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
       dockerfiles: Dockerfile
       snyk-language: python
@@ -29,9 +29,24 @@ include:
   - component: gitlab.com/alexos-dev/gitlab-ci-components/deploy-k8s@~latest
     inputs:
       job-stage: deploy
-      job-needs: ["kaniko-build-app"]
+      job-needs: ["buildkit-build-app"]
       app-name: photo-album
       namespace: photo-album
       image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
       manifest-dir: k8s
       env-sub: '"\$DATA_PROJECT_ID \$BUCKET_NAME"'
+
+sonarcloud-check:
+  stage: scan
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  only:
+    - main
+  allow_failure: true

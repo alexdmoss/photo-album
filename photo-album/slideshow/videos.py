@@ -1,6 +1,6 @@
 from typing import Optional
-from os import listdir
-from os.path import join
+from os import listdir, sep
+from os.path import join, normpath, isabs, abspath
 
 from fastapi import Request, Depends
 
@@ -15,7 +15,11 @@ from slideshow.albums import get_album_title
 @router.get("/videos/{album}")
 async def videos(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
 
-    page_title = get_album_title(album)
+    if album is not None:
+        page_title = get_album_title(album)
+    else:
+        page_title = None
+
     if page_title is None:
         page_title = "Video Albums"
     # @TODO: do something more useful with these fields
@@ -58,8 +62,17 @@ async def video_albums(request: Request, album: Optional[str], user: Optional[di
                 "request": request,
             }
         )
+    elif album is None:
+        # Handle missing album parameter
+        return templates.TemplateResponse(
+            "videos.html",
+            {
+                "videos": [],
+                "request": request,
+            }
+        )
     else:
-        videos = await load_videos(album)
+        videos = load_videos(album)
         return templates.TemplateResponse(
             "videos.html",
             {
@@ -69,7 +82,7 @@ async def video_albums(request: Request, album: Optional[str], user: Optional[di
         )
 
 
-async def load_videos(album: str):
+def load_videos(album: str):
 
     sub_path = f"{album}/videos"
 
@@ -97,8 +110,17 @@ async def load_videos(album: str):
     return video_files
 
 
-def list_videos_in_dir(directory, sub_path, extensions):
+def list_videos_in_dir(base_directory, sub_path, extensions):
+    # Only allow safe sub_path
+    safe_sub_path = normpath(sub_path)
+    if isabs(safe_sub_path) or '..' in safe_sub_path.split(sep):
+        raise ValueError("Invalid sub_path")
+    directory = join(base_directory, safe_sub_path)
+    directory = abspath(directory)
+    # Ensure directory is within base_directory
+    if not directory.startswith(abspath(base_directory)):
+        raise ValueError("Directory traversal detected")
     try:
-        return sorted([join(sub_path, f) for f in listdir(directory) if any(f.endswith(ext) for ext in extensions)])
+        return sorted([join(safe_sub_path, f) for f in listdir(directory) if any(f.endswith(ext) for ext in extensions)])
     except FileNotFoundError:
         return []

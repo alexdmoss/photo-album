@@ -1,5 +1,5 @@
-from os import listdir
-from os.path import join
+from os import listdir, sep
+from os.path import join, normpath, isabs, abspath
 from typing import Optional
 
 from fastapi import Request, Depends
@@ -97,9 +97,18 @@ def load_photos(album: str):
     return photo_files
 
 
-def list_photos_in_dir(directory, sub_path):
+def list_photos_in_dir(base_directory, sub_path):
+    # Only allow safe sub_path
+    safe_sub_path = normpath(sub_path)
+    if isabs(safe_sub_path) or '..' in safe_sub_path.split(sep):
+        raise ValueError("Invalid sub_path")
+    directory = join(base_directory, safe_sub_path)
+    directory = abspath(directory)
+    # Ensure directory is within base_directory
+    if not directory.startswith(abspath(base_directory)):
+        raise ValueError("Directory traversal detected")
     try:
-        return sorted([join(sub_path, f) for f in listdir(directory) if valid_photo(f)])
+        return sorted([join(safe_sub_path, f) for f in listdir(directory) if valid_photo(f)])
     except FileNotFoundError:
         return []
 

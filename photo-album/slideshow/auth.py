@@ -21,7 +21,7 @@ oauth.register(
 )
 
 
-async def get_user(request: Request) -> Optional[dict]:
+def get_user(request: Request) -> Optional[dict]:
     user = request.session.get("user")
     if user is not None:
         return user

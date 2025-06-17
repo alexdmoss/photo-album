@@ -2,6 +2,7 @@ import tempfile
 import zipfile
 import os
 import re
+import uuid
 
 from datetime import datetime
 
@@ -69,12 +70,10 @@ async def healthz(request: Request):
 
 @router.get("/download")
 async def download(request: Request):
+    zip_path = None
     try:
-        # Create a temporary file for the zip, ensuring it's not automatically deleted
-        temp_zip = tempfile.NamedTemporaryFile(delete=False, suffix=".zip")
-        zip_path = temp_zip.name
-        temp_zip.close()  # close the file so zipfile can open it
-
+        # Create a unique temporary file path for the zip
+        zip_path = os.path.join(tempfile.gettempdir(), f"{uuid.uuid4()}.zip")
         # Create a zip file and add all files from PHOTOS_DIR
         with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
             for root, dirs, files in os.walk(settings.PHOTOS_DIR):
@@ -89,7 +88,8 @@ async def download(request: Request):
             background=BackgroundTask(os.unlink, zip_path))
     except Exception as e:
         # If something goes wrong, ensure the temporary file is deleted
-        os.unlink(zip_path)
+        if zip_path and os.path.exists(zip_path):
+            os.unlink(zip_path)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -101,6 +101,9 @@ async def login(request: Request):
     if not (host.startswith("localhost") or host.startswith("127.0.0.1")):
         redirect_uri = redirect_uri.replace("http://", "https://", 1)
     log.info(f"Login request for [{redirect_uri}]")
+    if not hasattr(oauth, "google") or oauth.google is None:
+        log.error("OAuth provider 'google' is not configured properly.")
+        raise HTTPException(status_code=500, detail="OAuth provider not configured.")
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 
@@ -108,6 +111,10 @@ async def login(request: Request):
 async def auth(request: Request):
 
     try:
+        if not hasattr(oauth, "google") or oauth.google is None:
+            log.error("OAuth provider 'google' is not configured properly.")
+            raise HTTPException(status_code=500, detail="OAuth provider not configured.")
+
         token = await oauth.google.authorize_access_token(request)
 
         if is_user_authorised(token['userinfo']['email']):

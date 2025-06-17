@@ -1,5 +1,3 @@
-import subprocess
-
 from os import getenv
 from contextlib import asynccontextmanager
 
@@ -27,14 +25,16 @@ async def lifespan(app: FastAPI):
     # makes skippable to speed up container start. Assumes main.css is in git
     if getenv("SKIP_TAILWIND_GENERATION", "false") != "true":
         try:
+            import asyncio
             log.info("Generating Tailwind classes")
-            subprocess.run([
+            process = await asyncio.create_subprocess_exec(
                 "tailwindcss",
                 "-i",
                 str(settings.STATIC_DIR / "src" / "tw.css"),
                 "-o",
                 str(settings.STATIC_DIR / "css" / "main.css"),
-            ])
+            )
+            await process.communicate()
         except Exception as e:
             log.error(f"Error running tailwindcss: {e}")
 

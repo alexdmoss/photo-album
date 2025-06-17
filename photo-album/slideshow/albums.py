@@ -1,4 +1,5 @@
 import os
+import re
 
 from dataclasses import dataclass
 
@@ -65,3 +66,10 @@ def get_number_of_assets(album_name: str, album_type: str):
         log.warn(f"Error counting files in album directory [{album_path}]. Does it exist?")
 
     return image_count
+
+
+def validate_album(album):
+    # Allow only alphanumeric, underscore, hyphen; 1-50 chars
+    if not re.fullmatch(r'[A-Za-z0-9_-]{1,50}', album):
+        raise ValueError("Invalid album name")
+    return album

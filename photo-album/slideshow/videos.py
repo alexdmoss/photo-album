@@ -1,6 +1,6 @@
 from typing import Optional
-from os import listdir, sep
-from os.path import join, normpath, isabs, abspath
+from os import listdir
+from os.path import join
 
 from fastapi import Request, Depends
 
@@ -9,12 +9,23 @@ from slideshow.clients.storage import create_storage_client
 from slideshow.config import settings
 from slideshow.routes import router, templates
 from slideshow.auth import get_user
-from slideshow.albums import get_album_title
+from slideshow.albums import get_album_title, validate_album
 
 
 @router.get("/videos/{album}")
 async def videos(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
 
+    if validate_album(album) is False:
+        log.error(f"Invalid album name: {album}")
+        return templates.TemplateResponse(
+            "error.html",
+            {
+                "site_name": "Error",
+                "page_title": "Invalid Album",
+                "page_description": "The requested album is invalid.",
+                "request": request,
+            }
+        )
     if album is not None:
         page_title = get_album_title(album)
     else:
@@ -110,17 +121,8 @@ def load_videos(album: str):
     return video_files
 
 
-def list_videos_in_dir(base_directory, sub_path, extensions):
-    # Only allow safe sub_path
-    safe_sub_path = normpath(sub_path)
-    if isabs(safe_sub_path) or '..' in safe_sub_path.split(sep):
-        raise ValueError("Invalid sub_path")
-    directory = join(base_directory, safe_sub_path)
-    directory = abspath(directory)
-    # Ensure directory is within base_directory
-    if not directory.startswith(abspath(base_directory)):
-        raise ValueError("Directory traversal detected")
+def list_videos_in_dir(directory, sub_path, extensions):
     try:
-        return sorted([join(safe_sub_path, f) for f in listdir(directory) if any(f.endswith(ext) for ext in extensions)])
+        return sorted([join(sub_path, f) for f in listdir(directory) if any(f.endswith(ext) for ext in extensions)])
     except FileNotFoundError:
         return []

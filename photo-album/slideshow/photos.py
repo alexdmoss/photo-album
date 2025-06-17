@@ -1,5 +1,5 @@
-from os import listdir, sep
-from os.path import join, normpath, isabs, abspath
+from os import listdir
+from os.path import join
 from typing import Optional
 
 from fastapi import Request, Depends
@@ -9,11 +9,23 @@ from slideshow.logger import log
 from slideshow.config import settings
 from slideshow.auth import get_user
 from slideshow.routes import router, templates
-from slideshow.albums import get_album_title
+from slideshow.albums import get_album_title, validate_album
 
 
 @router.get("/photos/{album}")
 async def photos(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
+
+    if validate_album(album) is False:
+        log.error(f"Invalid album name: {album}")
+        return templates.TemplateResponse(
+            "error.html",
+            {
+                "site_name": "Error",
+                "page_title": "Invalid Album",
+                "page_description": "The requested album is invalid.",
+                "request": request,
+            }
+        )
 
     page_title = get_album_title(album) if album is not None else None
     if page_title is None:
@@ -97,18 +109,9 @@ def load_photos(album: str):
     return photo_files
 
 
-def list_photos_in_dir(base_directory, sub_path):
-    # Only allow safe sub_path
-    safe_sub_path = normpath(sub_path)
-    if isabs(safe_sub_path) or '..' in safe_sub_path.split(sep):
-        raise ValueError("Invalid sub_path")
-    directory = join(base_directory, safe_sub_path)
-    directory = abspath(directory)
-    # Ensure directory is within base_directory
-    if not directory.startswith(abspath(base_directory)):
-        raise ValueError("Directory traversal detected")
+def list_photos_in_dir(directory, sub_path):
     try:
-        return sorted([join(safe_sub_path, f) for f in listdir(directory) if valid_photo(f)])
+        return sorted([join(sub_path, f) for f in listdir(directory) if valid_photo(f)])
     except FileNotFoundError:
         return []
 

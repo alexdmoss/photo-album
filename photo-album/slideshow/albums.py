@@ -34,7 +34,7 @@ def get_albums(user: str):
                 title=album_data["Title"],
                 type=album_data["Type"],
                 cover=album_data["Cover"],
-                image_count=get_number_of_assets(album_name=album_data["name"], album_type=album_data["type"])
+                image_count=get_number_of_assets(album_name=album_data["Name"], album_type=album_data["Type"])
             )
             albums.append(album)
 

@@ -41,6 +41,16 @@ def get_albums(user: str):
 
     return albums
 
+# not used by a user, used by validation
+def get_all_album_names():
+    albums = []
+    dataset = db_client.collection(ALBUM_COLLECTION).order_by(ORDER_BY, direction=FIRESTORE_QUERY.DESCENDING)
+    results = dataset.stream()
+    for result in results:
+        album_data = result.to_dict()
+        albums.append(album_data["Name"])
+    return albums
+
 
 def get_album_title(album: str):
 
@@ -71,5 +81,11 @@ def get_number_of_assets(album_name: str, album_type: str):
 def validate_album(album):
     # Allow only alphanumeric, underscore, hyphen; 1-50 chars
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,50}', album):
-        raise ValueError("Invalid album name")
-    return album
+        log.error(f"Attempt to access invalid album [{album}]")
+        return False
+    else:
+        album_names = get_all_album_names()
+        if album not in album_names:
+            log.error(f"Attempt to access invalid album [{album}]")
+            return False
+    return True

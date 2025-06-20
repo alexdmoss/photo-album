@@ -7,13 +7,13 @@ from starlette.middleware.sessions import SessionMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 
-from slideshow.logger import log
-from slideshow.config import settings
-from slideshow.routes import router as main_router
-from slideshow.photos import router as photos_router
-from slideshow.videos import router as videos_router
-from slideshow.likes import router as likes_router
-from slideshow.secret import read_auth_api_secret, get_value_from_secret
+from photo_album.logger import log
+from photo_album.config import settings
+from photo_album.routes import router as main_router
+from photo_album.photos import router as photos_router
+from photo_album.videos import router as videos_router
+from photo_album.likes import router as likes_router
+from photo_album.secret import read_auth_api_secret, get_value_from_secret
 
 SECRET_KEY = get_value_from_secret(read_auth_api_secret(), "secret-key")
 

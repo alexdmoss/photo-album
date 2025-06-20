@@ -3,8 +3,8 @@ import json
 from google.cloud import secretmanager
 import google_crc32c
 
-from slideshow.logger import log
-from slideshow.config import settings
+from photo_album.logger import log
+from photo_album.config import settings
 
 
 def secret_manager_client():

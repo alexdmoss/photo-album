@@ -3,10 +3,10 @@ from typing import Optional
 from fastapi import Request, Depends
 from fastapi.responses import HTMLResponse
 
-from slideshow.clients.firestore import db_client
-from slideshow.logger import log
-from slideshow.routes import router, templates
-from slideshow.auth import get_user
+from photo_album.clients.firestore import db_client
+from photo_album.logger import log
+from photo_album.routes import router, templates
+from photo_album.auth import get_user
 
 
 @router.post("/likes/{album}/{asset}")

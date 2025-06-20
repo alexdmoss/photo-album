@@ -4,9 +4,9 @@ from fastapi import HTTPException
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuth
 
-from slideshow.logger import log
-from slideshow.secret import read_auth_api_secret, get_value_from_secret
-from slideshow.clients.firestore import db_client
+from photo_album.logger import log
+from photo_album.secret import read_auth_api_secret, get_value_from_secret
+from photo_album.clients.firestore import db_client
 
 oauth = OAuth()
 

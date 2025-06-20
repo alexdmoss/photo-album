@@ -1,8 +1,8 @@
 from google.cloud import firestore
 from google.cloud.firestore import Query
 
-from slideshow.config import settings
-from slideshow.logger import log
+from photo_album.config import settings
+from photo_album.logger import log
 
 FIRESTORE_QUERY = Query
 

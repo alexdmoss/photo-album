@@ -3,9 +3,9 @@ import re
 
 from dataclasses import dataclass
 
-from slideshow.clients.firestore import db_client, FIRESTORE_QUERY
-from slideshow.config import settings
-from slideshow.logger import log
+from photo_album.clients.firestore import db_client, FIRESTORE_QUERY
+from photo_album.config import settings
+from photo_album.logger import log
 
 ALBUM_COLLECTION = "albums"
 ORDER_BY = "AlbumDate"

@@ -2,10 +2,10 @@ from os import listdir
 
 from PIL import Image
 
-from slideshow.logger import log
+from photo_album.logger import log
 
-PHOTOS_DIR = "../../assets/"
-ORIGINALS_DIR = "../../originals/"
+PHOTOS_DIR = "../assets/"
+ORIGINALS_DIR = "../originals/"
 
 
 def resize_images():

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "photo-album"
+name = "photo_album"
 version = "0.1.0"
 description = "Web-based Photo Album written in Python"
 authors = ["Alex M <alex@alexos.dev>"]

@@ -10,7 +10,7 @@ if [[ ${1:-} == "--docker" ]]; then
         photo-album:latest
 else
     export RELOAD=true
-    pushd "$(dirname "${BASH_SOURCE[0]}")/photo-album/" >/dev/null
+    pushd "$(dirname "${BASH_SOURCE[0]}")/" >/dev/null
     poetry run python run.py
     popd >/dev/null
 fi

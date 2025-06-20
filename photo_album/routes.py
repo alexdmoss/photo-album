@@ -12,10 +12,10 @@ from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
 from starlette.responses import RedirectResponse
 
-from slideshow.logger import log
-from slideshow.config import settings
-from slideshow.auth import oauth, is_user_authorised
-from slideshow.albums import get_albums
+from photo_album.logger import log
+from photo_album.config import settings
+from photo_album.auth import oauth, is_user_authorised
+from photo_album.albums import get_albums
 
 
 def format_caption(value):

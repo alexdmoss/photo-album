@@ -1,4 +1,4 @@
-FROM al3xos/python-builder:3.12-debian12 AS builder
+FROM al3xos/python-builder:3.13-debian12 AS builder
 
 COPY poetry.lock .
 COPY pyproject.toml .
@@ -11,7 +11,7 @@ RUN poetry config virtualenvs.create false && \
 
 # ---------------------------------------------------------------------
 
-FROM al3xos/python-distroless:3.12-debian12
+FROM al3xos/python-distroless:3.13-debian12
 
 USER monty
 

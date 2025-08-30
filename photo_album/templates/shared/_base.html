@@ -29,10 +29,7 @@
 
   <script src="/static/js/htmx.min.js"></script>
 
-  <script defer data-domain="photos.alexos.dev" data-api="https://visits.alexos.dev/api/event" src="/static/js/visits.js"></script>
-  <script>
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }
-  </script>
+  <script defer src="https://visits.alexos.dev/alexos" data-website-id="65e2b35c-36f9-45d2-a9fb-5dc430399262"></script>
 
 </head>
 
@@ -51,6 +48,18 @@
     {% include "/shared/_footer.html" %}
     {% endblock %}
 
-  </body>
+    <script type="text/javascript">
+    (() => {
+      const name = 'outbound-link-click';
+      document.querySelectorAll('a').forEach(a => {
+        if (a.host !== window.location.host && !a.getAttribute('data-umami-event')) {
+          a.setAttribute('data-umami-event', name);
+          a.setAttribute('data-umami-event-url', a.href);
+        }
+      });
+    })();
+  </script>
+
+</body>
 
 </html>

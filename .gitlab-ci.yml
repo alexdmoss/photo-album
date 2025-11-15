@@ -23,8 +23,7 @@ include:
       job-needs: ["buildkit-build-app"]
       image-names: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
       dockerfiles: Dockerfile
-      snyk-language: python
-      snyk-library: all
+      language-scan: "true"
   - component: gitlab.com/alexos-dev/gitlab-ci-components/deploy-k8s@~latest
     inputs:
       job-stage: deploy

@@ -1,13 +1,11 @@
 FROM al3xos/python-builder:3.13-debian12 AS builder
 
-COPY poetry.lock .
-COPY pyproject.toml .
-
-ARG VIRTUAL_ENV=/home/monty/venv
-
-RUN poetry config virtualenvs.create false && \
-    virtualenv ${VIRTUAL_ENV} && \
-    poetry install --only main --no-root
+WORKDIR /app
+COPY pyproject.toml uv.lock /app/
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
 
 # ---------------------------------------------------------------------
 
@@ -18,11 +16,10 @@ USER monty
 COPY photo_album/ /app/photo_album/
 COPY tailwind.config.js run.py logging.conf main.py /app/
 COPY --chown=monty:monty .keep /assets/.keep
-COPY --from=builder /home/monty/venv /home/monty/venv
+COPY --chown=1000:1000 --from=builder /app/.venv /app/.venv
 
 WORKDIR /app
 
-# for tailwindcss
-ENV PATH="/home/monty/venv/bin:$PATH"
+ENV PATH="/app/.venv/bin:$PATH"
 
-ENTRYPOINT ["/home/monty/venv/bin/python", "run.py", "--log-config=logging.conf", "photo_album:app"]
+ENTRYPOINT ["python", "run.py", "--log-config=logging.conf", "photo_album:app"]

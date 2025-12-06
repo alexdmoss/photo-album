@@ -154,12 +154,10 @@ structlog==25.5.0
     # via photo-album (pyproject.toml)
 typing-extensions==4.15.0
     # via
-    #   anyio
     #   fastapi
     #   grpcio
     #   pydantic
     #   pydantic-core
-    #   starlette
     #   typing-inspection
 typing-inspection==0.4.2
     # via

@@ -25,7 +25,7 @@ click==8.3.1
     # via uvicorn
 cryptography==46.0.3
     # via authlib
-fastapi==0.122.0
+fastapi==0.124.0
     # via photo-album (pyproject.toml)
 google-api-core==2.28.1
     # via
@@ -108,7 +108,7 @@ proto-plus==1.26.1
     #   google-api-core
     #   google-cloud-firestore
     #   google-cloud-secret-manager
-protobuf==6.33.1
+protobuf==6.33.2
     # via
     #   google-api-core
     #   google-cloud-firestore
@@ -165,7 +165,7 @@ typing-inspection==0.4.2
     # via
     #   pydantic
     #   pydantic-settings
-urllib3==2.5.0
+urllib3==2.6.0
     # via requests
 uvicorn==0.38.0
     # via photo-album (pyproject.toml)

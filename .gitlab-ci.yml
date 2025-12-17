@@ -30,7 +30,7 @@ test-build-deploy:
   script:
     - alexos-cli test --include-coverage
     - alexos-cli build --image-name=$IMAGE_NAME --gcr-login --dockerfile=Dockerfile
-    - alexos-cli deploy kubernetes --image-name=$IMAGE_NAME --namespace=$NAMESPACE --envvars=DATA_PROJECT,BUCKET_NAME
+    - alexos-cli deploy kubernetes --image-name=$IMAGE_NAME --namespace=$NAMESPACE --envvars=DATA_PROJECT_ID,BUCKET_NAME
   coverage: '/TOTAL.*\s+(\d+%)$/'
   artifacts:
     when: always

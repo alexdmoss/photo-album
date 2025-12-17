@@ -1,35 +1,51 @@
 stages:
-- build
+- release
 - scan
-- deploy
-
-# ------------- Variables ------------- #
 
 variables:
+  IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
+  NAMESPACE: alchemyst
   BUCKET_NAME: alexos-photos
   DATA_PROJECT_ID: $MW_PROJECT_ID
 
-# ------------- Templates ------------- #
+# to validate renovations
+test-only:
+  stage: release
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+  image: al3xos/ci-tools:latest
+  script:
+    - alexos-cli test --include-coverage
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  artifacts:
+    when: always
+    reports:
+      junit: ./*_out_report.xml
+
+test-build-deploy:
+  stage: release
+  needs:
+  - configure
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  image: al3xos/ci-tools:latest
+  script:
+    - alexos-cli test --include-coverage
+    - alexos-cli build --image-name=$IMAGE_NAME --gcr-login --dockerfile=Dockerfile
+    - alexos-cli deploy kubernetes --image-name=$IMAGE_NAME --namespace=$NAMESPACE --envvars=DATA_PROJECT,BUCKET_NAME
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  artifacts:
+    when: always
+    reports:
+      junit: ./*_out_report.xml
 
 include:
-  - component: gitlab.com/alexos-dev/gitlab-ci-components/buildkit@~latest
-    inputs:
-      job-stage: build
-      image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
-      dockerfile: Dockerfile
   - component: gitlab.com/alexos-dev/gitlab-ci-components/security-scan@~latest
+    rules:
+      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     inputs:
       job-stage: scan
-      job-needs: ["buildkit-build-app"]
+      job-needs: ["test-build-deploy"]
       image-names: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
       dockerfiles: Dockerfile
       language-scan: "true"
-  - component: gitlab.com/alexos-dev/gitlab-ci-components/deploy-k8s@~latest
-    inputs:
-      job-stage: deploy
-      job-needs: ["buildkit-build-app"]
-      app-name: photo-album
-      namespace: photo-album
-      image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
-      manifest-dir: k8s
-      env-sub: '"\$DATA_PROJECT_ID \$BUCKET_NAME"'

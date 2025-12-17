@@ -51,8 +51,9 @@ async def index(request: Request):
         albums = get_albums(email)
 
     return templates.TemplateResponse(
-        "main.html",
-        {
+        request=request,
+        name="main.html",
+        context={
             "site_name": "Photo Albums",
             "page_title": "Home",
             "page_description": "Alex's Photo & Video Albums",

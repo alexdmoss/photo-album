@@ -4,7 +4,7 @@ stages:
 
 variables:
   IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
-  NAMESPACE: alchemyst
+  NAMESPACE: photo-album
   BUCKET_NAME: alexos-photos
   DATA_PROJECT_ID: $MW_PROJECT_ID
 

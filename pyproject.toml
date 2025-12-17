@@ -26,6 +26,8 @@ dependencies = [
     "google-cloud-firestore>=2.19.0",
     "uvicorn",
     "httpx>=0.28.1",
+    "ruff>=0.14.9",
+    "pytest>=9.0.1",
 ]
 
 [project.optional-dependencies]

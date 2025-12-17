@@ -24,8 +24,6 @@ test-only:
 
 test-build-deploy:
   stage: release
-  needs:
-  - configure
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: al3xos/ci-tools:latest

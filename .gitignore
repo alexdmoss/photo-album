@@ -76,3 +76,6 @@ assets-local/
 
 .terraform/
 .dccache
+
+tmp/
+*-report.json

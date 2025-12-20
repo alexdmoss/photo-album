@@ -37,13 +37,22 @@ test-build-deploy:
     reports:
       junit: ./*_out_report.xml
 
-include:
-  - component: gitlab.com/alexos-dev/gitlab-ci-components/security-scan@~latest
-    rules:
-      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    inputs:
-      job-stage: scan
-      job-needs: ["test-build-deploy"]
-      image-names: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
-      dockerfiles: Dockerfile
-      language-scan: "true"
+security-scan:
+  stage: scan
+  needs:
+    - test-build-deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  image: al3xos/ci-tools:latest
+  script:
+    - alexos-cli scan code
+    - alexos-cli scan secrets
+    - alexos-cli scan container --image-name=$IMAGE_NAME
+    - alexos-cli scan iac
+  allow_failure: true
+  artifacts:
+    when: on_failure
+    paths:
+      - "*-report.json"
+    access: developer
+    expire_in: "1 day"

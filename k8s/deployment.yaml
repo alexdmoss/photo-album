@@ -70,7 +70,7 @@ spec:
             name: assets-volume
       restartPolicy: Always
       nodeSelector:
-        cloud.google.com/gke-spot: "true"
+        cloud.google.com/compute-class: autopilot-spot
       terminationGracePeriodSeconds: 25
       volumes:
         - name: tmp-volume

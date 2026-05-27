@@ -22,7 +22,6 @@ dependencies = [
     "itsdangerous>=2.2.0",
     "structlog>=25.0.0",
     "grpcio==1.80.0",  # pin gRPC due to MacOS issues in 1.65
-    "prometheus-fastapi-instrumentator>=7.0.0",
     "google-cloud-firestore>=2.19.0",
     "uvicorn",
     "httpx>=0.28.1",

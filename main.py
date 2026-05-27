@@ -5,7 +5,6 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
-from prometheus_fastapi_instrumentator import Instrumentator
 
 from photo_album.logger import log
 from photo_album.config import settings
@@ -45,7 +44,6 @@ def get_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
     app.add_middleware(ProxyHeadersMiddleware)
     app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
-    Instrumentator().instrument(app).expose(app)
     app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
     app.mount("/assets", StaticFiles(directory=settings.PHOTOS_DIR), name="assets")
     app.include_router(main_router)

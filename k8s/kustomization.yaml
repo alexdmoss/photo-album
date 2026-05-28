@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: photo-album
 
 resources:
-- computeclass.yaml
 - deployment.yaml
 - ingress.yaml
 - service.yaml

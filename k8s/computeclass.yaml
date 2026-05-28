@@ -1,0 +1,11 @@
+apiVersion: cloud.google.com/v1
+kind: ComputeClass
+metadata:
+  name: photo-album-autopilot
+spec:
+  autopilot:
+    enabled: true
+  priorities:
+  - podFamily: general-purpose
+    spot: true
+  whenUnsatisfiable: DoNotScaleUp

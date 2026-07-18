@@ -7,13 +7,13 @@ license = {text = "GNU GPLv3"}
 readme = "README.md"
 requires-python = "~=3.14.0"
 dependencies = [
-    "fastapi>=0.138.0",
+    "fastapi>=0.139.0",
     "pydantic-settings>=2.14.2",
     "jinja2>=3.1.6",
     "jinja2-fragments>=1.12.0",
     "pytailwindcss>=0.3.1",
-    "pillow>=12.2.0",
-    "google-cloud-storage>=3.12.0",
+    "pillow>=12.3.0",
+    "google-cloud-storage>=3.13.0",
     "PyJWT",
     "google-cloud-secret-manager>=2.29.0",
     "google-crc32c",
@@ -21,11 +21,11 @@ dependencies = [
     "authlib>=1.7.2",
     "itsdangerous>=2.2.0",
     "structlog>=26.1.0",
-    "grpcio==1.81.1",  # pin gRPC due to MacOS issues in 1.65
-    "google-cloud-firestore>=2.27.0",
+    "grpcio==1.82.1",  # pin gRPC due to MacOS issues in 1.65
+    "google-cloud-firestore>=2.28.0",
     "uvicorn",
     "httpx>=0.28.1",
-    "ruff>=0.15.19",
+    "ruff>=0.15.21",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "pytest-socket>=0.8.0",

@@ -5,11 +5,8 @@ STARTING_DIR = "/mnt/c/Lou Videos"
 print("Renaming movies")
 
 for root, _, files in os.walk(STARTING_DIR):
-
     for file in files:
-
         if file.endswith(".mp4"):
-
             full_path = os.path.join(root, file)
 
             # does filename match YYYYMMDD?

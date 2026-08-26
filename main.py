@@ -1,18 +1,18 @@
-from os import getenv
 from contextlib import asynccontextmanager
+from os import getenv
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
-from photo_album.logger import log
 from photo_album.config import settings
-from photo_album.routes import router as main_router
-from photo_album.photos import router as photos_router
-from photo_album.videos import router as videos_router
 from photo_album.likes import router as likes_router
-from photo_album.secret import read_auth_api_secret, get_value_from_secret
+from photo_album.logger import log
+from photo_album.photos import router as photos_router
+from photo_album.routes import router as main_router
+from photo_album.secret import get_value_from_secret, read_auth_api_secret
+from photo_album.videos import router as videos_router
 
 SECRET_KEY = get_value_from_secret(read_auth_api_secret(), "secret-key")
 
@@ -25,6 +25,7 @@ async def lifespan(app: FastAPI):
     if getenv("SKIP_TAILWIND_GENERATION", "false") != "true":
         try:
             import asyncio
+
             log.info("Generating Tailwind classes")
             process = await asyncio.create_subprocess_exec(
                 "tailwindcss",
@@ -34,7 +35,7 @@ async def lifespan(app: FastAPI):
                 str(settings.STATIC_DIR / "css" / "main.css"),
             )
             await process.communicate()
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - startup must not fail on an asset build
             log.error(f"Error running tailwindcss: {e}")
 
     yield
@@ -55,7 +56,7 @@ def get_app() -> FastAPI:
 
 app = get_app()
 
-log.info('Uvicorn is starting up ...')
+log.info("Uvicorn is starting up ...")
 
 
 if __name__ == "__main__":

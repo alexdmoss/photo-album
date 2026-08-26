@@ -11,17 +11,18 @@ ORIGINALS_DIR = "../originals/"
 def resize_images():
 
     log.info("Resizing images")
-    jpg_files = [f for f in listdir(ORIGINALS_DIR) if f.endswith('.jpg')]
+    jpg_files = [f for f in listdir(ORIGINALS_DIR) if f.endswith(".jpg")]
 
     images_info = []
 
     for image_filename in jpg_files:
         with Image.open(f"{ORIGINALS_DIR}/{image_filename}") as img:
-
             original_width, original_height = img.size
 
             if original_height < 1024:
-                log.warn(f"Image {image_filename} has a lower height resolution than 1024 - padding with black background")
+                log.warn(
+                    f"Image {image_filename} has a lower height resolution than 1024 - padding with black background"
+                )
 
                 # Calculate padding to add to top and bottom to reach 1024 height
                 padding_top_bottom = (1024 - img.size[1]) // 2
@@ -47,7 +48,9 @@ def resize_images():
                 new_height = 1024
                 new_width = int(new_height * aspect_ratio)
 
-                resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                resized_img = img.resize(
+                    (new_width, new_height), Image.Resampling.LANCZOS
+                )
                 resized_img.save(f"{PHOTOS_DIR}/{image_filename}")
 
             images_info.append(image_filename)

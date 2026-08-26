@@ -5,11 +5,8 @@ STARTING_DIR = "/mnt/d/Tech/Lou Christmas"
 print("Renaming images")
 
 for root, _, files in os.walk(STARTING_DIR):
-
     for file in files:
-
-        if file.endswith(".jpg") or file.endswith(".JPG"):
-
+        if file.endswith((".jpg", ".JPG")):
             full_path = os.path.join(root, file)
 
             # does filename match YYYYMMDD?

@@ -1,6 +1,6 @@
+from os import getenv
 from pathlib import Path
 from typing import Any
-from os import getenv
 
 from fastapi.responses import HTMLResponse
 from pydantic_settings import BaseSettings
@@ -9,7 +9,6 @@ APP_DIR = Path(__file__).resolve().parent
 
 
 class Settings(BaseSettings):
-
     APP_DIR: Path = APP_DIR
     STATIC_DIR: Path = APP_DIR / "static"
     TEMPLATE_DIR: Path = APP_DIR / "templates"

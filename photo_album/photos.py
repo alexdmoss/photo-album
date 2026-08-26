@@ -1,19 +1,20 @@
 from os import listdir
 from os.path import join
-from typing import Optional
 
-from fastapi import Request, Depends
+from fastapi import Depends, Request
 
-from photo_album.clients.storage import create_storage_client
-from photo_album.logger import log
-from photo_album.config import settings
-from photo_album.auth import get_user
-from photo_album.routes import router, templates
 from photo_album.albums import get_album_title, validate_album
+from photo_album.auth import get_user
+from photo_album.clients.storage import create_storage_client
+from photo_album.config import settings
+from photo_album.logger import log
+from photo_album.routes import router, templates
 
 
 @router.get("/photos/{album}")
-async def photos(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
+async def photos(
+    request: Request, album: str | None, user: dict | None = Depends(get_user)
+):
 
     if validate_album(album) is False:
         log.error(f"Invalid album name: {album}")
@@ -24,7 +25,7 @@ async def photos(request: Request, album: Optional[str], user: Optional[dict] = 
                 "page_title": "Invalid Album",
                 "page_description": "The requested album is invalid.",
                 "request": request,
-            }
+            },
         )
 
     page_title = get_album_title(album) if album is not None else None
@@ -36,13 +37,13 @@ async def photos(request: Request, album: Optional[str], user: Optional[dict] = 
 
     if user is None:
         # User is not authenticated, redirect to login
-        request.session['origin'] = f"/photos/{album}"
+        request.session["origin"] = f"/photos/{album}"
         return templates.TemplateResponse(
             "login.html",
             {
                 "site_name": "Login",
                 "request": request,
-            }
+            },
         )
     else:
         return templates.TemplateResponse(
@@ -54,13 +55,15 @@ async def photos(request: Request, album: Optional[str], user: Optional[dict] = 
                 "show_controls": True,
                 "album": album,
                 "request": request,
-            }
+            },
         )
 
 
 # lazy-loads the photos via htmx
 @router.get("/photo-albums/{album}")
-async def photo_albums(request: Request, album: Optional[str], user: Optional[dict] = Depends(get_user)):
+async def photo_albums(
+    request: Request, album: str | None, user: dict | None = Depends(get_user)
+):
 
     if validate_album(album) is False:
         log.error(f"Invalid album name: {album}")
@@ -71,18 +74,18 @@ async def photo_albums(request: Request, album: Optional[str], user: Optional[di
                 "page_title": "Invalid Album",
                 "page_description": "The requested album is invalid.",
                 "request": request,
-            }
+            },
         )
 
     if user is None:
         # User is not authenticated, redirect to login
-        request.session['origin'] = f"/photos/{album}"
+        request.session["origin"] = f"/photos/{album}"
         return templates.TemplateResponse(
             "login.html",
             {
                 "site_name": "Login",
                 "request": request,
-            }
+            },
         )
     else:
         if album is None:
@@ -94,7 +97,7 @@ async def photo_albums(request: Request, album: Optional[str], user: Optional[di
             {
                 "photos": photos,
                 "request": request,
-            }
+            },
         )
 
 
@@ -105,7 +108,6 @@ def load_photos(album: str):
 
     photo_files = list_photos_in_dir(local_dir, sub_path)
     if len(photo_files) == 0:
-
         # nothing saved locally - grab the processed photos from GCS bucket instead
         log.info(f"Downloading photos from GCS [{settings.GCS_BUCKET_NAME}/{sub_path}]")
         client = create_storage_client()
@@ -130,6 +132,4 @@ def list_photos_in_dir(directory, sub_path):
 
 
 def valid_photo(filename):
-    if filename.endswith(".jpg") or filename.endswith(".JPG"):
-        return True
-    return False
+    return filename.endswith((".jpg", ".JPG"))

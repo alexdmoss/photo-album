@@ -1,10 +1,10 @@
 import json
 
-from google.cloud import secretmanager
 import google_crc32c
+from google.cloud import secretmanager
 
-from photo_album.logger import log
 from photo_album.config import settings
+from photo_album.logger import log
 
 
 def secret_manager_client():
@@ -34,4 +34,4 @@ AUTH_CREDS = read_auth_api_secret()
 
 def get_value_from_secret(secret_payload, key):
     payload = json.loads(secret_payload)
-    return (payload[key])
+    return payload[key]

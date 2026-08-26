@@ -5,9 +5,7 @@ STARTING_DIR = "/mnt/d/Tech/Lou Christmas"
 print("Renaming images to .jpg")
 
 for root, _, files in os.walk(STARTING_DIR):
-
     for file in files:
-
         if file.endswith(".jpeg"):
             new_filename = file.replace(".jpeg", ".jpg")
             new_path = os.path.join(root, new_filename)

@@ -1,9 +1,8 @@
 import os
 import re
-
 from dataclasses import dataclass
 
-from photo_album.clients.firestore import db_client, FIRESTORE_QUERY
+from photo_album.clients.firestore import FIRESTORE_QUERY, db_client
 from photo_album.config import settings
 from photo_album.logger import log
 
@@ -23,7 +22,9 @@ class Album:
 def get_albums(user: str):
 
     albums = []
-    dataset = db_client.collection(ALBUM_COLLECTION).order_by(ORDER_BY, direction=FIRESTORE_QUERY.DESCENDING)
+    dataset = db_client.collection(ALBUM_COLLECTION).order_by(
+        ORDER_BY, direction=FIRESTORE_QUERY.DESCENDING
+    )
     results = dataset.stream()
 
     for result in results:
@@ -35,16 +36,21 @@ def get_albums(user: str):
                 title=album_data["Title"],
                 type=album_data["Type"],
                 cover=album_data["Cover"],
-                image_count=get_number_of_assets(album_name=album_data["Name"], album_type=album_data["Type"])
+                image_count=get_number_of_assets(
+                    album_name=album_data["Name"], album_type=album_data["Type"]
+                ),
             )
             albums.append(album)
 
     return albums
 
+
 # not used by a user, used by validation
 def get_all_album_names():
     albums = []
-    dataset = db_client.collection(ALBUM_COLLECTION).order_by(ORDER_BY, direction=FIRESTORE_QUERY.DESCENDING)
+    dataset = db_client.collection(ALBUM_COLLECTION).order_by(
+        ORDER_BY, direction=FIRESTORE_QUERY.DESCENDING
+    )
     results = dataset.stream()
     for result in results:
         album_data = result.to_dict()
@@ -73,14 +79,16 @@ def get_number_of_assets(album_name: str, album_type: str):
         for _ in os.listdir(album_path):
             image_count += 1
     except FileNotFoundError:
-        log.warn(f"Error counting files in album directory [{album_path}]. Does it exist?")
+        log.warn(
+            f"Error counting files in album directory [{album_path}]. Does it exist?"
+        )
 
     return image_count
 
 
 def validate_album(album):
     # Allow only alphanumeric, underscore, hyphen; 1-50 chars
-    if not re.fullmatch(r'[A-Za-z0-9_-]{1,50}', album):
+    if not re.fullmatch(r"[A-Za-z0-9_-]{1,50}", album):
         log.error(f"Attempt to access invalid album [{album}]")
         return False
     else:

@@ -18,14 +18,14 @@ dependencies = [
     "google-cloud-secret-manager>=2.30.0",
     "google-crc32c",
     "requests>=2.34.2",
-    "authlib>=1.7.2",
+    "authlib>=1.8.0",
     "itsdangerous>=2.2.0",
     "structlog>=26.1.0",
-    "grpcio==1.83.0",  # pin gRPC due to MacOS issues in 1.65
-    "google-cloud-firestore>=2.28.1",
+    "grpcio==1.83.1",  # pin gRPC due to MacOS issues in 1.65
+    "google-cloud-firestore>=2.29.0",
     "uvicorn",
     "httpx>=0.28.1",
-    "ruff>=0.16.3",
+    "ruff>=0.16.5",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "pytest-socket>=0.8.1",

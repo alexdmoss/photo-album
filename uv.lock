@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = "==3.14.*"
 
 [options]
@@ -681,29 +681,29 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "authlib", specifier = ">=1.8.0" },
-    { name = "fastapi", specifier = ">=0.141.1" },
-    { name = "flake8", marker = "extra == 'dev'", specifier = ">=7.4.1" },
-    { name = "google-cloud-firestore", specifier = ">=2.31.0" },
-    { name = "google-cloud-secret-manager", specifier = ">=2.30.0" },
-    { name = "google-cloud-storage", specifier = ">=3.14.1" },
+    { name = "authlib", specifier = "==1.8.0" },
+    { name = "fastapi", specifier = "==0.141.1" },
+    { name = "flake8", marker = "extra == 'dev'", specifier = "==7.4.1" },
+    { name = "google-cloud-firestore", specifier = "==2.31.0" },
+    { name = "google-cloud-secret-manager", specifier = "==2.30.0" },
+    { name = "google-cloud-storage", specifier = "==3.14.1" },
     { name = "google-crc32c" },
     { name = "grpcio", specifier = "==1.84.0" },
-    { name = "httpx", specifier = ">=0.28.1" },
-    { name = "itsdangerous", specifier = ">=2.2.0" },
-    { name = "jinja2", specifier = ">=3.1.6" },
-    { name = "jinja2-fragments", specifier = ">=1.12.0" },
-    { name = "pillow", specifier = ">=12.3.0" },
-    { name = "pydantic-settings", specifier = ">=2.15.0" },
+    { name = "httpx", specifier = "==0.28.1" },
+    { name = "itsdangerous", specifier = "==2.2.0" },
+    { name = "jinja2", specifier = "==3.1.6" },
+    { name = "jinja2-fragments", specifier = "==1.12.0" },
+    { name = "pillow", specifier = "==12.3.0" },
+    { name = "pydantic-settings", specifier = "==2.15.0" },
     { name = "pyjwt" },
-    { name = "pytailwindcss", specifier = ">=0.3.1" },
-    { name = "pytest", specifier = ">=9.1.1" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.1.1" },
-    { name = "pytest-cov", specifier = ">=7.1.0" },
-    { name = "pytest-socket", specifier = ">=0.8.1" },
-    { name = "requests", specifier = ">=2.34.2" },
-    { name = "ruff", specifier = ">=0.16.8" },
-    { name = "structlog", specifier = ">=26.1.0" },
+    { name = "pytailwindcss", specifier = "==0.3.1" },
+    { name = "pytest", specifier = "==9.1.1" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = "==9.1.1" },
+    { name = "pytest-cov", specifier = "==7.1.0" },
+    { name = "pytest-socket", specifier = "==0.8.1" },
+    { name = "requests", specifier = "==2.34.2" },
+    { name = "ruff", specifier = "==0.16.8" },
+    { name = "structlog", specifier = "==26.1.0" },
     { name = "uvicorn" },
 ]
 provides-extras = ["dev"]

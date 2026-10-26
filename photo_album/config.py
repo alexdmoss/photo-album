@@ -36,7 +36,6 @@ class Settings(BaseSettings):
             fastapi_kwargs.update(
                 {
                     "openapi_url": None,
-                    "openapi_prefix": None,
                     "docs_url": None,
                     "redoc_url": None,
                 }

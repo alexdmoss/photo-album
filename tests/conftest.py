@@ -54,3 +54,73 @@ with patch(
 def client():
     with TestClient(app) as client:
         yield client
+
+
+USER = "alex@example.com"
+
+
+@pytest.fixture()
+def firestore(monkeypatch):
+    """In-memory Firestore with two albums: one shared with USER, one not."""
+    import photo_album.albums
+    import photo_album.auth
+    import photo_album.likes
+    from tests.fake_firestore import FakeFirestore
+
+    db = FakeFirestore()
+    db.add("users", "alex", {"email": USER, "apps": ["photo-album"]})
+    db.add("users", "other", {"email": "other@example.com", "apps": ["other-app"]})
+    db.add(
+        "albums",
+        "holiday",
+        {
+            "Name": "holiday",
+            "Title": "Summer Holiday",
+            "Type": "photos",
+            "Cover": "cover.jpg",
+            "AlbumDate": "2026-08-01",
+            "Users": [USER],
+        },
+    )
+    db.add(
+        "albums",
+        "wedding",
+        {
+            "Name": "wedding",
+            "Title": "Wedding Videos",
+            "Type": "videos",
+            "Cover": "first-dance.mp4",
+            "AlbumDate": "2025-06-01",
+            "Users": ["other@example.com"],
+        },
+    )
+    for module in (photo_album.albums, photo_album.auth, photo_album.likes):
+        monkeypatch.setattr(module, "db_client", db)
+    return db
+
+
+@pytest.fixture()
+def logged_in(client, firestore, monkeypatch):
+    """Logs USER in for real, through the OAuth callback with Google mocked."""
+    from unittest.mock import AsyncMock
+
+    from photo_album.auth import oauth
+
+    token = {"userinfo": {"email": USER}}
+    monkeypatch.setattr(
+        oauth.google, "authorize_access_token", AsyncMock(return_value=token)
+    )
+    client.get("/auth/google", follow_redirects=False)
+
+
+@pytest.fixture()
+def photos_on_disk():
+    """Files as the gcsfuse mount would present them."""
+    holiday = settings.PHOTOS_DIR / "holiday" / "processed"
+    holiday.mkdir(parents=True, exist_ok=True)
+    for name in ("2026-08-02 beach.jpg", "2026-08-01 airport.jpg", "notes.txt"):
+        (holiday / name).write_bytes(b"x")
+    wedding = settings.PHOTOS_DIR / "wedding" / "videos"
+    wedding.mkdir(parents=True, exist_ok=True)
+    for name in ("first-dance.mp4", "speech.mov", "thumbs.db"):
+        (wedding / name).write_bytes(b"x")

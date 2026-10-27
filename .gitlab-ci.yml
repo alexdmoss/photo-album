@@ -1,6 +1,16 @@
+workflow:
+  rules:
+    # Avoid duplicate pipelines: the branch pipeline already runs the jobs,
+    # so don't also create a merge request pipeline.
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
 stages:
-- release
-- scan
+  - validate
+  - release
+  - smoke
+  - scan
 
 variables:
   IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/photo-album
@@ -8,35 +18,49 @@ variables:
   BUCKET_NAME: alexos-photos
   DATA_PROJECT_ID: $MW_PROJECT_ID
 
-# to validate renovations
-test-only:
-  stage: release
+.python-reports:
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  artifacts:
+    when: always
+    reports:
+      junit: ./*_out_report.xml
+
+# Every non-default branch, so Renovate MRs are checked before they merge.
+# The image is built (not pushed) so base image digest and Dockerfile changes
+# are caught here rather than on main.
+validate:
+  stage: validate
+  extends: .python-reports
   rules:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
   image: al3xos/ci-tools:latest
   script:
     - alexos-cli test --include-coverage
-  coverage: '/TOTAL.*\s+(\d+%)$/'
-  artifacts:
-    when: always
-    reports:
-      junit: ./*_out_report.xml
+    - alexos-cli build --image-name=$IMAGE_NAME --backend=buildkit --disable-push
 
 test-build-deploy:
   stage: release
+  extends: .python-reports
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: al3xos/ci-tools:latest
   script:
     - alexos-cli test --include-coverage
-    - alexos-cli build --image-name=$IMAGE_NAME --gcr-login --dockerfile=Dockerfile
+    - alexos-cli build --image-name=$IMAGE_NAME --gcr-login
     - alexos-cli deploy kubernetes --image-name=$IMAGE_NAME --namespace=$NAMESPACE --envvars=DATA_PROJECT_ID,BUCKET_NAME
-  coverage: '/TOTAL.*\s+(\d+%)$/'
-  artifacts:
-    when: always
-    reports:
-      junit: ./*_out_report.xml
 
+smoke-test:
+  stage: smoke
+  needs:
+    - test-build-deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  image: al3xos/ci-tools:latest
+  script:
+    - ./scripts/smoke-test.sh
+
+# Deliberately non-blocking. The vulnerability parts will be wound down over
+# time; secret and code scanning stay.
 security-scan:
   stage: scan
   needs:
@@ -45,6 +69,7 @@ security-scan:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: al3xos/ci-tools:latest
   script:
+    - alexos-cli version
     - alexos-cli scan code
     - alexos-cli scan secrets
     - alexos-cli scan container --image-name=$IMAGE_NAME

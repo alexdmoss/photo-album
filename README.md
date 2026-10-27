@@ -25,6 +25,7 @@ They go in the `users` collection, with `photo-album` added to the array of apps
 ## Bugs
 
 - [ ] download option times out - needs progress spinner perhaps
+- [ ] Album access isn't enforced per user: an album's `Users` list only filters the home page. Any logged-in user can open another album's page or files by name, and `/download` zips every album
 
 ## To Do
 

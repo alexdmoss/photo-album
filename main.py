@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
+from photo_album.auth import LoggedInStaticFiles
 from photo_album.config import settings
 from photo_album.likes import router as likes_router
 from photo_album.logger import log
@@ -46,7 +47,9 @@ def get_app() -> FastAPI:
     app.add_middleware(ProxyHeadersMiddleware)
     app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
     app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
-    app.mount("/assets", StaticFiles(directory=settings.PHOTOS_DIR), name="assets")
+    app.mount(
+        "/assets", LoggedInStaticFiles(directory=settings.PHOTOS_DIR), name="assets"
+    )
     app.include_router(main_router)
     app.include_router(photos_router)
     app.include_router(videos_router)

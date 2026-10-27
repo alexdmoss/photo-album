@@ -1,6 +1,8 @@
 from authlib.integrations.starlette_client import OAuth
 from fastapi import HTTPException
+from fastapi.staticfiles import StaticFiles
 from starlette.requests import Request
+from starlette.responses import PlainTextResponse
 
 from photo_album.clients.firestore import db_client
 from photo_album.logger import log
@@ -23,6 +25,21 @@ def get_user(request: Request) -> dict | None:
         return user
     else:
         log.warn("Could not validate credentials - directing towards login")
+
+
+class LoggedInStaticFiles(StaticFiles):
+    """StaticFiles that refuses anyone not logged in.
+
+    The photos bucket is private, but the pod mounts it with its own service
+    account, so without this anyone with a file's URL could fetch it.
+    """
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http" and get_user(Request(scope)) is None:
+            response = PlainTextResponse("Not logged in", status_code=401)
+            await response(scope, receive, send)
+            return
+        await super().__call__(scope, receive, send)
 
 
 def is_user_authorised(user):

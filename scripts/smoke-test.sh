@@ -27,6 +27,7 @@ function main() {
   _check "${HOST}/login"                "302" "redirect_uri=https%3A%2F%2Fphotos.alexos.dev%2Fauth%2Fgoogle" "Login redirects to Google"
   # Must never serve the zip of the whole bucket to an anonymous caller
   _check "${HOST}/download"             "307" "/login"       "Download requires login"
+  _check "${HOST}/assets/ancient-alex/processed/1998.x.x.jpg"  "401" "Not logged in"  "Photos require login"
 
   echo
 

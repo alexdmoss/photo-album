@@ -1,4 +1,3 @@
-import photo_album.auth
 from photo_album.config import settings
 
 
@@ -14,11 +13,8 @@ def test_assets_require_login(client):
     assert response.content != b"jpeg"
 
 
-def test_assets_served_when_logged_in(client, monkeypatch):
+def test_assets_served_when_logged_in(client, logged_in):
     _photo()
-    monkeypatch.setattr(
-        photo_album.auth, "get_user", lambda request: {"email": "someone@example.com"}
-    )
     response = client.get("/assets/album/processed/photo.jpg")
     assert response.status_code == 200
     assert response.content == b"jpeg"

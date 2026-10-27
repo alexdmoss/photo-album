@@ -25,6 +25,8 @@ function main() {
   _check "${HOST}/static/css/main.css"  "200" "tailwindcss"  "Stylesheet"
   # Proves the OAuth secret loaded and the callback is still https behind the gateway
   _check "${HOST}/login"                "302" "redirect_uri=https%3A%2F%2Fphotos.alexos.dev%2Fauth%2Fgoogle" "Login redirects to Google"
+  # Must never serve the zip of the whole bucket to an anonymous caller
+  _check "${HOST}/download"             "307" "/login"       "Download requires login"
 
   echo
 

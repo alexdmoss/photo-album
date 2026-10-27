@@ -5,14 +5,14 @@ import uuid
 import zipfile
 from datetime import date
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import FileResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 from starlette.background import BackgroundTask
 from starlette.responses import RedirectResponse
 
 from photo_album.albums import get_albums
-from photo_album.auth import is_user_authorised, oauth
+from photo_album.auth import get_user, is_user_authorised, oauth
 from photo_album.config import settings
 from photo_album.logger import log
 
@@ -75,7 +75,11 @@ async def healthz(request: Request):
 
 
 @router.get("/download")
-async def download(request: Request):
+async def download(request: Request, user: dict | None = Depends(get_user)):
+    if user is None:
+        request.session["origin"] = "/download"
+        return RedirectResponse(url="/login")
+
     zip_path = None
     try:
         # Create a unique temporary file path for the zip

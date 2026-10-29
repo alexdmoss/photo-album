@@ -21,7 +21,7 @@ dependencies = [
     "authlib==1.9.1",
     "itsdangerous==2.2.0",
     "structlog==26.1.0",
-    "grpcio==1.84.1",  # pin gRPC due to MacOS issues in 1.65
+    "grpcio==1.85.0",  # pin gRPC due to MacOS issues in 1.65
     "google-cloud-firestore==2.34.1",
     "uvicorn",
     "httpx==0.28.1",

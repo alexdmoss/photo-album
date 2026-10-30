@@ -1,4 +1,4 @@
-FROM al3xos/python-builder:3.14.8-debian13-3005645246-2026.10.29.1949 AS builder
+FROM al3xos/python-builder:3.14.8-debian13-3007795438-2026.10.30.0916 AS builder
 
 WORKDIR /app
 COPY pyproject.toml uv.lock /app/
@@ -9,7 +9,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 # ---------------------------------------------------------------------
 
-FROM al3xos/python-distroless:3.14.8-debian13-3005645246-2026.10.29.1949
+FROM al3xos/python-distroless:3.14.8-debian13-3007795438-2026.10.30.0916
 
 USER monty
 

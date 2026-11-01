@@ -121,6 +121,8 @@ def load_photos(album: str):
                 log.debug(f"Downloading {blob.name} to {destination_file_name}")
                 blob.download_to_filename(destination_file_name)
 
+        photo_files = list_photos_in_dir(local_dir, sub_path)
+
     return photo_files
 
 

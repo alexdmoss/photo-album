@@ -26,15 +26,15 @@ wheels = [
 
 [[package]]
 name = "anyio"
-version = "4.15.1"
+version = "4.16.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "idna" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a9/d2/f4d173e22df740bc37b1db102b386ba719b66e95b0f0d751f556b387e6d2/anyio-4.15.1.tar.gz", hash = "sha256:9f28306018cbd6d329e64a36d58256edff76dd996fe423bc957326e578b82a94", size = 276966, upload-time = "2026-09-05T10:42:39.44Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a1/98/7e457a3b014976887a050561955c0b76e1e7e2d6e27b78ecef2ef80518f2/anyio-4.16.0.tar.gz", hash = "sha256:59bb03251907983d1603d27c3087ddb1e93299ea2163adcdba37899a4fb12ffb", size = 310971, upload-time = "2026-11-01T11:20:07.282Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/12/b8/4bd346e22b28902df4d651910f5242c28d84e4a5c2435ca5c3f797ed7e2e/anyio-4.15.1-py3-none-any.whl", hash = "sha256:6152fdbbf9a77fdec97731721bebf7c4c44f7c29b424b0065826173efc7ed101", size = 132079, upload-time = "2026-09-05T10:42:37.923Z" },
+    { url = "https://files.pythonhosted.org/packages/a9/16/7757fb84c819accc7d7e9af5291b261e4abb8627ee040f99e7d35ef2457a/anyio-4.16.0-py3-none-any.whl", hash = "sha256:c66ae634e0b8228396b801741beb3294326d4b6102f7bba4041c0dfb58c29026", size = 134521, upload-time = "2026-11-01T11:20:05.59Z" },
 ]
 
 [[package]]
@@ -490,16 +490,16 @@ wheels = [
 
 [[package]]
 name = "grpcio-status"
-version = "1.85.0"
+version = "1.85.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "googleapis-common-protos" },
     { name = "grpcio" },
     { name = "protobuf" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/84/74/5500e64539b5019afdba20c06be322dd0a0c3d8c9461e11f6e8691749336/grpcio_status-1.85.0.tar.gz", hash = "sha256:b7b99c00a7a908e685094f67c241ea4e9126e22a8cb8505b15702726239df2af", size = 14005, upload-time = "2026-10-26T06:25:06.585Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fe/16/0a161d0016f6e318ebf217780a91e007a67d9d244a06f79caeef689f5f02/grpcio_status-1.85.1.tar.gz", hash = "sha256:3f6ba6090d794b7148b23f03355addd56bee2b78174a12784c4d9b4e28c8928e", size = 13982, upload-time = "2026-10-30T16:05:25.631Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/97/0d/852497d50c8a627a9102b4256918e1d196c327f817bfc4feb4869a8212c3/grpcio_status-1.85.0-py3-none-any.whl", hash = "sha256:f77368f05d20a0c2d5ac26aff71e688b5888256953add52b2d334a67ecd931ce", size = 14637, upload-time = "2026-10-26T06:24:51.516Z" },
+    { url = "https://files.pythonhosted.org/packages/f1/e9/5e34e2543b586ffddf90721ab242e7b662c063484ee3978bf61ca90d7579/grpcio_status-1.85.1-py3-none-any.whl", hash = "sha256:ef84cb262c7a05fd7c27e61bb70c9f63bce4484ce8b3366585a381fed738fcb0", size = 14640, upload-time = "2026-10-30T16:05:11.252Z" },
 ]
 
 [[package]]

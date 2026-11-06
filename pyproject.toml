@@ -18,7 +18,7 @@ dependencies = [
     "google-cloud-secret-manager==2.31.0",
     "google-crc32c",
     "requests==2.34.2",
-    "authlib==1.9.2",
+    "authlib==1.9.3",
     "itsdangerous==2.2.0",
     "structlog==26.1.0",
     "grpcio==1.85.1",  # pin gRPC due to MacOS issues in 1.65

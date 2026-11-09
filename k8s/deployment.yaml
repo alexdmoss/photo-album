@@ -14,6 +14,11 @@ spec:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         gke-gcsfuse/volumes: "true"
+        # GKE's injected gcsfuse sidecar defaults to 250m CPU / 256Mi requests,
+        # which stopped rolling updates fitting on the small cluster. Real use
+        # is ~1m CPU / ~32Mi. Ephemeral storage stays at GKE's default (5Gi).
+        gke-gcsfuse/cpu-request: 10m
+        gke-gcsfuse/memory-request: 64Mi
     spec:
       serviceAccountName: photo-album
       automountServiceAccountToken: false

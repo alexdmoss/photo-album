@@ -18,6 +18,11 @@ spec:
         # which stopped rolling updates fitting on the small cluster. Real use
         # is ~1m CPU / ~32Mi. Ephemeral storage stays at GKE's default (5Gi).
         gke-gcsfuse/cpu-request: 10m
+        # GKE copies a request into the limit when none is set, and a 10m CPU
+        # limit throttles gcsfuse so hard that album pages (many thumbnail
+        # reads) hang the app until its liveness probe restarts it. "0" means
+        # no CPU limit, as for every other workload here.
+        gke-gcsfuse/cpu-limit: "0"
         gke-gcsfuse/memory-request: 64Mi
     spec:
       serviceAccountName: photo-album

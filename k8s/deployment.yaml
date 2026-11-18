@@ -39,6 +39,16 @@ spec:
         ports:
         - name: app
           containerPort: 8000
+        # Holds off liveness until the app is up. On a busy node startup took
+        # ~45s (17 Nov), and liveness restarted it mid-start, breaking the
+        # rollout. Allows up to 2 minutes.
+        startupProbe:
+          httpGet:
+            path: /health
+            port: app
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 24
         readinessProbe:
           httpGet:
             path: /health

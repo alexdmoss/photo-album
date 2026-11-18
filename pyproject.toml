@@ -7,7 +7,7 @@ license = {text = "GNU GPLv3"}
 readme = "README.md"
 requires-python = "~=3.14.0"
 dependencies = [
-    "fastapi==0.162.7",
+    "fastapi==0.163.1",
     "pydantic-settings==2.16.3",
     "jinja2==3.1.6",
     "jinja2-fragments==1.12.0",
@@ -18,7 +18,7 @@ dependencies = [
     "google-cloud-secret-manager==2.32.0",
     "google-crc32c",
     "requests==2.34.2",
-    "authlib==1.9.5",
+    "authlib==1.9.6",
     "itsdangerous==2.2.0",
     "structlog==26.1.0",
     "grpcio==1.85.1",  # pin gRPC due to MacOS issues in 1.65
